@@ -2,6 +2,7 @@
 
 use Livewire\Volt\Component;
 use App\Models\Challenge;
+use App\Models\Question;
 use Illuminate\Support\Str;
 
 new class extends Component
@@ -10,6 +11,8 @@ new class extends Component
     public bool $editing = false;
     public string $title = '';
     public string $body = '';
+    public string $statement= '';
+    public string $answer = '';
 
     public function mount()
     {
@@ -31,6 +34,23 @@ new class extends Component
             'body' => $this->body
         ]);
     }
+
+    public function newQuestion()
+    {
+        $question = new Question;
+        $question->challenge_id = $this->challenge->id;
+        $question->statement = $this->statement;
+        $question->answer = $this->answer;
+        $question->save();
+
+        $this->statement = '';
+        $this->answer = '';
+    }
+
+    public function deleteQuestion($id)
+    {
+        Question::destroy($id);
+    }
 }; ?>
 
 <div>
@@ -50,7 +70,7 @@ new class extends Component
             </div>
             <div>
                 <x-input-label for="body" :value="__('Body')" />
-                <x-text-input wire:model="body" value="{{ $challenge->body }}" id="body" body="body" type="text" class="mt-1 block w-full" required autofocus autocomplete="body" />
+                <x-text-input wire:model="body" value="{{ $challenge->body }}" id="body" type="text" class="mt-1 block w-full" required autofocus autocomplete="body" />
                 <x-input-error class="mt-2" :messages="$errors->get('body')" />
             </div>
         </form>
@@ -67,7 +87,38 @@ new class extends Component
         </x-primary-button>
     @endunless
 
-    <x-primary-button>
-        New question
-    </x-primary-button>
+    <div class="mt-9">
+        <h1 class="text-xl font-medium text-gray-900 dark:text-gray-100">
+            Questions
+        </h1>
+
+        <!-- list questions here -->
+        @foreach ($challenge->questions as $question)
+            <div class="my-6 space-y-2">
+                <p>
+                    {{ $question->statement }}
+                </p>
+                <p>
+                    Answer: {{ $question->answer }}
+                </p>
+                <x-danger-button wire:click="deleteQuestion({{$question->id}})">Delete</x-danger-button>
+            </div>
+        @endforeach
+
+        <form wire:submit="newQuestion" class="py-6 space-y-6">
+            <div class="">
+                <x-input-label for="question-title" :value="__('Statement')" />
+                <x-text-input wire:model="statement" id="question-title" type="text" class="mt-1 block w-full" required autocomplete="question-title" />
+                <x-input-error class="mt-2" :messages="$errors->get('question-title')" />
+            </div>
+            <div class="w-1/2">
+                <x-input-label for="answer" :value="__('Answer')" />
+                <x-text-input wire:model="answer" id="answer" type="text" class="mt-1 block w-full" required autocomplete="answer" />
+                <x-input-error class="mt-2" :messages="$errors->get('answer')" />
+            </div>
+            <x-primary-button>
+                New question
+            </x-primary-button>
+        </form>
+    </div>
 </div>
