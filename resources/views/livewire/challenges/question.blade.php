@@ -12,6 +12,18 @@ new class extends Component
 
     public function submitForm()
     {
+        $user = auth()->user();
+        if (in_array($this->question->id, $user->solved['questions'])) return;
+
+        if ($this->answer == $this->question->answer) {
+            $user->solved['questions'][] = $this->question->id;
+
+            if ($this->challenge->questions->except($user->solved['questions'])->isEmpty()) {
+                $user->solved['challenges'][] = $this->challenge->id;
+            }
+
+            $user->save();
+        }
     }
 }; ?>
 
