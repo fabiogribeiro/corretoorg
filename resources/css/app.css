@@ -1,3 +1,13 @@
+@import 'github-markdown-css/github-markdown.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.markdown-body ol {
+    list-style: decimal;
+}
+
+code {
+    white-space: pre-wrap;
+}

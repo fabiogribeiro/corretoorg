@@ -59,7 +59,7 @@ new class extends Component
             {{ $challenge->title }}
         </h2>
         <div class="my-6">
-            {{ $challenge->body }}
+            <x-mmd>{{ $challenge->body }}</x-mmd>
         </div>
     @else
         <form wire:submit="submitForm" class="space-y-6 mb-6">
@@ -70,7 +70,7 @@ new class extends Component
             </div>
             <div>
                 <x-input-label for="body" :value="__('Body')" />
-                <x-text-input wire:model="body" value="{{ $challenge->body }}" id="body" type="text" class="mt-1 block w-full" required autofocus autocomplete="body" />
+                <textarea wire:model="body" value="{{ $challenge->body }}" name="body" id="body" cols="30" rows="10" class="mt-1 block w-full" required></textarea>
                 <x-input-error class="mt-2" :messages="$errors->get('body')" />
             </div>
         </form>
@@ -95,9 +95,7 @@ new class extends Component
         <!-- list questions here -->
         @foreach ($challenge->questions as $question)
             <div class="my-6 space-y-2">
-                <p>
-                    {{ $question->statement }}
-                </p>
+                <x-mmd>{{ $question->statement }}</x-mmd>
                 <p>
                     Answer: {{ $question->answer }}
                 </p>
