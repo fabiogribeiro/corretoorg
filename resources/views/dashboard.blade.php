@@ -9,7 +9,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
+                    <h2 class="text-lg text-gray-800 dark:text-gray-200">
+                        {{ __('Solved challenges') }}
+                    </h2>
+                    <ul class="my-6">
+                    @foreach($solved_challenges as $challenge)
+                        <li>
+                            <a href="{{route('challenges.show', ['challenge' => $challenge])}}">
+                                {{ $challenge->title }}
+                            </a>
+                        </li>
+                    @endforeach
+                    </ul>
                 </div>
             </div>
         </div>
