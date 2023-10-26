@@ -70,7 +70,7 @@ new class extends Component
             </div>
             <div>
                 <x-input-label for="body" :value="__('Body')" />
-                <textarea wire:model="body" value="{{ $challenge->body }}" name="body" id="body" cols="30" rows="10" class="mt-1 block w-full" required></textarea>
+                <x-multiline-input wire:model="body" value="{{ $challenge->body }}" name="body" id="body" cols="30" rows="10" class="mt-1 block w-full" required />
                 <x-input-error class="mt-2" :messages="$errors->get('body')" />
             </div>
         </form>

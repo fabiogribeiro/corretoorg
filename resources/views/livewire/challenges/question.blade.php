@@ -9,6 +9,12 @@ new class extends Component
     public Challenge $challenge;
     public Question $question;
     public string $answer = '';
+    public bool $solved;
+
+    public function mount()
+    {
+        $this->solved = in_array($this->question->id, auth()->user()->solved['questions']);
+    }
 
     public function submitForm()
     {
@@ -16,6 +22,7 @@ new class extends Component
         if (in_array($this->question->id, $user->solved['questions'])) return;
 
         if ($this->answer == $this->question->answer) {
+            $this->solved = true;
             $user->solved['questions'][] = $this->question->id;
 
             if ($this->challenge->questions->except($user->solved['questions'])->isEmpty()) {
@@ -25,12 +32,30 @@ new class extends Component
             $user->save();
         }
     }
+
+    public function redo()
+    {
+        $this->solved = false;
+        $user = auth()->user();
+        $user->solved['questions'] = array_values(array_diff($user->solved['questions'], [$this->question->id]));
+        $user->save();
+    }
 }; ?>
 
 <div>
     <form wire:submit="submitForm" class="py-6 space-y-6">
-        <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
-        <x-text-input wire:model="answer" id="answer" type="text" class="mt-1 block w-1/2" required autocomplete="answer" />
-        <x-primary-button>{{ __('Submit') }}</x-primary-button>
+        <div class="flex space-x-3">
+            <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
+            <p {{ $solved ? '' : 'hidden' }} class="text-emerald-500 font-semibold">Solved</p>
+        </div>
+        <div class="inline-flex space-x-3">
+            @if($solved)
+                <x-text-input value="{{$question->answer}}" disabled/>
+                <x-secondary-button wire:click="redo">{{ __('Redo') }}</x-secondary-button>
+            @else
+                <x-text-input wire:model="answer" id="answer" type="text" class="flex block" required autocomplete="answer" />
+                <x-primary-button>{{ __('Submit') }}</x-primary-button>
+            @endif
+        </div>
     </form>
 </div>

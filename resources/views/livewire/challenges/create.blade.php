@@ -19,16 +19,13 @@ new class extends Component
     }
 }; ?>
 
-<section>
-    <form wire:submit="submitForm" class="space-y-6">
-        <div>
-            <x-input-label for="title" :value="__('Title')" />
-            <x-text-input wire:model="title" id="title" title="title" type="text" class="mt-1 block w-full" required autofocus autocomplete="title" />
+<section class="flex">
+    <form wire:submit="submitForm" class="space-y-6 w-full">
+        <x-input-label for="title" :value="__('Title')" />
+        <div class="flex gap-6 w-full">
+            <x-text-input wire:model="title" id="title" title="title" type="text" class="block w-full" required autofocus autocomplete="title" />
             <x-input-error class="mt-2" :messages="$errors->get('title')" />
-        </div>
-
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Submit') }}</x-primary-button>
+            <x-primary-button class="flex">{{ __('Submit') }}</x-primary-button>
         </div>
     </form>
 </section>

@@ -13,6 +13,7 @@ new class extends Component
 <div>
     <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
         {{ $challenge->title }}
+        <a class="float-right" href="{{ route('challenges.edit', $challenge) }}">Edit</a>
     </h2>
     <div class="mt-6">
         <x-mmd>{{ $challenge->body }}</x-mmd>
