@@ -11,10 +11,15 @@
                 <div class="max-w-xl">
                     <ul>
                     @foreach ($challenges as $challenge)
-                        <li>
+                        <li class="space-x-2">
+                        @if(in_array($challenge->id, auth()->user()->solved['challenges']))
+                            <x-check-circle class="inline fill-emerald-500 mb-1"/>
+                        @else
+                            <x-minus-icon class="inline fill-blue-500"/>
+                        @endif
                             <a href="{{route('challenges.show', ['challenge' => $challenge])}}"
-                                class="text-gray-500 hover:text-gray-700">
-                                {{ $challenge->title }}
+                            class="inline text-gray-500 hover:text-gray-700">
+                                <p class="inline text-lg">{{ $challenge->title }}</p>
                             </a>
                         </li>
                     @endforeach

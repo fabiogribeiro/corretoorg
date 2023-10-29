@@ -62,7 +62,7 @@ new class extends Component
             <x-mmd>{{ $challenge->body }}</x-mmd>
         </div>
     @else
-        <form wire:submit="submitForm" class="space-y-6 mb-6">
+        <form class="space-y-6 mb-6">
             <div class="w-1/2">
                 <x-input-label for="title" :value="__('Title')" />
                 <x-text-input wire:model="title" value="{{ $challenge->title }}" id="title" title="title" type="text" class="mt-1 block w-full" required autofocus autocomplete="title" />
@@ -95,16 +95,16 @@ new class extends Component
         <!-- list questions here -->
         @foreach ($challenge->questions as $question)
             <div class="my-6 space-y-2">
-                <x-mmd>{{ $question->statement }}</x-mmd>
+                <div><x-mmd>{{ $question->statement }}</x-mmd></div>
                 <p>
                     Answer: {{ $question->answer }}
                 </p>
-                <x-danger-button wire:click="deleteQuestion({{$question->id}})">Delete</x-danger-button>
+                <x-danger-button wire:click="deleteQuestion({{$question->id}});setTimeout(MathJax.typeset, 250)">Delete</x-danger-button>
             </div>
         @endforeach
 
         <form wire:submit="newQuestion" class="py-6 space-y-6">
-            <div class="">
+            <div>
                 <x-input-label for="question-title" :value="__('Statement')" />
                 <x-text-input wire:model="statement" id="question-title" type="text" class="mt-1 block w-full" required autocomplete="question-title" />
                 <x-input-error class="mt-2" :messages="$errors->get('question-title')" />

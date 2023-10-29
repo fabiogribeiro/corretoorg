@@ -15,7 +15,7 @@
                     <ul class="my-6">
                     @foreach($solved_challenges as $challenge)
                         <li>
-                            <a href="{{route('challenges.show', ['challenge' => $challenge])}}">
+                            <a class="text-gray-500 hover:text-gray-700 text-lg" href="{{route('challenges.show', ['challenge' => $challenge])}}">
                                 {{ $challenge->title }}
                             </a>
                         </li>
