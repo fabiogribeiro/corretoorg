@@ -13,7 +13,8 @@ class Challenge extends Model
     protected $fillable = [
         'title',
         'slug',
-        'body'
+        'body',
+        'subject'
     ];
 
     public function getRouteKeyName(): string

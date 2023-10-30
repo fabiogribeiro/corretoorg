@@ -11,6 +11,7 @@ new class extends Component
     public bool $editing = false;
     public string $title = '';
     public string $body = '';
+    public string $subject = '';
     public string $statement= '';
     public string $answer = '';
 
@@ -18,6 +19,7 @@ new class extends Component
     {
         $this->title = $this->challenge->title;
         $this->body = $this->challenge->body;
+        $this->subject = $this->challenge->subject;
     }
 
     public function edit()
@@ -31,7 +33,8 @@ new class extends Component
         $this->challenge->update([
             'title' => $this->title,
             'slug' => Str::slug($this->title),
-            'body' => $this->body
+            'body' => $this->body,
+            'subject' => $this->subject
         ]);
     }
 
@@ -67,6 +70,11 @@ new class extends Component
                 <x-input-label for="title" :value="__('Title')" />
                 <x-text-input wire:model="title" value="{{ $challenge->title }}" id="title" title="title" type="text" class="mt-1 block w-full" required autofocus autocomplete="title" />
                 <x-input-error class="mt-2" :messages="$errors->get('title')" />
+            </div>
+            <div>
+                <x-input-label for="subject" :value="__('Subject')" />
+                <x-text-input wire:model="subject" value="{{ $challenge->subject }}" id="subject" subject="subject" type="text" class="mt-1 block w-full" required autofocus autocomplete="subject" />
+                <x-input-error class="mt-2" :messages="$errors->get('subject')" />
             </div>
             <div>
                 <x-input-label for="body" :value="__('Body')" />
