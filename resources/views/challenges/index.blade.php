@@ -10,7 +10,7 @@
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 @foreach ($challenges as $subject => $challenge_list)
                 <div class="max-w-xl">
-                    <h2 class="font-medium text-xl text-gray-700 dark:text-gray-300">{{ $subject }}</h2>
+                    <h2 class="font-extrabold text-3xl text-gray-700 dark:text-gray-300">{{ $subject }}</h2>
                     <ul class="my-6">
                     @foreach ($challenge_list as $challenge)
                         <li class="space-x-2">
@@ -20,8 +20,8 @@
                             <x-minus-icon class="inline fill-blue-500"/>
                         @endif
                             <a href="{{route('challenges.show', ['challenge' => $challenge])}}"
-                            class="inline text-gray-500 hover:text-gray-700">
-                                <p class="inline text-lg">{{ $challenge->title }}</p>
+                            class="font-bold inline text-gray-800 hover:text-gray-600">
+                                <p class="inline">{{ $challenge->title }}</p>
                             </a>
                         </li>
                     @endforeach

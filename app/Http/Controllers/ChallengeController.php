@@ -15,7 +15,7 @@ class ChallengeController extends Controller
         $challenges = Challenge::all();
         $challenges_by_subject = array();
         foreach ($challenges as $challenge) {
-            $challenges_by_subject[$challenge->subject][] = $challenge; 
+            $challenges_by_subject[$challenge->subject][] = $challenge;
         }
 
         return view('challenges.index', ['challenges' => $challenges_by_subject]);
