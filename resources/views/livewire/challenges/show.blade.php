@@ -27,11 +27,11 @@ new class extends Component
                 @endif
                 <span>
                     <a href="{{route('challenges.show', ['challenge' => $ochallenge])}}"
-                        class="font-medium hover:text-gray-600" wire:navigate>
+                        class="font-bold text-gray-800 hover:text-gray-600" wire:navigate>
                         {{ $ochallenge->title }}
                     </a>
                 </span>
-            </li> 
+            </li>
         @endforeach
         </ul>
     </div>

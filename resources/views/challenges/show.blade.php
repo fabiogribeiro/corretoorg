@@ -1,7 +1,9 @@
 <x-app-layout>
+    <x-slot:title>{{ $challenge->title }}</x-slot>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __($challenge->title) }}
+            {{ $challenge->title }}
         </h2>
     </x-slot>
 
