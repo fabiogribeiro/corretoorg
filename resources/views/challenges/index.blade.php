@@ -15,11 +15,11 @@
                     <h2 class="font-extrabold text-3xl text-gray-700 dark:text-gray-300">{{ $subject }}</h2>
                     <ul class="my-6">
                     @foreach ($challenge_list as $challenge)
-                        <li class="space-x-2">
+                        <li>
                         @if(in_array($challenge->id, auth()->user()->solved['challenges']))
-                            <x-check-circle class="inline fill-emerald-500 mb-1"/>
+                            <x-select-circle bg="bg-emerald-500" class="ml-2 mr-1"/>
                         @else
-                            <x-minus-icon class="inline fill-blue-500"/>
+                            <x-select-circle bg="border-cyan-500" class="ml-2 mr-1 border"/>
                         @endif
                             <a href="{{route('challenges.show', ['challenge' => $challenge])}}"
                             class="font-bold inline text-gray-800 hover:text-gray-600">

@@ -22,9 +22,13 @@ new class extends Component
         <ul class="mt-6">
         @foreach($other_challenges as $ochallenge)
             <li class="flex">
-                @if($ochallenge->id == $challenge->id)
-                    <span class="-ml-4 mr-2"><x-select-circle/></span>
-                @endif
+            @if($ochallenge->id == $challenge->id)
+                <span class="-ml-4 mr-2"><x-select-circle/></span>
+            @elseif(in_array($ochallenge->id, auth()->user()->solved['challenges']))
+                <span class="-ml-4 mr-2"><x-select-circle bg="bg-emerald-500"/></span>
+            @else
+                <span class="-ml-4 mr-2"><x-select-circle class="border" bg="border-cyan-500"/></span>
+            @endif
                 <span>
                     <a href="{{route('challenges.show', ['challenge' => $ochallenge])}}"
                         class="font-bold text-gray-800 hover:text-gray-600" wire:navigate>
@@ -37,8 +41,7 @@ new class extends Component
     </div>
     <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg w-2/3">
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ $challenge->title }}
-            <a class="float-right" href="{{ route('challenges.edit', $challenge) }}">Edit</a>
+            <a href="{{ route('challenges.edit', $challenge) }}">Edit</a>
         </h2>
         <div class="mt-6">
             <x-mmd>{{ $challenge->body }}</x-mmd>

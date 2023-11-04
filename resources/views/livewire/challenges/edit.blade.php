@@ -58,12 +58,7 @@ new class extends Component
 
 <div>
     @unless ($editing)
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ $challenge->title }}
-        </h2>
-        <div class="my-6">
-            <x-mmd>{{ $challenge->body }}</x-mmd>
-        </div>
+        <x-mmd>{{ $challenge->body }}</x-mmd>
     @else
         <form class="space-y-6 mb-6">
             <div class="w-1/2">
