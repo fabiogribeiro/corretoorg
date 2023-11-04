@@ -8,6 +8,11 @@
     list-style: decimal;
 }
 
+.markdown-body {
+    font-family: inherit !important;
+    font-size: inherit !important;
+}
+
 code {
     white-space: pre-wrap;
 }
