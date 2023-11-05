@@ -18,7 +18,7 @@ new class extends Component
 
 <div class="flex space-x-1">
     <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg w-1/3 h-min">
-        <h2 class="text-2xl font-bold text-gray-800">{{ $challenge->subject }}</h2>
+        <h2 class="text-2xl font-bold text-gray-700">{{ $challenge->subject }}</h2>
         <ul class="mt-6">
         @foreach($other_challenges as $ochallenge)
             <li class="flex">
