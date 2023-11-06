@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Challenge;
+use App\Models\Comment;
 
 class ChallengeController extends Controller
 {
@@ -34,7 +35,7 @@ class ChallengeController extends Controller
      */
     public function show(Challenge $challenge)
     {
-        return view('challenges.show', ['challenge' => $challenge]);
+        return view('challenges.show', ['challenge' => $challenge, 'comments' => $challenge->comments]);
     }
 
     /**
