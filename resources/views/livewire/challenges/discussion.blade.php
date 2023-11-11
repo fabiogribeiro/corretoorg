@@ -23,6 +23,14 @@ new class extends Component
 
         $this->comments[] = $comment;
     }
+
+    public function deleteComment(Comment $comment)
+    {
+        if (auth()->user()->cannot('delete', $comment)) return;
+
+        $this->comments = $this->comments->except($comment->id);
+        $comment->delete();
+    }
 }; ?>
 
 
@@ -30,15 +38,22 @@ new class extends Component
     <h2 class="text-2xl font-bold text-gray-700">{{ __('Discussion') }}</h2>
     <ul class="divide-y divide-gray-100">
     @foreach($comments as $comment)
-        <li class="flex justify-between items-center py-3">
+        <li class="flex justify-between items-center py-3" wire:key="{{ $comment->id }}">
             <div class="shrink-0">
-                <p class="text-justify font-semibold text-gray-900 max-w-prose">
+                <p class="text-justify font-semibold text-gray-900 max-w-prose" wire:ignore>
                     {{ $comment->text }}
                 </p>
                 <p class="mt-1 text-sm text-gray-500">{{ $comment->author->name }}</p>
             </div>
-            <div>
-                <p class="text-gray-500 text-sm">{{ $comment->created_at->format('h:i, d-m-Y') }}</p>
+            <div class="flex inline items-center space-x-3">
+            @can('delete', $comment)
+                <x-secondary-button
+                    wire:click="deleteComment({{ $comment->id }})"
+                    wire:confirm="{{ __('Delete comment?') }}">
+                    {{ __('Delete') }}
+                </x-secondary-button>
+            @endcan
+                <p class="text-gray-500 text-sm">{{ $comment->created_at->format('H:i, d-m-Y') }}</p>
             </div>
         </li>
     @endforeach
