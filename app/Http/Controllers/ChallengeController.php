@@ -13,7 +13,7 @@ class ChallengeController extends Controller
      */
     public function index()
     {
-        return view('challenges.index', ['challenges' => Challenge::all()->groupBy('subject')]);
+        return view('challenges.index', ['challenges' => Challenge::all()]);
     }
 
     /**
