@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Challenge::class);
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->id == 1;
+    }
 }

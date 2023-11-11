@@ -24,9 +24,7 @@ new class extends Component
             <li>
                 <a href="{{route('challenges.show', ['challenge' => $ochallenge])}}"
                     class="flex justify-between items-center font-medium text-gray-700 hover:text-gray-500" wire:navigate>
-                    <p>
-                            {{ $ochallenge->title }}
-                    </p>
+                    <p>{{ $ochallenge->title }}</p>
                 @if($ochallenge->id == $challenge->id)
                     <x-select-circle/>
                 @elseif(in_array($ochallenge->id, auth()->user()->solved['challenges']))
@@ -40,12 +38,12 @@ new class extends Component
         </ul>
     </div>
     <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+    @can('update', $challenge)
+        <h2 class="mb-3 text-lg font-medium text-gray-900 dark:text-gray-100">
             <a href="{{ route('challenges.edit', $challenge) }}">Edit</a>
         </h2>
-        <div class="mt-6">
-            <x-mmd>{{ $challenge->body }}</x-mmd>
-        </div>
+    @endcan
+        <x-mmd>{{ $challenge->body }}</x-mmd>
         <div class="mt-6">
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 {{ __('Questions') }}

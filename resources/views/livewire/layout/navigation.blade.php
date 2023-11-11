@@ -32,9 +32,11 @@ new class extends Component
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                @can('create', App\Models\Challenge::class)
                     <x-nav-link :href="route('challenges.create')" :active="request()->routeIs('challenges.create')" wire:navigate>
                         {{ __('Create challenge') }}
                     </x-nav-link>
+                @endcan
                     <x-nav-link :href="route('challenges.index')" :active="request()->routeIs('challenges.index')" wire:navigate>
                         {{ __('Challenges') }}
                     </x-nav-link>

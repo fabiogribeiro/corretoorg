@@ -27,6 +27,8 @@ class ChallengeController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Challenge::class);
+
         return view('challenges.create');
     }
 
@@ -43,6 +45,8 @@ class ChallengeController extends Controller
      */
     public function edit(Challenge $challenge)
     {
+        $this->authorize('update', $challenge);
+
         return view('challenges.edit', ['challenge' => $challenge]);
     }
 }
