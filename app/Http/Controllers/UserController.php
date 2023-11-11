@@ -9,16 +9,15 @@ class UserController extends Controller
 {
     public function dashboard()
     {
-        $solved_challenges = Challenge::find(auth()->user()->solved['challenges']);
-        $challenge_data = array();
-
-        foreach($solved_challenges as $challenge) {
-            $challenge_data[$challenge->subject]['list'][] = $challenge;
-        }
-        foreach ($challenge_data as $subject => $rest) {
-            $challenge_data[$subject]['solved_count'] = count($rest['list']);
-            $challenge_data[$subject]['total_count'] = Challenge::where('subject', $subject)->count();
-        }
+        $challenge_data = Challenge::find(auth()->user()->solved['challenges'])
+                            ->groupBy('subject')
+                            ->map(function ($challenges, $subject) {
+                                return [
+                                    'list' => $challenges,
+                                    'solved_count' => count($challenges),
+                                    'total_count' => Challenge::where('subject', $subject)->count()
+                                ];
+                            });
 
         return view('dashboard', ['challenge_data' => $challenge_data]);
     }

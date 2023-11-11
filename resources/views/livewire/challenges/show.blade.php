@@ -23,7 +23,8 @@ new class extends Component
         @foreach($other_challenges as $ochallenge)
             <li>
                 <a href="{{route('challenges.show', ['challenge' => $ochallenge])}}"
-                    class="flex justify-between items-center font-medium text-gray-700 hover:text-gray-500" wire:navigate>
+                    class="flex justify-between items-center font-medium text-gray-700 hover:text-gray-500"
+                    wire:navigate>
                     <p>{{ $ochallenge->title }}</p>
                 @if($ochallenge->id == $challenge->id)
                     <x-select-circle/>

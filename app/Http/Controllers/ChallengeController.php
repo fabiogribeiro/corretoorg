@@ -13,13 +13,7 @@ class ChallengeController extends Controller
      */
     public function index()
     {
-        $challenges = Challenge::all();
-        $challenges_by_subject = array();
-        foreach ($challenges as $challenge) {
-            $challenges_by_subject[$challenge->subject][] = $challenge;
-        }
-
-        return view('challenges.index', ['challenges' => $challenges_by_subject]);
+        return view('challenges.index', ['challenges' => Challenge::all()->groupBy('subject')]);
     }
 
     /**
