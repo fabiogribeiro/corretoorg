@@ -19,7 +19,7 @@ Route::view('/', 'welcome');
 
 Route::controller(UserController::class)->group(function () {
     Route::get('dashboard', 'dashboard')
-        ->middleware(['auth', 'verified'])
+        ->middleware(['auth'])
         ->name('dashboard');
 
     Route::get('profile', 'profile')
