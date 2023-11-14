@@ -21,7 +21,10 @@ new class extends Component
 
     public function updated($property)
     {
-        if ($property === 'filter_solved' || $property === 'filter_unsolved' || str_starts_with($property, 'selected_subjects')) {
+        if ($property === 'filter_solved' ||
+            $property === 'filter_unsolved' ||
+            str_starts_with($property, 'selected_subjects')) {
+
             $subject_list = $this->selected_subjects;
             if (!$subject_list) $subject_list = $this->subjects;
 
@@ -29,10 +32,9 @@ new class extends Component
 
             if ($this->filter_solved === $this->filter_unsolved) return;
 
-            if ($this->filter_solved)
-                $this->filtered_challenges = $this->filtered_challenges->whereIn('id', auth()->user()->solved['challenges']);
-            elseif ($this->filter_unsolved)
-                $this->filtered_challenges = $this->filtered_challenges->whereNotIn('id', auth()->user()->solved['challenges']);
+            $this->filtered_challenges = $this->filter_solved ?
+                $this->filtered_challenges->whereIn('id', auth()->user()->solved['challenges']) :
+                $this->filtered_challenges->whereNotIn('id', auth()->user()->solved['challenges']);
         }
     }
 }; ?>
@@ -40,7 +42,7 @@ new class extends Component
 <div>
     <div class="flex inline max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 space-x-9">
         <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg w-3/4">
-        @foreach ($filtered_challenges->groupBy('subject') as $subject => $challenge_list)
+        @forelse ($filtered_challenges->groupBy('subject') as $subject => $challenge_list)
             <div>
                 <h2 class="mt-6 font-extrabold text-3xl text-gray-700 dark:text-gray-300">{{ $subject }}</h2>
                 <ul class="mt-6 divide-y divide-gray-100">
@@ -56,10 +58,14 @@ new class extends Component
                         @endif
                         </a>
                     </li>
-                @endforeach
+                    @endforeach
                 </ul>
             </div>
-        @endforeach
+        @empty
+            <div class="flex items-center justify-center h-full">
+                <p class="font-medium text-gray-600">{{ __('No challenges to show.') }}</p>
+            </div>
+        @endforelse
         </div>
 
         <div class="px-3">

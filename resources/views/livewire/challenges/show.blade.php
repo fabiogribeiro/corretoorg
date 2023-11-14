@@ -44,14 +44,18 @@ new class extends Component
             <a href="{{ route('challenges.edit', $challenge) }}">Edit</a>
         </h2>
     @endcan
-        <x-mmd>{{ $challenge->body }}</x-mmd>
-        <div class="mt-6">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <x-mmd class="mb-12">{{ $challenge->body }}</x-mmd>
+        <div class="mt-3">
+            <h2 class="mb-6 text-xl font-bold text-gray-700">
                 {{ __('Questions') }}
             </h2>
-            @foreach ($challenge->questions as $question)
-                <livewire:challenges.question :challenge="$challenge" :question="$question" />
-            @endforeach
+        @forelse ($challenge->questions as $question)
+            <livewire:challenges.question :challenge="$challenge" :question="$question" />
+        @empty
+            <div class="py-12">
+                <p class="font-medium text-center text-gray-600">{{ __('No questions to show.') }}</p>
+            </div>
+        @endforelse
         </div>
     </div>
 </div>

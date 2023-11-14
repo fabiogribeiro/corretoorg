@@ -43,19 +43,25 @@ new class extends Component
 }; ?>
 
 <div>
-    <form wire:submit="submitForm" class="py-6 space-y-6">
-        <div class="flex space-x-3">
-            <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
-            <p {{ $solved ? '' : 'hidden' }} class="text-emerald-500 font-semibold">Solved</p>
-        </div>
-        <div class="inline-flex space-x-3">
+    <form wire:submit="submitForm" class="py-6">
+        <div class="flex justify-between">
+            <div class="flex space-x-3 items-center">
+                <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
+                <p {{ $solved ? '' : 'hidden' }} class="text-emerald-500 font-semibold">Solved</p>
+            </div>
+            <div class="flex align-center">
             @if($solved)
-                <x-text-input value="{{$question->answer}}" disabled/>
-                <x-secondary-button wire:click="redo">{{ __('Redo') }}</x-secondary-button>
+                <div class="flex space-x-6">
+                    <x-text-input value="{{$question->answer}}" disabled/>
+                    <x-secondary-button wire:click="redo">{{ __('Redo') }}</x-secondary-button>
+                </div>
             @else
-                <x-text-input wire:model="answer" id="answer" type="text" class="flex block" required autocomplete="answer" />
-                <x-primary-button>{{ __('Submit') }}</x-primary-button>
+                <div class="flex space-x-3">
+                    <x-text-input wire:model="answer" id="answer" type="text" required autocomplete="answer" />
+                    <x-primary-button>{{ __('Submit') }}</x-primary-button>
+                </div>
             @endif
+            </div>
         </div>
     </form>
 </div>

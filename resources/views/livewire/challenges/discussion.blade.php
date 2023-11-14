@@ -37,7 +37,7 @@ new class extends Component
 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg space-y-6">
     <h2 class="text-2xl font-bold text-gray-700">{{ __('Discussion') }}</h2>
     <ul class="divide-y divide-gray-100">
-    @foreach($comments as $comment)
+    @forelse($comments as $comment)
         <li class="flex justify-between items-center py-3" wire:key="{{ $comment->id }}">
             <div class="shrink-0">
                 <p class="text-justify font-semibold text-gray-900 max-w-prose" wire:ignore>
@@ -56,7 +56,11 @@ new class extends Component
                 <p class="text-gray-500 text-sm">{{ $comment->created_at->format('H:i, d-m-Y') }}</p>
             </div>
         </li>
-    @endforeach
+    @empty
+        <div class="py-12">
+            <p class="font-medium text-center text-gray-600">{{ __('No comments yet.') }}</p>
+        </div>
+    @endforelse
     </ul>
     <form wire:submit="newComment">
         <div class="inline-flex space-x-3 w-full">

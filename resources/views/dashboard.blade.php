@@ -13,7 +13,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h2 class="font-extrabold text-3xl text-gray-700 dark:text-gray-300">{{ __('Progress') }}</h2>
                     <ul class="mt-6 space-y-3">
-                    @foreach($challenge_data as $subject => $rest)
+                    @forelse($challenge_data as $subject => $rest)
                         <li>
                             <div class="flex items-center justify-between">
                                 <span class="font-bold">{{ $subject }}</span>
@@ -25,7 +25,11 @@
                                 {{ $rest['solved_count'] . ' of ' . $rest['total_count']}}
                             </p>
                         </li>
-                    @endforeach
+                    @empty
+                        <div class="py-12">
+                            <p class="my-12 font-medium text-center text-gray-600">{{ __('No challenges solved yet.') }}</p>
+                        </div>
+                    @endforelse
                     </ul>
                 </div>
             </div>
