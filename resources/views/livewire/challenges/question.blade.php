@@ -51,14 +51,14 @@ new class extends Component
             </div>
             <div class="flex align-center">
             @if($solved)
-                <div class="flex space-x-6">
-                    <x-text-input value="{{$question->answer}}" disabled/>
-                    <x-secondary-button wire:click="redo">{{ __('Redo') }}</x-secondary-button>
+                <div class="flex space-x-3">
+                    <x-text-input class="w-48" value="{{$question->answer}}" disabled/>
+                    <x-secondary-button class="w-20 justify-center" wire:click="redo">{{ __('Redo') }}</x-secondary-button>
                 </div>
             @else
                 <div class="flex space-x-3">
-                    <x-text-input wire:model="answer" id="answer" type="text" required autocomplete="answer" />
-                    <x-primary-button>{{ __('Submit') }}</x-primary-button>
+                    <x-text-input class="w-48" wire:model="answer" id="answer" type="text" required autocomplete="answer" />
+                    <x-primary-button class="w-20 justify-center">{{ __('Submit') }}</x-primary-button>
                 </div>
             @endif
             </div>
