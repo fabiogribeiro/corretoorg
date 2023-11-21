@@ -45,18 +45,18 @@ new class extends Component
 <div>
     <form wire:submit="submitForm" class="py-6">
         <div class="flex justify-between">
-            <div class="flex space-x-3 items-center">
+            <div class="flex space-x-3 items-center w-3/5">
                 <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
                 <p {{ $solved ? '' : 'hidden' }} class="text-emerald-500 font-semibold">Solved</p>
             </div>
-            <div class="flex align-center">
+            <div class="flex">
             @if($solved)
-                <div class="flex space-x-3">
+                <div class="flex space-x-3 h-10 self-end">
                     <x-text-input class="w-48" value="{{$question->answer}}" disabled/>
                     <x-secondary-button class="w-20 justify-center" wire:click="redo">{{ __('Redo') }}</x-secondary-button>
                 </div>
             @else
-                <div class="flex space-x-3">
+                <div class="flex space-x-3 h-10 self-end">
                     <x-text-input class="w-48" wire:model="answer" id="answer" type="text" required autocomplete="answer" />
                     <x-primary-button class="w-20 justify-center">{{ __('Submit') }}</x-primary-button>
                 </div>

@@ -16,3 +16,11 @@
 code {
     white-space: pre-wrap;
 }
+
+.markdown-body p > img {
+    max-width: 380px;
+    max-height: 380px;
+    width: auto;
+    height: auto;
+    margin-bottom: 52px;
+}

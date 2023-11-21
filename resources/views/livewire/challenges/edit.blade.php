@@ -109,7 +109,7 @@ new class extends Component
         <form wire:submit="newQuestion" class="py-6 space-y-6">
             <div>
                 <x-input-label for="question-title" :value="__('Statement')" />
-                <x-text-input wire:model="statement" id="question-title" type="text" class="mt-1 block w-full" required autocomplete="question-title" />
+                <x-multiline-input wire:model="statement" id="question-title" type="text" class="mt-1 block w-full" required autocomplete="question-title" />
                 <x-input-error class="mt-2" :messages="$errors->get('question-title')" />
             </div>
             <div class="w-1/2">
