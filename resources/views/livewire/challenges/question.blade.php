@@ -57,7 +57,7 @@ new class extends Component
                 </div>
             @else
                 <div class="flex space-x-3 h-10 self-end">
-                    <x-text-input class="w-48" wire:model="answer" id="answer" type="text" required autocomplete="answer" />
+                    <x-text-input class="w-48" wire:model="answer" id="answer" type="text" autocomplete="answer" />
                     <x-primary-button class="w-20 justify-center">{{ __('Submit') }}</x-primary-button>
                 </div>
             @endif

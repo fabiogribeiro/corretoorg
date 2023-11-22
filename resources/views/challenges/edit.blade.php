@@ -2,7 +2,8 @@
     <x-slot:title>{{ __('Edit') . ' ' . $challenge->title }}</x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Edit "{{ __($challenge->title) }}"
+            Edit "<a href="{{route('challenges.show', ['challenge' => $challenge])}}"
+                    class="text-gray-600">{{ __($challenge->title) }}</a>"
         </h2>
     </x-slot>
 

@@ -114,7 +114,7 @@ new class extends Component
             </div>
             <div class="w-1/2">
                 <x-input-label for="answer" :value="__('Answer')" />
-                <x-text-input wire:model="answer" id="answer" type="text" class="mt-1 block w-full" required autocomplete="answer" />
+                <x-text-input wire:model="answer" id="answer" type="text" class="mt-1 block w-full" autocomplete="answer" />
                 <x-input-error class="mt-2" :messages="$errors->get('answer')" />
             </div>
             <x-primary-button>
