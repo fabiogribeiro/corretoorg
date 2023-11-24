@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Challenge;
+use App\Models\Question;
 use App\Models\Comment;
+use Illuminate\Support\Str;
 
 class ChallengeController extends Controller
 {
@@ -42,5 +44,33 @@ class ChallengeController extends Controller
         $this->authorize('update', $challenge);
 
         return view('challenges.edit', ['challenge' => $challenge]);
+    }
+
+    /**
+     * /api/challenges/put
+     *
+     * Creates a new challenge from outside the application with json request.
+     */
+    public function put(Request $request)
+    {
+        if (!auth()->user()->isAdmin()) return 'No permission!';
+
+        $data = $request->all();
+
+        $challenge = Challenge::create([
+            'title' => $data['title'],
+            'subject' => $data['subject'],
+            'slug' => Str::slug($data['title'])
+        ]);
+
+        foreach ($data['questions'] as $q) {
+            $question = new Question;
+            $question->challenge_id = $challenge->id;
+            $question->statement = $q['statement'];
+            $question->answer = $q['answer'];
+            $question->save();
+        }
+
+        return $challenge;
     }
 }

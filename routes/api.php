@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChallengeController;
+use App\Http\Middleware\AuthenticateOnceWithBasicAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::controller(ChallengeController::class)->group(function() {
+    Route::put('challenges/put', 'put')
+        ->middleware(AuthenticateOnceWithBasicAuth::class);
 });
