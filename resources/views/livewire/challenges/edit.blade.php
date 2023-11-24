@@ -30,7 +30,7 @@ new class extends Component
         $this->editing = true;
     }
 
-    public function edit_question(Question $question)
+    public function editQuestion(Question $question)
     {
         $this->editing_question = $question;
         $this->edit_statement = $question->statement;
@@ -48,7 +48,7 @@ new class extends Component
         ]);
     }
 
-    public function save_question()
+    public function saveQuestion()
     {
         $this->editing_question->update([
             'statement' => $this->edit_statement,
@@ -124,10 +124,10 @@ new class extends Component
                         <x-text-input wire:model="edit_answer" :value="$question->answer" id="answer" type="text" class="mt-1 block w-full" autocomplete="answer" />
                         <x-input-error class="mt-2" :messages="$errors->get('answer')" />
                     </div>
-                    <x-primary-button wire:click="save_question">Save</x-primary-button>
+                    <x-primary-button wire:click="saveQuestion">Save</x-primary-button>
                 </div>
             @else
-                <div wire:click="edit_question({{$question->id}})" class="my-6 space-y-2">
+                <div wire:click="editQuestion({{$question->id}})" class="my-6 space-y-2">
                     <div><x-mmd>{{ $question->statement }}</x-mmd></div>
                     <p>Answer: {{ $question->answer }}</p>
                 </div>
