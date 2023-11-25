@@ -17,6 +17,7 @@ new class extends Component
     public string $answer = '';
     public string $edit_statement = '';
     public string $edit_answer = '';
+    public string $edit_explanation = '';
 
     public function mount()
     {
@@ -35,6 +36,7 @@ new class extends Component
         $this->editing_question = $question;
         $this->edit_statement = $question->statement;
         $this->edit_answer = $question->answer;
+        $this->edit_explanation = $question->explanation ?: '';
     }
 
     public function save()
@@ -52,8 +54,10 @@ new class extends Component
     {
         $this->editing_question->update([
             'statement' => $this->edit_statement,
-            'answer' => $this->edit_answer
+            'answer' => $this->edit_answer,
+            'explanation' => $this->edit_explanation ?: null
         ]);
+
         $this->editing_question = null;
     }
 
@@ -106,7 +110,7 @@ new class extends Component
     @endunless
 
     <div class="mt-9">
-        <h1 class="text-xl font-medium text-gray-900 dark:text-gray-100">
+        <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">
             Questions
         </h1>
 
@@ -117,36 +121,52 @@ new class extends Component
                     <div>
                         <x-input-label for="question-title" :value="__('Statement')" />
                         <x-multiline-input wire:model="edit_statement" :value="$question->statement" id="question-title" type="text" class="mt-1 block w-full" required autocomplete="question-title" />
-                        <x-input-error class="mt-2" :messages="$errors->get('question-title')" />
+                        <x-input-error class="mt-2" :messages="$errors->get('question-statement')" />
                     </div>
                     <div class="w-1/2">
                         <x-input-label for="answer" :value="__('Answer')" />
                         <x-text-input wire:model="edit_answer" :value="$question->answer" id="answer" type="text" class="mt-1 block w-full" autocomplete="answer" />
                         <x-input-error class="mt-2" :messages="$errors->get('answer')" />
                     </div>
+                    <div>
+                        <x-input-label for="question-explanation" :value="__('Explanation')" />
+                        <x-multiline-input wire:model="edit_explanation" id="question-explanation" type="text" class="mt-1 block w-full" />
+                        <x-input-error class="mt-2" :messages="$errors->get('question-explanation')" />
+                    </div>
                     <x-primary-button wire:click="saveQuestion">Save</x-primary-button>
                 </div>
             @else
-                <div wire:click="editQuestion({{$question->id}})" class="my-6 space-y-2">
-                    <div><x-mmd>{{ $question->statement }}</x-mmd></div>
-                    <p>Answer: {{ $question->answer }}</p>
+                <div wire:click="editQuestion({{$question->id}})" class="my-6">
+                    <div class="space-y-3">
+                        <div><x-mmd>{{ $question->statement }}</x-mmd></div>
+                        <p>Answer: {{ $question->answer }}</p>
+                    </div>
+                @if ($question->explanation)
+                    <div class="mt-9">
+                        <h2 class="font-medium text-gray-900 text-medium">{{ __('Explanation') }}</h2>
+                        <p class="my-3">{{ $question->explanation }}</p>
+                    </div>
+                @endif
                 </div>
                 <x-danger-button wire:click="deleteQuestion({{$question->id}});setTimeout(MathJax.typeset, 250)">Delete</x-danger-button>
             @endif
         @endforeach
 
-        <form wire:submit="newQuestion" class="py-6 space-y-6">
-            <div>
-                <x-input-label for="question-title" :value="__('Statement')" />
-                <x-multiline-input wire:model="statement" id="question-title" type="text" class="mt-1 block w-full" required autocomplete="question-title" />
-                <x-input-error class="mt-2" :messages="$errors->get('question-title')" />
-            </div>
-            <div class="w-1/2">
-                <x-input-label for="answer" :value="__('Answer')" />
-                <x-text-input wire:model="answer" id="answer" type="text" class="mt-1 block w-full" autocomplete="answer" />
-                <x-input-error class="mt-2" :messages="$errors->get('answer')" />
-            </div>
-            <x-primary-button>New question</x-primary-button>
-        </form>
+        <div class="mt-6">
+            <h2 class="text-xl font-bold text-gray-900">{{ __('New question') }}</h2>
+            <form wire:submit="newQuestion" class="py-6 space-y-6">
+                <div>
+                    <x-input-label for="question-title" :value="__('Statement')" />
+                    <x-multiline-input wire:model="statement" id="question-title" type="text" class="mt-1 block w-full" required autocomplete="question-title" />
+                    <x-input-error class="mt-2" :messages="$errors->get('question-title')" />
+                </div>
+                <div class="w-1/2">
+                    <x-input-label for="answer" :value="__('Answer')" />
+                    <x-text-input wire:model="answer" id="answer" type="text" class="mt-1 block w-full" autocomplete="answer" />
+                    <x-input-error class="mt-2" :messages="$errors->get('answer')" />
+                </div>
+                <x-primary-button>New question</x-primary-button>
+            </form>
+        </div>
     </div>
 </div>

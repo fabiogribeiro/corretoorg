@@ -42,7 +42,7 @@ new class extends Component
         @if($note)
             <x-mmd>{{ $note }}</x-mmd>
         @else
-            <p>{{ __('Add notes here.') }}</p>
+            <p class="font-medium text-gray-500">{{ __('Add notes here.') }}</p>
         @endif
             <x-primary-button wire:click="edit">{{ __('Edit') }}</x-primary-button>
         </div>

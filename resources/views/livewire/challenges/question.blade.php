@@ -67,7 +67,7 @@ new class extends Component
                 @endif
                 </div>
             </div>
-            <div class="flex justify-center space-x-6">
+            <div class="flex justify-center space-x-3 mt-9">
                 <a wire:click.prevent="$dispatch('open-modal', 'notes-modal-{{$question->id}}')" href="#">
                     <div class="flex flex-inline space-x-1">
                         <x-pencil-icon class="self-center"/>
@@ -78,12 +78,13 @@ new class extends Component
                 </a>
                 <livewire:challenges.notes-modal :question="$question"/>
             @if ($question->explanation)
-                <a wire:click.prevent="" href="#">
+                <a wire:click.prevent="$dispatch('open-modal', 'explanation-modal-{{$question->id}}')" href="#">
                     <div class="flex flex-inline space-x-1">
-                        <x-pencil-icon class="self-center"/>
-                        <span class="text-sm font-medium text-gray-600">Explanation</span>
+                        <x-lock-icon class="self-center"/>
+                        <span class="mt-0.5 text-sm font-medium text-gray-600">Explanation</span>
                     </div>
                 </a>
+                <livewire:challenges.explanation-modal :question="$question"/>
             @endif
             </div>
         </div>
