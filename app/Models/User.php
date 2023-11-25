@@ -44,7 +44,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'solved' => AsArrayObject::class
+        'solved' => AsArrayObject::class,
+        'notes' => AsArrayObject::class
     ];
 
     public function challenges(): HasMany
