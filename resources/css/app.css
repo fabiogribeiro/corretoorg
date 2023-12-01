@@ -8,6 +8,10 @@
     list-style: decimal;
 }
 
+.markdown-body ul {
+    list-style: disc;
+}
+
 .markdown-body {
     font-family: inherit !important;
     font-size: inherit !important;
