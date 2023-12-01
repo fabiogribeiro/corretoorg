@@ -49,7 +49,7 @@ new class extends Component
             <h2 class="mb-6 text-xl font-bold text-gray-700">
                 {{ __('Questions') }}
             </h2>
-        @forelse ($challenge->questions as $question)
+        @forelse ($challenge->questions->sortBy('statement', SORT_NATURAL) as $question)
             <livewire:challenges.question :challenge="$challenge" :question="$question" />
         @empty
             <div class="py-12">

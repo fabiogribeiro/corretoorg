@@ -118,7 +118,7 @@ new class extends Component
         </h1>
 
         <!-- list questions here -->
-        @foreach ($challenge->questions as $question)
+        @foreach ($challenge->questions->sortBy('statement', SORT_NATURAL) as $question)
             @if ($editing_question?->id === $question->id)
                 <div class="space-y-6">
                     <div>
