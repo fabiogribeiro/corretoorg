@@ -22,7 +22,9 @@ new class extends Component
         $user = auth()->user();
         if (in_array($this->question->id, $user->solved['questions'])) return;
 
-        if ($this->answer == $this->question->answer) {
+        if (($this->question->type !== 'multiple-choice') ||
+            ($this->question->type === 'multiple-choice' && $this->answer == $this->question->answer)) {
+
             $this->solved = true;
             $user->solved['questions'][] = $this->question->id;
 
@@ -54,15 +56,21 @@ new class extends Component
                 <div class="flex">
                 @if($solved)
                     <div class="flex space-x-3 h-10 self-end">
+                    @if($question->type !== 'empty')
                         <span class="w-48 self-center" disabled>{{$question->answer}}</span>
+                    @endif
                         <x-success-button class="w-20 justify-center"
                                         wire:click="redo"
                                         wire:confirm="{{__('Solve again?')}}">{{ __('Solved') }}</x-success-button>
                     </div>
                 @else
                     <div class="flex space-x-3 h-10 self-end">
+                    @if ($question->type === 'multiple-choice')
                         <x-text-input class="w-48" wire:model="answer" id="answer" type="text" autocomplete="answer" />
                         <x-primary-button class="w-20 justify-center">{{ __('Submit') }}</x-primary-button>
+                    @else
+                        <x-primary-button class="w-20 justify-center">{{ __('Done') }}</x-primary-button>
+                    @endif
                     </div>
                 @endif
                 </div>

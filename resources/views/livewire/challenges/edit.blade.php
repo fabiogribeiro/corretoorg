@@ -18,6 +18,7 @@ new class extends Component
     public string $edit_statement = '';
     public string $edit_answer = '';
     public string $edit_explanation = '';
+    public string $edit_type = '';
 
     public function mount()
     {
@@ -37,6 +38,7 @@ new class extends Component
         $this->edit_statement = $question->statement;
         $this->edit_answer = $question->answer;
         $this->edit_explanation = $question->explanation ?: '';
+        $this->edit_type = $question->type;
     }
 
     public function save()
@@ -55,7 +57,8 @@ new class extends Component
         $this->editing_question->update([
             'statement' => $this->edit_statement,
             'answer' => $this->edit_answer,
-            'explanation' => $this->edit_explanation ?: null
+            'explanation' => $this->edit_explanation ?: null,
+            'type' => $this->edit_type
         ]);
 
         $this->editing_question = null;
@@ -132,6 +135,11 @@ new class extends Component
                         <x-input-label for="question-explanation" :value="__('Explanation')" />
                         <x-multiline-input wire:model="edit_explanation" id="question-explanation" type="text" class="mt-1 block w-full" />
                         <x-input-error class="mt-2" :messages="$errors->get('question-explanation')" />
+                    </div>
+                    <div>
+                        <x-input-label for="question-type" :value="__('Question type')" />
+                        <x-text-input wire:model="edit_type" id="question-type" type="text" class="mt-1 block w-full" required/>
+                        <x-input-error class="mt-2" :messages="$errors->get('question-type')" />
                     </div>
                     <x-primary-button wire:click="saveQuestion">Save</x-primary-button>
                 </div>
