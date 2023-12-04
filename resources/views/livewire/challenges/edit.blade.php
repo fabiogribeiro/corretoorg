@@ -105,12 +105,13 @@ new class extends Component
         </form>
     @endunless 
 
-    
-    @unless ($editing)
-        <x-primary-button wire:click="edit">Edit</x-primary-button>
-    @else
-        <x-primary-button wire:click="save">Save</x-primary-button>
-    @endunless
+    <div class="py-4">
+        @unless ($editing)
+            <x-primary-button wire:click="edit">Edit</x-primary-button>
+        @else
+            <x-primary-button wire:click="save">Save</x-primary-button>
+        @endunless
+    </div>
 
     <div class="mt-9">
         <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">

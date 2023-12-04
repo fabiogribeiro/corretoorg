@@ -34,6 +34,8 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
+    <x-slot:title>{{ __('Register') }}</x-slot>
+
     <form wire:submit="register">
         <!-- Name -->
         <div>

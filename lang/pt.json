@@ -1,5 +1,19 @@
 {
     "Done": "Feito",
     "Solve again?": "Resolver novamente?",
-    "My notes": "Notas"
+    "My notes": "Notas",
+    "Questions": "Questões",
+    "Dashboard": "Visão geral",
+    "Progress": "Progresso",
+    "Challenge": "Desafio",
+    "Challenges": "Desafios",
+    "Title": "Título",
+    "Subject": "Tópico",
+    "Create challenge": "Criar desafio",
+    "Submit": "Submeter",
+    "Solved": "Resolvido",
+    "Filters": "Filtros",
+    "Unsolved": "Por resolver",
+    "Mark as solved?": "Marcar como resolvido?",
+    "Register": "Registar"
 }

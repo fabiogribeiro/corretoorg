@@ -47,7 +47,7 @@ new class extends Component
 }; ?>
 
 <div>
-    <form wire:submit="submitForm" class="py-6">
+    <form class="py-6">
         <div>
             <div class="flex justify-between">
                 <div class="flex space-x-3 items-center w-3/5">
@@ -59,17 +59,19 @@ new class extends Component
                     @if($question->type !== 'empty')
                         <span class="w-48 self-center" disabled>{{$question->answer}}</span>
                     @endif
-                        <x-success-button class="w-20 justify-center"
+                        <x-success-button class="w-26 justify-center"
                                         wire:click="redo"
                                         wire:confirm="{{__('Solve again?')}}">{{ __('Solved') }}</x-success-button>
                     </div>
                 @else
                     <div class="flex space-x-3 h-10 self-end">
                     @if ($question->type === 'multiple-choice')
-                        <x-text-input class="w-48" wire:model="answer" id="answer" type="text" autocomplete="answer" />
-                        <x-primary-button class="w-20 justify-center">{{ __('Submit') }}</x-primary-button>
+                        <x-text-input class="w-52" wire:model="answer" id="answer" type="text" autocomplete="answer" />
+                        <x-primary-button wire:click.prevent="submitForm" class="w-26 justify-center">{{ __('Submit') }}</x-primary-button>
                     @else
-                        <x-primary-button class="w-20 justify-center">{{ __('Done') }}</x-primary-button>
+                        <x-primary-button wire:click.prevent="submitForm"
+                                        wire:confirm="{{__('Mark as solved?')}}"
+                                        class="w-26 justify-center">{{ __('Done') }}</x-primary-button>
                     @endif
                     </div>
                 @endif
