@@ -53,18 +53,23 @@ new class extends Component
                 <div class="flex space-x-3 items-center w-3/5">
                     <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
                 </div>
-                <div class="flex">
+                <div class="flex flex-col space-y-3 self-end">
+                @if($question->type !== 'empty')
+                    <div>
+                        <x-input-label>{{ __('Answer') }}</x-input-label>
+                    </div>
+                @endif
                 @if($solved)
-                    <div class="flex space-x-3 h-10 self-end">
+                    <div class="flex flex-row space-x-3 h-10">
                     @if($question->type !== 'empty')
-                        <span class="w-48 self-center" disabled>{{$question->answer}}</span>
+                        <x-text-input class="w-52" :value="$question->answer" type="text" disabled/>
                     @endif
                         <x-success-button class="w-26 justify-center"
                                         wire:click="redo"
                                         wire:confirm="{{__('Solve again?')}}">{{ __('Solved') }}</x-success-button>
                     </div>
                 @else
-                    <div class="flex space-x-3 h-10 self-end">
+                    <div class="flex space-x-3 h-10">
                     @if ($question->type === 'multiple-choice')
                         <x-text-input class="w-52" wire:model="answer" id="answer" type="text" autocomplete="answer" />
                         <x-primary-button wire:click.prevent="submitForm" class="w-26 justify-center">{{ __('Submit') }}</x-primary-button>

@@ -15,5 +15,15 @@
     "Filters": "Filtros",
     "Unsolved": "Por resolver",
     "Mark as solved?": "Marcar como resolvido?",
-    "Register": "Registar"
+    "Register": "Registar",
+    "Answer": "Resposta",
+    "Profile": "Perfil",
+    "Name": "Nome",
+    "Save": "Guardar",
+    "Profile Information": "Dados perfil",
+    "Update Password": "Atualizar palavra-passe",
+    "Current Password": "Palavra-passe atual",
+    "New Password": "Nova palavra-passe",
+    "Confirm Password": "Confirmar palavra-passe",
+    "Delete Account": "Eliminar conta"
 }
