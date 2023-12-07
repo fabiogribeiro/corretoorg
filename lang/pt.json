@@ -25,5 +25,15 @@
     "Current Password": "Palavra-passe atual",
     "New Password": "Nova palavra-passe",
     "Confirm Password": "Confirmar palavra-passe",
-    "Delete Account": "Eliminar conta"
+    "Delete Account": "Eliminar conta",
+    "Update your account's profile information and email address.": "Atualiza informação de perfil e endereço de email.",
+    "Ensure your account is using a long, random password to stay secure.": "Utiliza uma palavra-passe longa e aleatória para manter a conta segura.",
+    "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.": "Quando a conta for eliminada, todos os seus dados serão apagados permanentemente. Antes de eliminar a conta, guarde qualquer informação necessária.",
+    "Are you sure you want to delete your account?": "Tem a certeza que quer eliminar a conta?",
+    "Password": "Palavra-passe",
+    "Cancel": "Cancelar",
+    "Please enter your password to confirm you would like to permanently delete your account.": "Insira a sua palavra-passe para eliminar permanentement a sua conta.",
+    "Your email address is unverified.": "O seu endereço de email não está verificado.",
+    "Click here to re-send the verification email.": "Clique aqui para re-enviar o email de verificação.",
+    "A new verification link has been sent to your email address.": "Um novo link foi enviado para o seu endereço de email."
 }
