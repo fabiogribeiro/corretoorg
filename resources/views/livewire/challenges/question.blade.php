@@ -10,6 +10,7 @@ new class extends Component
     public Question $question;
     public string $answer = '';
     public bool $solved;
+    public bool $submitted = false;
 
     public function mount()
     {
@@ -35,6 +36,13 @@ new class extends Component
 
             $user->save();
         }
+        else {
+            $this->submitted = true;
+        }
+    }
+    public function unsubmit()
+    {
+        $this->submitted = false;
     }
 
     public function redo()
@@ -54,25 +62,30 @@ new class extends Component
                     <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
                 </div>
                 <div class="flex flex-col space-y-3 self-end">
-                @if($question->type !== 'empty')
-                    <div>
-                        <x-input-label>{{ __('Answer') }}</x-input-label>
-                    </div>
-                @endif
                 @if($solved)
+                    @if($question->type !== 'empty')
+                        <div>
+                            <x-input-label>{{ __('Answer') }}</x-input-label>
+                        </div>
+                    @endif
                     <div class="flex flex-row space-x-3 h-10">
                     @if($question->type !== 'empty')
-                        <x-text-input class="w-52" :value="$question->answer" type="text" disabled/>
+                        <x-text-input class="w-52 disabled:border-emerald-400 text-gray-700" :value="$question->answer" type="text" disabled/>
                     @endif
                         <x-success-button class="w-26 justify-center"
                                         wire:click="redo"
-                                        wire:confirm="{{__('Solve again?')}}">{{ __('Solved') }}</x-success-button>
+                                        wire:confirm="{{__('Solve again?')}}">{{ __('Done') }}</x-success-button>
                     </div>
                 @else
+                    @if($question->type === 'multiple-choice')
+                        <div>
+                            <x-input-label>{{ __('Answer') }}</x-input-label>
+                        </div>
+                    @endif
                     <div class="flex space-x-3 h-10">
                     @if ($question->type === 'multiple-choice')
-                        <x-text-input class="w-52" wire:model="answer" id="answer" type="text" autocomplete="answer" />
-                        <x-primary-button wire:click.prevent="submitForm" class="w-26 justify-center">{{ __('Submit') }}</x-primary-button>
+                        <x-text-input class="w-52 {{$submitted ? 'border-red-400' : ''}}" wire:click="unsubmit" wire:model="answer" id="answer" type="text" autocomplete="answer" />
+                        <x-primary-button wire:click.prevent="submitForm" class="w-26 justify-center">{{ __('Done') }}</x-primary-button>
                     @else
                         <x-primary-button wire:click.prevent="submitForm"
                                         wire:confirm="{{__('Mark as solved?')}}"
