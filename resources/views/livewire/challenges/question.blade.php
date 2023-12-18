@@ -95,7 +95,7 @@ new class extends Component
                         </div>
                     @else
                         <x-primary-button wire:click.prevent="submitForm"
-                                        wire:confirm="{{__('Mark as solved?')}}"
+                                        wire:confirm="{{$question->type === 'show' ? __('Show answer?') : __('Mark as solved?')}}"
                                         class="w-26 justify-center">{{ __('Done') }}</x-primary-button>
                     @endif
                     </div>
