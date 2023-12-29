@@ -43,6 +43,7 @@ new class extends Component
                 </div>
             </div>
 
+            @auth
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
@@ -72,6 +73,7 @@ new class extends Component
                     </x-slot>
                 </x-dropdown>
             </div>
+            @endauth
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -93,6 +95,7 @@ new class extends Component
             </x-responsive-nav-link>
         </div>
 
+        @auth
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
@@ -113,5 +116,6 @@ new class extends Component
                 </button>
             </div>
         </div>
+        @endauth
     </div>
 </nav>

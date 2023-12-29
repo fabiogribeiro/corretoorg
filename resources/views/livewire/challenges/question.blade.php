@@ -14,7 +14,7 @@ new class extends Component
 
     public function mount()
     {
-        $this->solved = in_array($this->question->id, auth()->user()->solved['questions']);
+        $this->solved = auth()->user() && in_array($this->question->id, auth()->user()->solved['questions']);
         if ($this->solved) $this->answer = $this->question->answer;
     }
 
@@ -61,6 +61,7 @@ new class extends Component
                 <div class="flex space-x-3 items-center w-3/5">
                     <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
                 </div>
+                @auth
                 <div class="flex flex-col space-y-3 self-end">
                 @if($solved)
                     @if($question->type !== 'empty')
@@ -101,7 +102,9 @@ new class extends Component
                     </div>
                 @endif
                 </div>
+                @endauth
             </div>
+            @auth
             <div class="flex justify-center space-x-3 mt-9">
                 <a wire:click.prevent="$dispatch('open-modal', 'notes-modal-{{$question->id}}')" href="#">
                     <div class="flex flex-inline space-x-1">
@@ -122,6 +125,7 @@ new class extends Component
                 <livewire:challenges.explanation-modal :question="$question"/>
             @endif
             </div>
+            @endauth
         </div>
     </form>
 </div>

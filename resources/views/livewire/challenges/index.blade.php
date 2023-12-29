@@ -32,9 +32,14 @@ new class extends Component
 
             if ($this->filter_solved === $this->filter_unsolved) return;
 
-            $this->filtered_challenges = $this->filter_solved ?
-                $this->filtered_challenges->whereIn('id', auth()->user()->solved['challenges']) :
-                $this->filtered_challenges->whereNotIn('id', auth()->user()->solved['challenges']);
+            if (auth()->user()) {
+                $this->filtered_challenges = $this->filter_solved ?
+                    $this->filtered_challenges->whereIn('id', auth()->user()->solved['challenges']) :
+                    $this->filtered_challenges->whereNotIn('id', auth()->user()->solved['challenges']);
+            }
+            else {
+                $this->filtered_challenges = $this->filter_solved ? new Collection() : $this->filtered_challenges;
+            }
         }
     }
 }; ?>
@@ -51,7 +56,7 @@ new class extends Component
                         <a href="{{route('challenges.show', ['challenge' => $challenge])}}"
                         class="py-3 flex justify-between items-center font-medium inline text-gray-700 hover:text-gray-500">
                             <p class="inline">{{ $challenge->title }}</p>
-                        @if(in_array($challenge->id, auth()->user()->solved['challenges']))
+                        @if(auth()->user() && in_array($challenge->id, auth()->user()->solved['challenges']))
                             <x-select-circle bg="bg-emerald-500" class="ml-2 mr-1"/>
                         @else
                             <x-select-circle bg="border-cyan-500" class="ml-2 mr-1 border"/>

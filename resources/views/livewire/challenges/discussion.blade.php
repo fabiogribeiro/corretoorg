@@ -62,10 +62,12 @@ new class extends Component
         </div>
     @endforelse
     </ul>
+    @auth
     <form wire:submit="newComment">
         <div class="inline-flex space-x-3 w-full">
             <x-text-input wire:model="text" type="text" class="grow" placeholder="New comment" required />
             <x-primary-button>{{ __('Submit') }}</x-primary-button>
         </div>
     </form>
+    @endauth
 </div>

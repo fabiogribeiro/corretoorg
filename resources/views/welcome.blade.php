@@ -35,8 +35,8 @@
                                 <p class="mt-8 text-gray-500 dark:text-gray-400 leading-relaxed">
                                     Learn by doing. Challenges in math and physics.
                                 </p>
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 leading-relaxed">
-                                    Log in to get started.
+                                <p class="mt-4 text-center text-cyan-600 dark:text-gray-400 leading-relaxed">
+                                    <a href="{{ route('challenges.index') }}">{{ __('Enter') }}</a>
                                 </p>
                             </div>
                         </div>
