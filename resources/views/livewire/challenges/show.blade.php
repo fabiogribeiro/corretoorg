@@ -17,9 +17,11 @@ new class extends Component
 } ?>
 
 <div class="space-y-3">
-    <div class="pb-6 text-center">
-        <a href="{{ route('login') }}" class="text-gray-700">{{ __('Log in to solve questions') }}</a>
-    </div>
+    @guest
+        <div class="pb-6 text-center">
+            <a href="{{ route('login') }}" class="text-gray-700">{{ __('Log in to solve questions') }}</a>
+        </div>
+    @endguest
     <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
         <h2 class="text-2xl font-bold text-gray-700">{{ $challenge->subject }}</h2>
         <ul class="mt-6">
