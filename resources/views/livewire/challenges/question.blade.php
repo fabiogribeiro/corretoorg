@@ -15,7 +15,13 @@ new class extends Component
     public function mount()
     {
         $this->solved = auth()->user() && in_array($this->question->id, auth()->user()->solved['questions']);
-        if ($this->solved) $this->answer = $this->question->answer;
+
+        if ($this->solved) {
+            $this->answer = $this->question->answer;
+        }
+        elseif ($this->question->type === 'multiple-choice') {
+            $this->answer = 'A';
+        }
     }
 
     public function submitForm()
