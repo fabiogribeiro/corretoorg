@@ -20,6 +20,7 @@ new class extends Component
     public string $edit_explanation = '';
     public string $edit_answer = '';
     public string $edit_type = '';
+    public string $edit_options = '';
 
     public function mount()
     {
@@ -39,6 +40,7 @@ new class extends Component
         $this->edit_statement = $question->statement;
         $this->edit_answer = $question->answer_data['answer'];
         $this->edit_type = $question->answer_data['type'];
+        $this->edit_options = implode(':', $question->answer_data['options']);
         $this->edit_explanation = $question->explanation ?: '';
     }
 
@@ -60,7 +62,8 @@ new class extends Component
             'explanation' => $this->edit_explanation ?: null,
             'answer_data' => [
                 'type' => $this->edit_type,
-                'answer' => $this->edit_answer
+                'answer' => $this->edit_answer,
+                'options' => array_filter(explode(':', $this->edit_options))
             ]
         ]);
 
@@ -110,9 +113,9 @@ new class extends Component
 
     <div class="py-4">
         @unless ($editing)
-            <x-primary-button wire:click="edit">Edit</x-primary-button>
+            <x-primary-button wire:click="edit">{{ __('Edit') }}</x-primary-button>
         @else
-            <x-primary-button wire:click="save">Save</x-primary-button>
+            <x-primary-button wire:click="save">{{ __('Save') }}</x-primary-button>
         @endunless
     </div>
 
@@ -127,7 +130,7 @@ new class extends Component
                 <div class="space-y-6">
                     <div>
                         <x-input-label for="question-title" :value="__('Statement')" />
-                        <x-multiline-input wire:model="edit_statement" :value="$question->statement" id="question-title" type="text" class="mt-1 block w-full" required autocomplete="question-title" />
+                        <x-multiline-input wire:model="edit_statement" :value="$question->statement" id="question-title" type="text" class="mt-1 block w-full" rows="14" required autocomplete="question-title" />
                         <x-input-error class="mt-2" :messages="$errors->get('question-statement')" />
                     </div>
                     <div class="w-1/2">
@@ -136,16 +139,27 @@ new class extends Component
                         <x-input-error class="mt-2" :messages="$errors->get('answer')" />
                     </div>
                     <div>
+                        <x-input-label for="question-type" :value="__('Question type')" />
+                        <select wire:model="edit_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="multiple-choice">Multiple choice</option>
+                            <option value="numeric">Numeric</option>
+                            <option value="expression">Expression</option>
+                            <option value="show">Show</option>
+                            <option value="empty">Empty</option>
+                        </select>
+                        <x-input-error class="mt-2" :messages="$errors->get('question-type')" />
+                    </div>
+                    <div>
+                        <x-input-label for="question-options" :value="__('Options')" />
+                        <x-text-input wire:model="edit_options" id="question-options" type="text" class="mt-1 block w-full" required/>
+                        <x-input-error class="mt-2" :messages="$errors->get('question-options')" />
+                    </div>
+                    <div>
                         <x-input-label for="question-explanation" :value="__('Explanation')" />
                         <x-multiline-input wire:model="edit_explanation" id="question-explanation" type="text" class="mt-1 block w-full" />
                         <x-input-error class="mt-2" :messages="$errors->get('question-explanation')" />
                     </div>
-                    <div>
-                        <x-input-label for="question-type" :value="__('Question type')" />
-                        <x-text-input wire:model="edit_type" id="question-type" type="text" class="mt-1 block w-full" required/>
-                        <x-input-error class="mt-2" :messages="$errors->get('question-type')" />
-                    </div>
-                    <x-primary-button wire:click="saveQuestion">Save</x-primary-button>
+                    <x-primary-button wire:click="saveQuestion">{{ __('Save') }}</x-primary-button>
                 </div>
             @else
                 <div wire:click="editQuestion({{$question->id}})" class="my-6">
@@ -160,7 +174,7 @@ new class extends Component
                     </div>
                 @endif
                 </div>
-                <x-danger-button wire:click="deleteQuestion({{$question->id}});setTimeout(MathJax.typeset, 250)">Delete</x-danger-button>
+                <x-danger-button wire:click="deleteQuestion({{$question->id}});setTimeout(MathJax.typeset, 250)">{{ __('Delete') }}</x-danger-button>
             @endif
         @endforeach
 
