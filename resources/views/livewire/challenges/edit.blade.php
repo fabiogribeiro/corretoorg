@@ -1,9 +1,10 @@
 <?php
 
 use Livewire\Volt\Component;
+use Illuminate\Support\Str;
+
 use App\Models\Challenge;
 use App\Models\Question;
-use Illuminate\Support\Str;
 
 new class extends Component
 {
@@ -16,8 +17,8 @@ new class extends Component
     public string $statement = '';
     public string $answer = '';
     public string $edit_statement = '';
-    public string $edit_answer = '';
     public string $edit_explanation = '';
+    public string $edit_answer = '';
     public string $edit_type = '';
 
     public function mount()
@@ -36,9 +37,9 @@ new class extends Component
     {
         $this->editing_question = $question;
         $this->edit_statement = $question->statement;
-        $this->edit_answer = $question->answer;
+        $this->edit_answer = $question->answer_data['answer'];
+        $this->edit_type = $question->answer_data['type'];
         $this->edit_explanation = $question->explanation ?: '';
-        $this->edit_type = $question->type;
     }
 
     public function save()
@@ -56,9 +57,11 @@ new class extends Component
     {
         $this->editing_question->update([
             'statement' => $this->edit_statement,
-            'answer' => $this->edit_answer,
             'explanation' => $this->edit_explanation ?: null,
-            'type' => $this->edit_type
+            'answer_data' => [
+                'type' => $this->edit_type,
+                'answer' => $this->edit_answer
+            ]
         ]);
 
         $this->editing_question = null;
@@ -69,7 +72,7 @@ new class extends Component
         $question = new Question;
         $question->challenge_id = $this->challenge->id;
         $question->statement = $this->statement;
-        $question->answer = $this->answer;
+        $question->answer_data['answer'] = $this->answer;
         $question->save();
 
         $this->statement = '';
@@ -129,7 +132,7 @@ new class extends Component
                     </div>
                     <div class="w-1/2">
                         <x-input-label for="answer" :value="__('Answer')" />
-                        <x-text-input wire:model="edit_answer" :value="$question->answer" id="answer" type="text" class="mt-1 block w-full" autocomplete="answer" />
+                        <x-text-input wire:model="edit_answer" id="answer" type="text" class="mt-1 block w-full" autocomplete="answer" />
                         <x-input-error class="mt-2" :messages="$errors->get('answer')" />
                     </div>
                     <div>
@@ -148,7 +151,7 @@ new class extends Component
                 <div wire:click="editQuestion({{$question->id}})" class="my-6">
                     <div class="space-y-3">
                         <div><x-mmd>{{ $question->statement }}</x-mmd></div>
-                        <p>Answer: {{ $question->answer }}</p>
+                        <p>Answer: {{ $question->answer_data['answer'] }}</p>
                     </div>
                 @if ($question->explanation)
                     <div class="mt-9">

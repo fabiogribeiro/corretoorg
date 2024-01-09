@@ -17,9 +17,9 @@ new class extends Component
         $this->solved = auth()->user() && in_array($this->question->id, auth()->user()->solved['questions']);
 
         if ($this->solved) {
-            $this->answer = $this->question->answer;
+            $this->answer = $this->question->answer_data['answer'];
         }
-        elseif ($this->question->type === 'multiple-choice') {
+        elseif ($this->question->answer_data['type'] === 'multiple-choice') {
             $this->answer = 'A';
         }
     }
@@ -29,8 +29,8 @@ new class extends Component
         $user = auth()->user();
         if (in_array($this->question->id, $user->solved['questions'])) return;
 
-        if (($this->question->type !== 'multiple-choice') ||
-            ($this->question->type === 'multiple-choice' && $this->answer == $this->question->answer)) {
+        if (($this->question->answer_data['type'] !== 'multiple-choice') ||
+            ($this->question->answer_data['type'] === 'multiple-choice' && $this->answer == $this->question->answer_data['answer'])) {
 
             $this->solved = true;
             $user->solved['questions'][] = $this->question->id;
@@ -70,27 +70,27 @@ new class extends Component
                 @auth
                 <div class="flex flex-col space-y-3 self-end">
                 @if($solved)
-                    @if($question->type !== 'empty')
+                    @if($question->answer_data['type'] !== 'empty')
                         <div>
                             <x-input-label>{{ __('Answer') }}</x-input-label>
                         </div>
                     @endif
                     <div class="flex flex-row space-x-3 h-10">
-                    @if($question->type !== 'empty')
-                        <x-text-input class="w-52 disabled:border-emerald-400 text-gray-700" :value="$question->answer" type="text" disabled/>
+                    @if($question->answer_data['type'] !== 'empty')
+                        <x-text-input class="w-52 disabled:border-emerald-400 text-gray-700" :value="$question->answer_data['answer']" type="text" disabled/>
                     @endif
                         <x-success-button class="w-26 justify-center"
                                         wire:click="redo"
                                         wire:confirm="{{__('Solve again?')}}">{{ __('Done') }}</x-success-button>
                     </div>
                 @else
-                    @if($question->type === 'multiple-choice')
+                    @if($question->answer_data['type'] === 'multiple-choice')
                         <div>
                             <x-input-label>{{ __('Answer') }}</x-input-label>
                         </div>
                     @endif
                     <div class="flex space-x-3 h-10">
-                    @if ($question->type === 'multiple-choice')
+                    @if ($question->answer_data['type'] === 'multiple-choice')
                         <div class="flex space-x-3 w-72">
                             <select wire:model="answer" wire:click="unsubmit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{ $submitted? 'border-red-500':'' }}">
                                 <option value="A">A</option>
@@ -102,7 +102,7 @@ new class extends Component
                         </div>
                     @else
                         <x-primary-button wire:click.prevent="submitForm"
-                                        wire:confirm="{{$question->type === 'show' ? __('Show answer?') : __('Mark as solved?')}}"
+                                        wire:confirm="{{$question->answer_data['type'] === 'show' ? __('Show answer?') : __('Mark as solved?')}}"
                                         class="w-26 justify-center">{{ __('Done') }}</x-primary-button>
                     @endif
                     </div>

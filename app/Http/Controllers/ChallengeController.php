@@ -67,7 +67,7 @@ class ChallengeController extends Controller
             $question = new Question;
             $question->challenge_id = $challenge->id;
             $question->statement = $q['statement'];
-            $question->answer = $q['answer'];
+            $question->answer_data['answer'] = $q['answer'];
             $question->save();
         }
 
