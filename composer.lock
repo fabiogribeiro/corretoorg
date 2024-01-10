@@ -507,12 +507,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabiogribeiro/symphp.git",
-                "reference": "a3a3c83438631677dbbc285d66195bd4d99a2b79"
+                "reference": "b4f8a06232a47603b6bf00d7d3dd6601900de2b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabiogribeiro/symphp/zipball/a3a3c83438631677dbbc285d66195bd4d99a2b79",
-                "reference": "a3a3c83438631677dbbc285d66195bd4d99a2b79",
+                "url": "https://api.github.com/repos/fabiogribeiro/symphp/zipball/b4f8a06232a47603b6bf00d7d3dd6601900de2b2",
+                "reference": "b4f8a06232a47603b6bf00d7d3dd6601900de2b2",
                 "shasum": ""
             },
             "require": {
@@ -548,7 +548,7 @@
                 "source": "https://github.com/fabiogribeiro/symphp/tree/master",
                 "issues": "https://github.com/fabiogribeiro/symphp/issues"
             },
-            "time": "2024-01-09T15:45:16+00:00"
+            "time": "2024-01-10T18:34:50+00:00"
         },
         {
             "name": "fruitcake/php-cors",

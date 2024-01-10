@@ -1,6 +1,9 @@
 <?php
 
 use Livewire\Volt\Component;
+
+use SymPHP\Parser\Parser;
+
 use App\Models\Challenge;
 use App\Models\Question;
 
@@ -29,9 +32,7 @@ new class extends Component
         $user = auth()->user();
         if (in_array($this->question->id, $user->solved['questions'])) return;
 
-        if (($this->question->answer_data['type'] !== 'multiple-choice') ||
-            ($this->question->answer_data['type'] === 'multiple-choice' && $this->answer == $this->question->answer_data['answer'])) {
-
+        if ($this->isCorrectAnswer()) {
             $this->solved = true;
             $user->solved['questions'][] = $this->question->id;
 
@@ -58,6 +59,46 @@ new class extends Component
         $user->solved['questions'] = array_values(array_diff($user->solved['questions'], [$this->question->id]));
         $user->save();
     }
+
+    private function isCorrectAnswer(): bool
+    {
+        $type = $this->question->answer_data['type'];
+        $answers = explode(':', $this->question->answer_data['answer']);
+
+        $inputs = explode(':', $this->answer);
+
+        if ($type === 'empty' || $type === 'show') {
+            return true;
+        }
+        elseif ($type === 'multiple-choice') {
+            for ($i = 0; $i < min(count($answers), count($inputs)); $i++) {
+                if ($answers[$i] !== $inputs[$i])
+                    return false;
+            }
+
+            return true;
+        }
+        else { // Numeric or expression type
+            $parser = new Parser();
+
+            for ($i = 0; $i < min(count($answers), count($inputs)); $i++) {
+                try {
+                    $answer = $parser->parse($answers[$i])->flatten()->simplify();
+                    $input = $parser->parse($inputs[$i])->flatten()->simplify();
+
+                    if (!($answer->equals($input, 1e-7)))
+                        return false;
+                }
+                catch (Exception $e) {
+                    return false;
+                }
+            }
+
+          return true;
+        }
+
+        return false;
+    }
 }; ?>
 
 <div>
@@ -75,23 +116,27 @@ new class extends Component
                             <x-input-label>{{ __('Answer') }}</x-input-label>
                         </div>
                     @endif
-                    <div class="flex flex-row space-x-3 h-10">
+                    <div class="flex flex-col space-y-3 h-10">
                     @if($question->answer_data['type'] !== 'empty')
-                        <x-text-input class="w-52 disabled:border-emerald-400 text-gray-700" :value="$question->answer_data['answer']" type="text" disabled/>
+                        <x-text-input class="w-72 disabled:border-emerald-400 text-gray-700" :value="$question->answer_data['answer']" type="text" disabled/>
                     @endif
-                        <x-success-button class="w-26 justify-center"
-                                        wire:click="redo"
+                        <x-success-button class="w-72 justify-center"
+                                        wire:click.prevent="redo"
                                         wire:confirm="{{__('Solve again?')}}">{{ __('Done') }}</x-success-button>
                     </div>
                 @else
-                    @if($question->answer_data['type'] === 'multiple-choice')
+                    @if($question->answer_data['type'] === 'multiple-choice'    ||
+                        $question->answer_data['type'] === 'expression'         ||
+                        $question->answer_data['type'] === 'numeric')
+
                         <div>
                             <x-input-label>{{ __('Answer') }}</x-input-label>
                         </div>
                     @endif
-                    <div class="flex space-x-3 h-10">
+
+                    <div class="flex flex-col space-y-3 h-10">
                     @if ($question->answer_data['type'] === 'multiple-choice')
-                        <div class="flex space-x-3 w-72">
+                        <div class="flex flex-col space-y-3 w-72">
                             <select wire:model="answer" wire:click="unsubmit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{ $submitted? 'border-red-500':'' }}">
                             @forelse ($question->answer_data['options'] as $op)
                                 <option value="{{ $op }}">{{ $op }}</option>
@@ -102,13 +147,23 @@ new class extends Component
                                 <option value="D">D</option>
                             @endforelse
                             </select>
-                            <x-primary-button wire:click.prevent="submitForm" class="w-26 justify-center">{{ __('Done') }}</x-primary-button>
                         </div>
-                    @else
-                        <x-primary-button wire:click.prevent="submitForm"
-                                        wire:confirm="{{$question->answer_data['type'] === 'show' ? __('Show answer?') : __('Mark as solved?')}}"
-                                        class="w-26 justify-center">{{ __('Done') }}</x-primary-button>
+                    @elseif ($question->answer_data['type'] === 'expression' ||
+                            $question->answer_data['type'] === 'numeric')
+
+                        <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'border-red-500' : '' }}" type="text" />
                     @endif
+                        <div>
+                            <x-primary-button wire:click.prevent="submitForm" class="w-72 justify-center">
+                            @if ($question->answer_data['type'] === 'show' ||
+                                $question->answer_data['type'] === 'empty')
+
+                                {{ __('Continue') }}
+                            @else
+                                {{ __('Submit') }}
+                            @endif
+                            </x-primary-button>
+                        </div>
                     </div>
                 @endif
                 </div>
