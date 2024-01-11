@@ -117,8 +117,10 @@ new class extends Component
                         </div>
                     @endif
                     <div class="flex flex-col space-y-3 h-10">
-                    @if($question->answer_data['type'] !== 'empty')
+                    @if($question->answer_data['type'] === 'multiple-choice')
                         <x-text-input class="w-72 disabled:border-emerald-400 text-gray-700" :value="$question->answer_data['answer']" type="text" disabled/>
+                    @elseif ($question->answer_data['type'] !== 'empty')
+                        <div x-init="$nextTick(() => MathJax.typeset([$el]))">$ {{ $question->answer_data['answer'] }} $</div>
                     @endif
                         <x-success-button class="w-72 justify-center"
                                         wire:click.prevent="redo"
@@ -151,7 +153,13 @@ new class extends Component
                     @elseif ($question->answer_data['type'] === 'expression' ||
                             $question->answer_data['type'] === 'numeric')
 
-                        <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'border-red-500' : '' }}" type="text" />
+                        <div class="w-72 h-10">
+                            <!-- MathJax doesn't render all symbols correctly without this -->
+                            <div x-init="$watch('$wire.answer', value => setTimeout(() => MathJax.typeset([$el]), 75))"
+                                x-html="MathJax.tex2chtml((new AsciiMathParser()).parse($wire.answer), {display: false}).outerHTML">
+                            </div>
+                        </div>
+                        <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'border-red-500' : '' }}" type="text" placeholder="{{ __('Insert expression') }}"/>
                     @endif
                         <div>
                             <x-primary-button wire:click.prevent="submitForm" class="w-72 justify-center">
