@@ -47,6 +47,7 @@ new class extends Component
             $this->submitted = true;
         }
     }
+
     public function unsubmit()
     {
         $this->submitted = false;
@@ -63,15 +64,18 @@ new class extends Component
     private function isCorrectAnswer(): bool
     {
         $type = $this->question->answer_data['type'];
-        $answers = explode(':', $this->question->answer_data['answer']);
-
-        $inputs = explode(':', $this->answer);
-
         if ($type === 'empty' || $type === 'show') {
             return true;
         }
-        elseif ($type === 'multiple-choice') {
-            for ($i = 0; $i < min(count($answers), count($inputs)); $i++) {
+
+        $answers = explode(';', $this->question->answer_data['answer']);
+        $inputs = explode(';', $this->answer);
+
+        $n = count($answers);
+        if (count($inputs) !== $n) return false;
+
+        if ($type === 'multiple-choice') {
+            for ($i = 0; $i < $n; $i++) {
                 if ($answers[$i] !== $inputs[$i])
                     return false;
             }
@@ -81,7 +85,7 @@ new class extends Component
         else { // Numeric or expression type
             $parser = new Parser();
 
-            for ($i = 0; $i < min(count($answers), count($inputs)); $i++) {
+            for ($i = 0; $i < $n; $i++) {
                 try {
                     $answer = $parser->parse($answers[$i])->flatten()->simplify();
                     $input = $parser->parse($inputs[$i])->flatten()->simplify();
@@ -120,7 +124,9 @@ new class extends Component
                     @if($question->answer_data['type'] === 'multiple-choice')
                         <x-text-input class="w-72 disabled:border-emerald-400 text-gray-700" :value="$question->answer_data['answer']" type="text" disabled/>
                     @elseif ($question->answer_data['type'] !== 'empty')
-                        <div x-init="$nextTick(() => MathJax.typeset([$el]))">$ {{ $question->answer_data['answer'] }} $</div>
+                        <div class="inline" x-init="$nextTick(() => MathJax.typeset([$el]))">
+                            $ {{ str_contains($answer = $question->answer_data['answer'], ';') ? '\left( ' . $answer . ' \right)' : $answer }} $
+                        </div>
                     @endif
                         <x-success-button class="w-72 justify-center"
                                         wire:click.prevent="redo"

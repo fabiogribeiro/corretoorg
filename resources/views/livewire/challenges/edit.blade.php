@@ -63,7 +63,7 @@ new class extends Component
             'answer_data' => [
                 'type' => $this->edit_type,
                 'answer' => $this->edit_answer,
-                'options' => array_filter(explode(':', $this->edit_options))
+                'options' => array_filter(explode(';', $this->edit_options))
             ]
         ]);
 
@@ -121,7 +121,7 @@ new class extends Component
 
     <div class="mt-9">
         <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">
-            Questions
+            {{ __('Questions') }}
         </h1>
 
         <!-- list questions here -->
@@ -141,11 +141,11 @@ new class extends Component
                     <div>
                         <x-input-label for="question-type" :value="__('Question type')" />
                         <select wire:model="edit_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="multiple-choice">Multiple choice</option>
-                            <option value="numeric">Numeric</option>
-                            <option value="expression">Expression</option>
-                            <option value="show">Show</option>
-                            <option value="empty">Empty</option>
+                            <option value="multiple-choice">{{ __('Multiple choice') }}</option>
+                            <option value="numeric">{{ __('Numeric') }}</option>
+                            <option value="expression">{{ __('Expression') }}</option>
+                            <option value="show">{{ __('Show') }}</option>
+                            <option value="empty">{{ __('Empty') }}</option>
                         </select>
                         <x-input-error class="mt-2" :messages="$errors->get('question-type')" />
                     </div>

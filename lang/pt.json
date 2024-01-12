@@ -45,5 +45,12 @@
     "Explanation": "Explicação",
     "Options": "Opcões",
     "Continue": "Continuar",
-    "Insert expression": "Insira expressão"
+    "Insert expression": "Insira expressão",
+    "Question type": "Typo questão",
+    "Empty": "Vazia",
+    "Show": "Mostrar",
+    "Expression": "Expressão",
+    "Numeric": "Numérica",
+    "Multiple choice": "Escolha múltipla",
+    "Statement": "Enunciado"
 }
