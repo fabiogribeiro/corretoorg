@@ -12,7 +12,9 @@ new class extends Component
 
     public function mount()
     {
-        $this->other_challenges = Challenge::where('subject', $this->challenge->subject)->get();
+        $this->other_challenges = Challenge::where('subject', $this->challenge->subject)
+                                            ->orderBy('title', 'desc')
+                                            ->get();
     }
 } ?>
 
@@ -24,7 +26,7 @@ new class extends Component
     @endguest
     <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
         <h2 class="text-2xl font-bold text-gray-700">{{ $challenge->subject }}</h2>
-        <ul class="mt-6">
+        <ul class="mt-6 space-y-1">
         @foreach($other_challenges as $ochallenge)
             <li>
                 <a href="{{route('challenges.show', ['challenge' => $ochallenge])}}"
@@ -33,7 +35,7 @@ new class extends Component
                     <p>{{ $ochallenge->title }}</p>
                 @if($ochallenge->id == $challenge->id)
                     <x-select-circle/>
-                @elseif(in_array($ochallenge->id, auth()->user()->solved['challenges']))
+                @elseif(in_array($ochallenge->id, auth()->user()->solved['challenges'] ?? []))
                     <x-select-circle bg="bg-emerald-500"/>
                 @else
                     <x-select-circle class="border" bg="border-cyan-500"/>

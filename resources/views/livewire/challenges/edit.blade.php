@@ -40,7 +40,7 @@ new class extends Component
         $this->edit_statement = $question->statement;
         $this->edit_answer = $question->answer_data['answer'];
         $this->edit_type = $question->answer_data['type'];
-        $this->edit_options = implode(':', $question->answer_data['options']);
+        $this->edit_options = implode(';', $question->answer_data['options']);
         $this->edit_explanation = $question->explanation ?: '';
     }
 

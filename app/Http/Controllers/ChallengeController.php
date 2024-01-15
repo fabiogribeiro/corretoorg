@@ -15,7 +15,7 @@ class ChallengeController extends Controller
      */
     public function index()
     {
-        return view('challenges.index', ['challenges' => Challenge::all()]);
+        return view('challenges.index', ['challenges' => Challenge::orderBy('title', 'desc')->get()]);
     }
 
     /**
@@ -67,7 +67,10 @@ class ChallengeController extends Controller
             $question = new Question;
             $question->challenge_id = $challenge->id;
             $question->statement = $q['statement'];
+            $question->answer_data = [];
             $question->answer_data['answer'] = $q['answer'];
+            $question->answer_data['type'] = 'multiple-choice';
+            $question->answer_data['options'] = [];
             $question->save();
         }
 
