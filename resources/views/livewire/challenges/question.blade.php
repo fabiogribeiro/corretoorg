@@ -142,7 +142,7 @@ new class extends Component
                         </div>
                     @endif
 
-                    <div class="flex flex-col space-y-3 h-10">
+                    <div class="flex flex-col space-y-6 h-10">
                     @if ($question->answer_data['type'] === 'multiple-choice')
                         <div class="flex flex-col space-y-3 w-72">
                             <select wire:model="answer" wire:click="unsubmit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{ $submitted? 'ring-1 border-red-400 ring-red-400' : '' }}">
@@ -159,29 +159,29 @@ new class extends Component
                     @elseif ($question->answer_data['type'] === 'expression' ||
                             $question->answer_data['type'] === 'numeric')
 
-                        <div class="w-72 h-10">
+                        <div class="flex flex-col space-y-6 sm:flex-row sm:space-x-6 sm:space-y-0 sm:items-center">
+                            <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'ring-1 border-red-400 ring-red-400' : '' }}" type="text" placeholder="{{ __('Insert expression') }}"/>
                             <!-- MathJax doesn't render all symbols correctly without this -->
                             <div x-init="$watch('$wire.answer', value => setTimeout(() => MathJax.typeset([$el]), 75))"
                                 x-html="MathJax.tex2chtml((new AsciiMathParser()).parse($wire.answer), {display: false}).outerHTML">
                             </div>
                         </div>
-                        <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'ring-1 border-red-400 ring-red-400' : '' }}" type="text" placeholder="{{ __('Insert expression') }}"/>
                     @endif
-                        <div>
-                            <x-primary-button wire:click.prevent="submitForm" class="w-72 justify-center">
-                            @if ($question->answer_data['type'] === 'show' ||
-                                $question->answer_data['type'] === 'empty')
+                    <div>
+                        <x-primary-button wire:click.prevent="submitForm" class="w-72 justify-center">
+                        @if ($question->answer_data['type'] === 'show' ||
+                            $question->answer_data['type'] === 'empty')
 
-                                {{ __('Continue') }}
-                            @else
-                                {{ __('Submit') }}
-                            @endif
-                            </x-primary-button>
-                        </div>
+                            {{ __('Continue') }}
+                        @else
+                            {{ __('Submit') }}
+                        @endif
+                        </x-primary-button>
                     </div>
+                </div>
                 @endif
                 </div>
-                <div class="flex space-x-3 mt-12 sm:mt-0">
+                <div class="flex space-x-3 mt-24 sm:mt-0">
                     <a wire:click.prevent="$dispatch('open-modal', 'notes-modal-{{$question->id}}')" href="#">
                         <div class="flex flex-inline space-x-1">
                             <x-pencil-icon class="self-center"/>
