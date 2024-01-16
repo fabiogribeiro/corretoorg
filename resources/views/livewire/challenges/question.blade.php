@@ -107,13 +107,13 @@ new class extends Component
 
 <div>
     <form class="py-6">
-        <div>
-            <div class="flex justify-between">
-                <div class="flex space-x-3 items-center w-3/5">
-                    <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
-                </div>
-                @auth
-                <div class="flex flex-col space-y-3 self-end">
+        <div class="flex flex-col">
+            <div class="my-6">
+                <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
+            </div>
+            @auth
+            <div class="flex flex-col sm:flex-row items-center sm:justify-between sm:items-end">
+                <div class="my-6 space-y-3">
                 @if($solved)
                     @if($question->answer_data['type'] !== 'empty')
                         <div>
@@ -145,7 +145,7 @@ new class extends Component
                     <div class="flex flex-col space-y-3 h-10">
                     @if ($question->answer_data['type'] === 'multiple-choice')
                         <div class="flex flex-col space-y-3 w-72">
-                            <select wire:model="answer" wire:click="unsubmit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{ $submitted? 'border-red-500':'' }}">
+                            <select wire:model="answer" wire:click="unsubmit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{ $submitted? 'ring-1 border-red-400 ring-red-400' : '' }}">
                             @forelse ($question->answer_data['options'] as $op)
                                 <option value="{{ $op }}">{{ $op }}</option>
                             @empty
@@ -181,28 +181,26 @@ new class extends Component
                     </div>
                 @endif
                 </div>
-                @endauth
-            </div>
-            @auth
-            <div class="flex justify-center space-x-3 mt-9">
-                <a wire:click.prevent="$dispatch('open-modal', 'notes-modal-{{$question->id}}')" href="#">
-                    <div class="flex flex-inline space-x-1">
-                        <x-pencil-icon class="self-center"/>
-                        <span class="mt-0.5 text-center text-sm font-medium text-gray-600">
-                            {{ __('My notes') }}
-                        </span>
-                    </div>
-                </a>
-                <livewire:challenges.notes-modal :question="$question"/>
-            @if ($question->explanation)
-                <a wire:click.prevent="$dispatch('open-modal', 'explanation-modal-{{$question->id}}')" href="#">
-                    <div class="flex flex-inline space-x-1">
-                        <x-lock-icon class="self-center"/>
-                        <span class="mt-0.5 text-sm font-medium text-gray-600">Explanation</span>
-                    </div>
-                </a>
-                <livewire:challenges.explanation-modal :question="$question"/>
-            @endif
+                <div class="flex space-x-3 mt-12 sm:mt-0">
+                    <a wire:click.prevent="$dispatch('open-modal', 'notes-modal-{{$question->id}}')" href="#">
+                        <div class="flex flex-inline space-x-1">
+                            <x-pencil-icon class="self-center"/>
+                            <span class="mt-0.5 text-center text-sm font-medium text-gray-600">
+                                {{ __('My notes') }}
+                            </span>
+                        </div>
+                    </a>
+                    <livewire:challenges.notes-modal :question="$question"/>
+                @if ($question->explanation)
+                    <a wire:click.prevent="$dispatch('open-modal', 'explanation-modal-{{$question->id}}')" href="#">
+                        <div class="flex flex-inline space-x-1">
+                            <x-lock-icon class="self-center"/>
+                            <span class="mt-0.5 text-sm font-medium text-gray-600">{{ __('Explanation') }}</span>
+                        </div>
+                    </a>
+                    <livewire:challenges.explanation-modal :question="$question"/>
+                @endif
+                </div>
             </div>
             @endauth
         </div>
