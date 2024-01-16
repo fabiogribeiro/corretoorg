@@ -122,7 +122,7 @@ new class extends Component
                     @endif
                     <div class="flex flex-col space-y-3 h-10">
                     @if($question->answer_data['type'] === 'multiple-choice')
-                        <x-text-input class="w-72 disabled:border-emerald-400 text-gray-700" :value="$question->answer_data['answer']" type="text" disabled/>
+                        <x-text-input class="w-72 text-gray-700" :value="$question->answer_data['answer']" type="text" disabled/>
                     @elseif ($question->answer_data['type'] !== 'empty')
                         <div class="inline" x-init="$nextTick(() => MathJax.typeset([$el]))">
                             $ {{ str_contains($answer = $question->answer_data['answer'], ';') ? '\left( ' . $answer . ' \right)' : $answer }} $
@@ -165,7 +165,7 @@ new class extends Component
                                 x-html="MathJax.tex2chtml((new AsciiMathParser()).parse($wire.answer), {display: false}).outerHTML">
                             </div>
                         </div>
-                        <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'border-red-500' : '' }}" type="text" placeholder="{{ __('Insert expression') }}"/>
+                        <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'ring-1 border-red-400 ring-red-400' : '' }}" type="text" placeholder="{{ __('Insert expression') }}"/>
                     @endif
                         <div>
                             <x-primary-button wire:click.prevent="submitForm" class="w-72 justify-center">
