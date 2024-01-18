@@ -161,9 +161,10 @@ new class extends Component
 
                         <div class="flex flex-col space-y-6 sm:flex-row sm:space-x-6 sm:space-y-0 sm:items-center">
                             <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'ring-1 border-red-400 ring-red-400' : '' }}" type="text" placeholder="{{ __('Insert expression') }}"/>
-                            <!-- MathJax doesn't render all symbols correctly without this -->
-                            <div x-init="$watch('$wire.answer', value => setTimeout(() => MathJax.typeset([$el]), 75))"
-                                x-html="MathJax.tex2chtml((new AsciiMathParser()).parse($wire.answer), {display: false}).outerHTML">
+                            <div x-init="$watch('$wire.answer', value => setTimeout(function() {
+                                $el.textContent = '` ' + value + ' `';
+                                MathJax.typeset([$el]);
+                            }, 25))">
                             </div>
                         </div>
                     @endif

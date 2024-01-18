@@ -15,13 +15,18 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script>
             MathJax = {
+                loader: {
+                    load: ['input/asciimath', 'input/tex', 'output/chtml', 'ui/menu']
+                },
                 tex: {
                     inlineMath: [['$', '$'], ['\\(', '\\)']]
+                },
+                asciimath: {
+                    inlineMath: [['`', '`']]
                 }
             };
         </script>
-        <script type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-        <script type="text/javascript" src="https://unpkg.com/asciimath2tex@1.4.0/dist/asciimath2tex.umd.js"></script>
+        <script type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
