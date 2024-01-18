@@ -23,7 +23,7 @@ new class extends Component
             $this->answer = $this->question->answer_data['answer'];
         }
         elseif ($this->question->answer_data['type'] === 'multiple-choice') {
-            $this->answer = 'A';
+            $this->answer = $this->question->answer_data['options'][0] ?? 'A';
         }
     }
 
