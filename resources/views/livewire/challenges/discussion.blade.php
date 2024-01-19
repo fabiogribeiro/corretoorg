@@ -22,6 +22,8 @@ new class extends Component
         $comment->save();
 
         $this->comments[] = $comment;
+
+        $this->text = '';
     }
 
     public function deleteComment(Comment $comment)

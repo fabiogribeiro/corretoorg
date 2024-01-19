@@ -75,7 +75,10 @@ new class extends Component
         $question = new Question;
         $question->challenge_id = $this->challenge->id;
         $question->statement = $this->statement;
+        $question->answer_data = [];
         $question->answer_data['answer'] = $this->answer;
+        $question->answer_data['type'] = 'multiple-choice';
+        $question->answer_data['options'] = [];
         $question->save();
 
         $this->statement = '';
