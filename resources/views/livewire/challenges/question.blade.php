@@ -125,7 +125,7 @@ new class extends Component
                         <x-text-input class="w-72 text-gray-700" :value="$question->answer_data['answer']" type="text" disabled/>
                     @elseif ($question->answer_data['type'] !== 'empty')
                         <div class="inline" x-init="$nextTick(() => MathJax.typeset([$el]))">
-                            $ {{ str_contains($answer = $question->answer_data['answer'], ';') ? '\left( ' . $answer . ' \right)' : $answer }} $
+                            ` {{ str_contains($answer = $question->answer_data['answer'], ';') ? '\left( ' . $answer . ' \right)' : $answer }} `
                         </div>
                     @endif
                         <x-success-button class="w-72 justify-center"

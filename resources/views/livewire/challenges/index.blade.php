@@ -85,7 +85,7 @@ new class extends Component
                     <li>
                         <a href="{{route('challenges.show', ['challenge' => $challenge])}}"
                         class="py-3 flex justify-between items-center font-medium inline text-gray-700 hover:text-gray-500">
-                            <p class="inline">{{ $challenge->title }}</p>
+                            <p class="inline">{{ $challenge->title . (auth()->user()?->isAdmin() ? (' - ' . $challenge->stage) : '')}}</p>
                         @if(auth()->user() && in_array($challenge->id, auth()->user()->solved['challenges']))
                             <x-select-circle bg="bg-emerald-500" class="ml-2 mr-1"/>
                         @else

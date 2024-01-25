@@ -15,7 +15,12 @@ class ChallengeController extends Controller
      */
     public function index()
     {
-        return view('challenges.index', ['challenges' => Challenge::orderBy('title', 'desc')->get()]);
+        $query = Challenge::orderBy('title', 'desc');
+
+        if (!auth()->user()?->isAdmin())
+            $query = $query->where('stage', 'prod');
+
+        return view('challenges.index', ['challenges' => $query->get()]);
     }
 
     /**
@@ -33,7 +38,12 @@ class ChallengeController extends Controller
      */
     public function show(Challenge $challenge)
     {
-        return view('challenges.show', ['challenge' => $challenge, 'comments' => $challenge->comments]);
+        $oc_query = Challenge::where('subject', $challenge->subject)->orderBy('title', 'desc');
+
+        if (!auth()->user()?->isAdmin())
+            $oc_query = $oc_query->where('stage', 'prod');
+
+        return view('challenges.show', ['challenge' => $challenge, 'comments' => $challenge->comments, 'other_challenges' => $oc_query->get()]);
     }
 
     /**

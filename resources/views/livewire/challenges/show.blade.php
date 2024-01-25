@@ -1,21 +1,15 @@
 <?php
 
 use Livewire\Volt\Component;
+use Illuminate\Database\Eloquent\Collection;
+
 use App\Models\Challenge;
 use App\Models\Question;
-use Illuminate\Support\Str;
 
 new class extends Component
 {
     public Challenge $challenge;
-    public $other_challenges;
-
-    public function mount()
-    {
-        $this->other_challenges = Challenge::where('subject', $this->challenge->subject)
-                                            ->orderBy('title', 'desc')
-                                            ->get();
-    }
+    public Collection $other_challenges;
 } ?>
 
 <div class="space-y-3">

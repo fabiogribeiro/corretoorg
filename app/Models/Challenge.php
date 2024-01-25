@@ -15,7 +15,8 @@ class Challenge extends Model
         'title',
         'slug',
         'body',
-        'subject'
+        'subject',
+        'stage'
     ];
 
     public function getRouteKeyName(): string

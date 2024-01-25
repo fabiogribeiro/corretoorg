@@ -14,6 +14,7 @@ new class extends Component
     public string $title = '';
     public string $body = '';
     public string $subject = '';
+    public string $stage;
     public string $statement = '';
     public string $answer = '';
     public string $edit_statement = '';
@@ -51,7 +52,8 @@ new class extends Component
             'title' => $this->title,
             'slug' => Str::slug($this->title),
             'body' => $this->body,
-            'subject' => $this->subject
+            'subject' => $this->subject,
+            'stage' => $this->stage
         ]);
     }
 
@@ -105,6 +107,14 @@ new class extends Component
                 <x-input-label for="subject" :value="__('Subject')" />
                 <x-text-input wire:model="subject" :value="$challenge->subject" id="subject" subject="subject" type="text" class="mt-1 block w-full" required autofocus autocomplete="subject" />
                 <x-input-error class="mt-2" :messages="$errors->get('subject')" />
+            </div>
+            <div>
+                <x-input-label for="stage" :value="__('Stage')" />
+                <select wire:model="stage" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="dev">{{ __('dev') }}</option>
+                    <option value="prod">{{ __('prod') }}</option>
+                </select>
+                <x-input-error class="mt-2" :messages="$errors->get('question-type')" />
             </div>
             <div>
                 <x-input-label for="body" :value="__('Body')" />
