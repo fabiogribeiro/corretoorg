@@ -48,32 +48,42 @@ new class extends Component
 }; ?>
 
 <div>
-    <div class="sm:hidden px-3 w-fit mx-auto mb-6">
-        <h2 class="font-extrabold text-2xl text-gray-700 w-1/4">
-            {{ __('Filters') }}
-        </h2>
-        <fieldset>
-            <ul class="mt-6">
-            @foreach($subjects as $subject)
-                <li>
-                    <div class="flex items-center mb-4 space-x-3">
-                        <input wire:model.change="selected_subjects" id="{{$subject}}-id" type="checkbox" value="{{$subject}}" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                        <label for="{{$subject}}-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ $subject }}</label>
-                    </div>
-                </li>
-            @endforeach
-            </ul>
-        </fieldset>
-        <fieldset class="mt-12">
-            <div class="flex items-center mb-4 space-x-3">
-                <input wire:model.change="filter_solved" id="solved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                <label for="solved-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ __('Solved') }}</label>
-            </div>
-            <div class="flex items-center mb-4 space-x-3">
-                <input wire:model.change="filter_unsolved" id="unsolved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                <label for="unsolved-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ __('Unsolved') }}</label>
+    <div class="sm:hidden px-3 mb-6 mx-auto">
+        <div x-data="{ open: false }">
+            <a href="#" @click="open = ! open">
+                <div class="flex flex-row justify-between items-center"">
+                    <h2 class="font-extrabold text-2xl text-gray-700">
+                        {{ __('Filters') }}
+                    </h2>
+                    <x-select-circle bg="bg-emerald-500" x-show="open" />
+                    <x-select-circle bg="border-cyan-500" class="border" x-show="!open" />
                 </div>
-        </fieldset>
+            </a>
+            <div x-show="open">
+                <fieldset>
+                    <ul class="mt-6">
+                    @foreach($subjects as $subject)
+                        <li>
+                            <div class="flex items-center mb-4 space-x-3">
+                                <input wire:model.change="selected_subjects" id="{{$subject}}-id" type="checkbox" value="{{$subject}}" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
+                                <label for="{{$subject}}-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ $subject }}</label>
+                            </div>
+                        </li>
+                    @endforeach
+                    </ul>
+                </fieldset>
+                <fieldset class="mt-12">
+                    <div class="flex items-center mb-4 space-x-3">
+                        <input wire:model.change="filter_solved" id="solved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
+                        <label for="solved-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ __('Solved') }}</label>
+                    </div>
+                    <div class="flex items-center mb-4 space-x-3">
+                        <input wire:model.change="filter_unsolved" id="unsolved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
+                        <label for="unsolved-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ __('Unsolved') }}</label>
+                        </div>
+                </fieldset>
+            </div>
+        </div>
     </div>
     <div class="flex inline max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 space-x-9">
         <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg w-full sm:w-3/4">
