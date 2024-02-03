@@ -6,13 +6,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "fabiogribeiro/symphp": "dev-master",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.1",
         "livewire/volt": "^1.0",
-        "fabiogribeiro/symphp": "dev-master"
+        "symfony/http-client": "^7.0",
+        "symfony/postmark-mailer": "^7.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
