@@ -7,7 +7,7 @@ use App\Models\Challenge;
 
 class UserController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $challenge_data = Challenge::find(auth()->user()->solved['challenges'])
                             ->groupBy('subject')
@@ -19,7 +19,7 @@ class UserController extends Controller
                                 ];
                             });
 
-        return view('dashboard', ['challenge_data' => $challenge_data]);
+        return view('dashboard', ['challenge_data' => $challenge_data, 'show_verified' => $request->verified]);
     }
     public function profile()
     {
