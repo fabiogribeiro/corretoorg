@@ -40,16 +40,28 @@ new class extends Component
         </ul>
     </div>
     <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-    @can('update', $challenge)
-        <h2 class="mb-3 text-lg font-medium text-gray-900 dark:text-gray-100">
-            <a href="{{ route('challenges.edit', $challenge) }}">Edit</a>
-        </h2>
-    @endcan
         <x-mmd class="mb-12">{{ $challenge->body }}</x-mmd>
         <div class="mt-3">
-            <h2 class="mb-6 text-xl font-bold text-gray-700">
-                {{ __('Questions') }}
-            </h2>
+            <div class="mb-6 flex inline items-center justify-between">
+                <h2 class="text-xl font-bold text-gray-700">
+                    {{ __('Questions') }}
+                </h2>
+                <div class="flex inline items-center space-x-3">
+                @can('update', $challenge)
+                    <a href="{{ route('challenges.edit', $challenge) }}" class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        {{ __('Edit') }}
+                    </a>
+                @endcan
+                    <a href="#" wire:click.prevent="$dispatch('open-modal', 'help-modal')">
+                        <x-question-mark/>
+                    </a>
+                </div>
+                <x-modal name="help-modal">
+                    <div class="p-4">
+                        <x-mmd> {{ __('misc.qhelp') }} </x-mmd>
+                    </div>
+                </x-modal>
+            </div>
         @forelse ($challenge->questions->sortBy('statement', SORT_NATURAL) as $question)
             <livewire:challenges.question :challenge="$challenge" :question="$question" />
         @empty
