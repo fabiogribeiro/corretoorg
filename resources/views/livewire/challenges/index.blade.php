@@ -50,7 +50,7 @@ new class extends Component
 <div>
     <div class="sm:hidden px-3 mb-6 mx-auto">
         <div x-data="{ open: false }">
-            <a href="#" @click="open = ! open">
+            <a href="#" @click.prevent="open = ! open">
                 <div class="flex flex-row justify-between items-center"">
                     <h2 class="font-extrabold text-2xl text-gray-700">
                         {{ __('Filters') }}

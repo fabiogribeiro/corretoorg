@@ -40,7 +40,9 @@ new class extends Component
         </ul>
     </div>
     <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+        @if($challenge->body)
         <x-mmd class="mb-12">{{ $challenge->body }}</x-mmd>
+        @endif
         <div class="mt-3">
             <div class="mb-6 flex inline items-center justify-between">
                 <h2 class="text-xl font-bold text-gray-700">

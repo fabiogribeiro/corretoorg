@@ -120,7 +120,7 @@ new class extends Component
                             <x-input-label>{{ __('Answer') }}</x-input-label>
                         </div>
                     @endif
-                    <div class="flex flex-col space-y-3 h-10">
+                    <div class="flex flex-col space-y-6 h-10">
                     @if($question->answer_data['type'] === 'multiple-choice')
                         <x-text-input class="w-72 text-gray-700" :value="$question->answer_data['answer']" type="text" disabled/>
                     @elseif ($question->answer_data['type'] !== 'empty')
@@ -168,8 +168,8 @@ new class extends Component
                             </div>
                         </div>
                     @endif
-                    <div>
-                        <x-primary-button wire:click.prevent="submitForm" class="w-72 justify-center">
+                    <div class="flex justify-center">
+                        <x-primary-button wire:loading.remove wire:click.prevent="submitForm" class="w-72 justify-center">
                         @if ($question->answer_data['type'] === 'show' ||
                             $question->answer_data['type'] === 'empty')
 
@@ -178,6 +178,10 @@ new class extends Component
                             {{ __('Submit') }}
                         @endif
                         </x-primary-button>
+                        <div role="status" wire:loading wire:target="submitForm">
+                            <x-spinner/>
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
                 </div>
                 @endif
