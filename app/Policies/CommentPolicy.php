@@ -19,6 +19,14 @@ class CommentPolicy
     }
 
     /**
+     * Determine if the given user can create posts.
+     */
+    public function create(User $user): bool
+    {
+        return boolval($user->email_verified_at);
+    }
+
+    /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, Comment $comment): bool
