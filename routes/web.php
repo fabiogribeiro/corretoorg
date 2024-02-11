@@ -15,7 +15,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::view('/', 'welcome');
+Route::view('/', 'index');
 
 Route::controller(UserController::class)->group(function () {
     Route::get('dashboard', 'dashboard')

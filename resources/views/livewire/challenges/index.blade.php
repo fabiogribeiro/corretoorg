@@ -86,7 +86,7 @@ new class extends Component
         </div>
     </div>
     <div class="flex inline max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 space-x-9">
-        <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg w-full sm:w-3/4">
+        <div class="p-4 sm:p-0 dark:bg-gray-800 sm:rounded-lg w-full sm:w-3/4">
         @forelse ($filtered_challenges->groupBy('subject') as $subject => $challenge_list)
             <div>
                 <h2 class="mt-6 font-extrabold text-3xl text-gray-700 dark:text-gray-300">{{ $subject }}</h2>

@@ -4,7 +4,7 @@ use App\Providers\RouteServiceProvider;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.guest')] class extends Component
+new #[Layout('layouts.account')] class extends Component
 {
     public function sendVerification(): void
     {
