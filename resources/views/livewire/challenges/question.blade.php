@@ -105,10 +105,10 @@ new class extends Component
     }
 }; ?>
 
-<div>
+<div class="pb-12">
     <form class="py-6">
         <div class="flex flex-col">
-            <div class="my-6">
+            <div class="my-3">
                 <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
             </div>
             @auth
@@ -159,7 +159,7 @@ new class extends Component
                     @elseif ($question->answer_data['type'] === 'expression' ||
                             $question->answer_data['type'] === 'numeric')
 
-                        <div class="flex flex-col space-y-6 sm:flex-row sm:space-x-6 sm:space-y-0 sm:items-center">
+                        <div class="flex flex-col space-y-6 sm:flex-row sm:space-y-0 sm:items-center">
                             <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'ring-1 border-red-400 ring-red-400' : '' }}" type="text" placeholder="{{ __('Insert expression') }}"/>
                             <div x-init="$watch('$wire.answer', value => setTimeout(function() {
                                 $el.textContent = '` ' + value + ' `';

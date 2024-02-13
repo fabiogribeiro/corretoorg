@@ -15,11 +15,11 @@ new class extends Component
 <div class="space-y-3">
     @guest
         <div class="pb-6 text-center">
-            <a href="{{ route('login') }}" class="text-gray-700">{{ __('Log in to solve questions') }}</a>
+            <a href="{{ route('login') }}" class="text-cyan-600 font-semibold">{{ __('Log in to solve questions') }}</a>
         </div>
     @endguest
     <div class="p-4 sm:p-8 bg-slate-50 dark:bg-gray-800">
-        <h2 class="text-2xl font-bold text-gray-700">{{ $challenge->subject }}</h2>
+        <h2 class="text-2xl font-bold text-gray-700 mb-12">{{ $challenge->subject }}</h2>
         <ul class="mt-6 space-y-1">
         @foreach($other_challenges as $ochallenge)
             <li>
@@ -64,13 +64,17 @@ new class extends Component
                     </div>
                 </x-modal>
             </div>
-        @forelse ($challenge->questions->sortBy('statement', SORT_NATURAL) as $question)
-            <livewire:challenges.question :challenge="$challenge" :question="$question" />
-        @empty
-            <div class="py-12">
-                <p class="font-medium text-center text-gray-600">{{ __('No questions to show.') }}</p>
+            <div class="pb-3 border-b-4 border-gray-200">
+            @forelse ($challenge->questions->sortBy('statement', SORT_NATURAL) as $question)
+                <div @class(['border-b border-gray-200' => !$loop->last])>
+                    <livewire:challenges.question :challenge="$challenge" :question="$question" />
+                </div>
+            @empty
+                <div class="py-13">
+                    <p class="font-medium text-center text-gray-601">{{ __('No questions to show.') }}</p>
+                </div>
+            @endforelse
             </div>
-        @endforelse
         </div>
     </div>
 </div>
