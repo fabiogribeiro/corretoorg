@@ -36,7 +36,7 @@ new class extends Component
 }; ?>
 
 
-<div class="px-4 sm:px-8 bg-white dark:bg-gray-800 space-y-6">
+<div class="px-4 sm:px-8 pb-9 bg-white dark:bg-gray-800 space-y-6 shadow">
     <h2 class="text-2xl font-bold text-gray-700">{{ __('Discussion') }}</h2>
     <ul class="divide-y divide-gray-100">
     @forelse($comments as $comment)

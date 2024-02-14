@@ -75,6 +75,8 @@ new #[Layout('layouts.account')] class extends Component
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form wire:submit="login">
+        <h2 class="text-4xl text-gray-800 font-semibold mb-9">{{ __('Log in') }}</h2>
+
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />

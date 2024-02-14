@@ -18,7 +18,7 @@ new class extends Component
             <a href="{{ route('login') }}" class="text-cyan-600 font-semibold">{{ __('Log in to solve questions') }}</a>
         </div>
     @endguest
-    <div class="p-4 sm:p-8 bg-slate-50 dark:bg-gray-800">
+    <div class="p-4 sm:p-8 dark:bg-gray-800">
         <h2 class="text-2xl font-bold text-gray-700 mb-12">{{ $challenge->subject }}</h2>
         <ul class="mt-6 space-y-1">
         @foreach($other_challenges as $ochallenge)
@@ -39,7 +39,7 @@ new class extends Component
         @endforeach
         </ul>
     </div>
-    <div class="p-4 sm:p-8 bg-white dark:bg-gray-800">
+    <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow">
         @if($challenge->body)
         <x-mmd class="mb-12">{{ $challenge->body }}</x-mmd>
         @endif

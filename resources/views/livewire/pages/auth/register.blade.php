@@ -37,6 +37,8 @@ new #[Layout('layouts.account')] class extends Component
     <x-slot:title>{{ __('Register') }}</x-slot>
 
     <form wire:submit="register">
+        <h2 class="text-4xl text-gray-800 font-semibold mb-9">{{ __('Register') }}</h2>
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />

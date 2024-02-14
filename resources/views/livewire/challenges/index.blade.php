@@ -86,10 +86,10 @@ new class extends Component
         </div>
     </div>
     <div class="flex inline max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="p-4 sm:p-0 sm:pr-6 dark:bg-gray-800 sm:rounded-lg w-full sm:w-3/4 border-r-4 border-gray-200 divide-y-2">
+        <div class="p-4 sm:p-0 sm:px-6 dark:bg-gray-800 bg-white w-full sm:w-3/4 shadow border-r-4 border-gray-400 divide-y-2">
         @forelse ($filtered_challenges->groupBy('subject') as $subject => $challenge_list)
             <div class="{{ $loop->first ? 'pb-6' : 'py-6' }}">
-                <h2 class="font-extrabold text-3xl text-gray-700 dark:text-gray-300">{{ $subject }}</h2>
+                <h2 class="font-extrabold text-3xl text-gray-700 dark:text-gray-300 mt-6">{{ $subject }}</h2>
                 <ul class="mt-6 divide-y">
                 @foreach ($challenge_list as $challenge)
                     <li>
@@ -114,7 +114,7 @@ new class extends Component
         </div>
 
         <div class="hidden sm:block pl-6">
-            <h2 class="font-extrabold text-2xl text-gray-700 w-1/4">
+            <h2 class="font-extrabold text-2xl text-gray-700 w-1/4 mt-6">
                 {{ __('Filters') }}
             </h2>
             <fieldset>
