@@ -8,14 +8,14 @@
                     <h1 class="py-1 text-6xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-green-500 text-transparent bg-clip-text">
                         {{ __('Practice challenges') }}
                     </h1>
-                    <p class="md:text-xl text-gray-600 mb-12">{{ __('Learn math by solving exercises.') }}</p>
+                    <p class="px-6 md:text-xl text-gray-600 mb-12">{{ __('Learn math by solving exercises.') }}</p>
                     <a href="{{ route('challenges.index') }}" class="inline-block px-6 py-3 bg-cyan-600 text-white rounded-md shadow-lg hover:bg-white hover:text-cyan-700 transition">{{ __('Enter') }}</a>
                 </header>
             </div>
         </section>
         <section class="pb-16 pt-8">
             <div class="container mx-auto mb-6">
-                <header class="py-6 text-4xl text-gray-900 font-bold mb-8 text-center">{{ __('What we offer') }}</header>
+                <header class="p-6 text-4xl text-gray-900 font-bold mb-8 text-center">{{ __('What we offer') }}</header>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h3 class="text-xl font-semibold mb-4 text-gray-800">{{ __('Review') }}</h3>

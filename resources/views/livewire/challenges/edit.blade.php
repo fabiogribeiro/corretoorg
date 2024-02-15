@@ -28,6 +28,7 @@ new class extends Component
         $this->title = $this->challenge->title;
         $this->body = $this->challenge->body;
         $this->subject = $this->challenge->subject;
+        $this->stage = $this->challenge->stage;
     }
 
     public function edit()
@@ -118,7 +119,7 @@ new class extends Component
             </div>
             <div>
                 <x-input-label for="body" :value="__('Body')" />
-                <x-multiline-input wire:model="body" :value="$challenge->body" name="body" id="body" cols="30" rows="10" class="mt-1 block w-full" required />
+                <x-multiline-input wire:model.live="body" :value="$challenge->body" name="body" id="body" cols="30" rows="10" class="mt-1 block w-full" required />
                 <x-input-error class="mt-2" :messages="$errors->get('body')" />
             </div>
         </form>
@@ -126,10 +127,21 @@ new class extends Component
 
     <div class="py-4">
         @unless ($editing)
-            <x-primary-button wire:click="edit">{{ __('Edit') }}</x-primary-button>
+        <x-primary-button class="mt-9" wire:click="edit">{{ __('Edit') }}</x-primary-button>
         @else
-            <x-primary-button wire:click="save">{{ __('Save') }}</x-primary-button>
+        <div>
+            <x-secondary-button wire:click.prevent="$dispatch('open-modal', 'preview-modal')">{{ __('Preview') }}</x-secondary-button>
+            <x-primary-button wire:click.prevent="save">{{ __('Save') }}</x-primary-button>
+        </div>
         @endunless
+
+        <div @open-modal.window="MathJax.typeset([$el])">
+            <x-modal name="preview-modal">
+                <div class="p-4">
+                    <x-mmd >{{ $body }}</x-mmd>
+                </div>
+            </x-modal>
+        </div>
     </div>
 
     <div class="mt-9">
@@ -204,7 +216,7 @@ new class extends Component
                     <x-text-input wire:model="answer" id="answer" type="text" class="mt-1 block w-full" autocomplete="answer" />
                     <x-input-error class="mt-2" :messages="$errors->get('answer')" />
                 </div>
-                <x-primary-button>New question</x-primary-button>
+                <x-primary-button>{{ __('New question') }}</x-primary-button>
             </form>
         </div>
     </div>

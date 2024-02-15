@@ -20,13 +20,13 @@ new class extends Component
     @endguest
     <div class="p-4 sm:p-8 dark:bg-gray-800">
         <h2 class="text-2xl font-bold text-gray-700 mb-12">{{ $challenge->subject }}</h2>
-        <ul class="mt-6 space-y-1">
+        <ul class="mt-6 space-y-2">
         @foreach($other_challenges as $ochallenge)
             <li>
                 <a href="{{route('challenges.show', ['challenge' => $ochallenge])}}"
-                    class="flex justify-between items-center font-medium text-gray-700 hover:text-gray-500"
+                    class="flex justify-between items-center font-medium text-gray-600 hover:text-cyan-700"
                     wire:navigate>
-                    <p>{{ $ochallenge->title }}</p>
+                    <p @class(['text-cyan-700' => $ochallenge->id == $challenge->id])>{{ $ochallenge->title }}</p>
                 @if($ochallenge->id == $challenge->id)
                     <x-select-circle/>
                 @elseif(in_array($ochallenge->id, auth()->user()->solved['challenges'] ?? []))
@@ -39,11 +39,11 @@ new class extends Component
         @endforeach
         </ul>
     </div>
-    <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow">
+    <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow divide-y-2">
         @if($challenge->body)
         <x-mmd class="mb-12">{{ $challenge->body }}</x-mmd>
         @endif
-        <div class="mt-3">
+        <div @class(['mt-1' => true, 'pt-12' => $challenge->body])>
             <div class="mb-6 flex inline items-center justify-between">
                 <h2 class="text-xl font-bold text-gray-700">
                     {{ __('Questions') }}

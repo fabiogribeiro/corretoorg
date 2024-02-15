@@ -124,6 +124,18 @@ new class extends Component
                 </button>
             </div>
         </div>
+        @else
+        <div class="pt-3 pb-1 border-t border-gray-200 dark:border-gray-600">
+            <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('login')" wire:navigate>
+                    {{ __('Log in') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('register')" wire:navigate>
+                    {{ __('Register') }}
+                </x-responsive-nav-link>
+            </div>
+        </div>
         @endauth
     </div>
 </nav>

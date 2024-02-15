@@ -86,15 +86,15 @@ new class extends Component
         </div>
     </div>
     <div class="flex inline max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="p-4 sm:p-0 sm:px-6 dark:bg-gray-800 bg-white w-full sm:w-3/4 shadow border-r-4 border-gray-400 divide-y-2">
+        <div class="p-4 sm:p-0 sm:px-8 dark:bg-gray-800 bg-white w-full sm:w-3/4 shadow border-r-4 border-gray-400 divide-y-2">
         @forelse ($filtered_challenges->groupBy('subject') as $subject => $challenge_list)
-            <div class="{{ $loop->first ? 'pb-6' : 'py-6' }}">
-                <h2 class="font-extrabold text-3xl text-gray-700 dark:text-gray-300 mt-6">{{ $subject }}</h2>
-                <ul class="mt-6 divide-y">
+            <div @class(['pb-6' => $loop->first])>
+                <h2 class="font-extrabold text-3xl text-gray-700 dark:text-gray-300 mt-9">{{ $subject }}</h2>
+                <ul class="mt-9 divide-y">
                 @foreach ($challenge_list as $challenge)
                     <li>
                         <a href="{{route('challenges.show', ['challenge' => $challenge])}}"
-                        class="py-3 flex justify-between items-center font-medium inline text-gray-700 hover:text-gray-500">
+                        class="py-6 flex justify-between items-center font-semibold inline text-gray-800 hover:text-cyan-700">
                             <p class="inline">{{ $challenge->title . (auth()->user()?->isAdmin() ? (' - ' . $challenge->stage) : '')}}</p>
                         @if(auth()->user() && in_array($challenge->id, auth()->user()->solved['challenges']))
                             <x-select-circle bg="bg-emerald-500" class="ml-2 mr-1"/>
@@ -114,11 +114,11 @@ new class extends Component
         </div>
 
         <div class="hidden sm:block pl-6">
-            <h2 class="font-extrabold text-2xl text-gray-700 w-1/4 mt-6">
+            <h2 class="font-extrabold text-2xl text-gray-700 w-1/4 mt-9">
                 {{ __('Filters') }}
             </h2>
             <fieldset>
-                <ul class="mt-6">
+                <ul class="mt-16">
                 @foreach($subjects as $subject)
                     <li>
                         <div class="flex items-center mb-4 space-x-3">

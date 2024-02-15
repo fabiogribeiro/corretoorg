@@ -159,16 +159,16 @@ new class extends Component
                     @elseif ($question->answer_data['type'] === 'expression' ||
                             $question->answer_data['type'] === 'numeric')
 
-                        <div class="flex flex-col space-y-6 sm:flex-row sm:space-y-0 sm:items-center">
+                        <div class="flex flex-col space-y-6 space-x-3 sm:flex-row sm:space-y-0 sm:items-center">
                             <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'ring-1 border-red-400 ring-red-400' : '' }}" type="text" placeholder="{{ __('Insert expression') }}"/>
-                            <div x-init="$watch('$wire.answer', value => setTimeout(function() {
+                            <div x-init="$watch('$wire.answer', value => {
                                 $el.textContent = '` ' + value + ' `';
                                 MathJax.typeset([$el]);
-                            }, 25))">
+                            })">
                             </div>
                         </div>
                     @endif
-                    <div class="flex justify-center">
+                    <div class="flex">
                         <x-primary-button wire:loading.remove wire:click.prevent="submitForm" class="w-72 justify-center">
                         @if ($question->answer_data['type'] === 'show' ||
                             $question->answer_data['type'] === 'empty')
@@ -178,7 +178,7 @@ new class extends Component
                             {{ __('Submit') }}
                         @endif
                         </x-primary-button>
-                        <div role="status" wire:loading wire:target="submitForm">
+                        <div class="ml-32" role="status" wire:loading wire:target="submitForm">
                             <x-spinner/>
                             <span class="sr-only">Loading...</span>
                         </div>
