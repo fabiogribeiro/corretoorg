@@ -23,7 +23,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h2 class="font-extrabold text-3xl text-gray-700 dark:text-gray-300">{{ __('Progress') }}</h2>
+                    <h2 class="font-extrabold text-3xl">{{ __('Progress') }}</h2>
                     <ul class="mt-16 space-y-3">
                     @forelse($challenge_data as $subject => $rest)
                         <li>

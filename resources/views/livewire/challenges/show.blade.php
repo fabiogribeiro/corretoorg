@@ -12,19 +12,19 @@ new class extends Component
     public Collection $other_challenges;
 } ?>
 
-<div class="space-y-3">
+<div">
     @guest
-        <div class="pb-6 text-center">
+        <div class="pt-8 text-center">
             <a href="{{ route('login') }}" class="text-cyan-600 font-semibold">{{ __('Log in to solve questions') }}</a>
         </div>
     @endguest
     <div class="p-4 sm:p-8 dark:bg-gray-800">
-        <h2 class="text-2xl font-bold text-gray-700 mb-12">{{ $challenge->subject }}</h2>
+        <h2 class="text-2xl font-bold mb-12">{{ $challenge->subject }}</h2>
         <ul class="mt-6 space-y-2">
         @foreach($other_challenges as $ochallenge)
             <li>
                 <a href="{{route('challenges.show', ['challenge' => $ochallenge])}}"
-                    class="flex justify-between items-center font-medium text-gray-600 hover:text-cyan-700"
+                    class="flex justify-between items-center hover:text-cyan-700"
                     wire:navigate>
                     <p @class(['text-cyan-700' => $ochallenge->id == $challenge->id])>{{ $ochallenge->title }}</p>
                 @if($ochallenge->id == $challenge->id)
@@ -39,7 +39,7 @@ new class extends Component
         @endforeach
         </ul>
     </div>
-    <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow divide-y-2">
+    <div class="mt-6 p-4 sm:p-8 bg-white dark:bg-gray-800 shadow divide-y-2">
         @if($challenge->body)
         <x-mmd class="mb-12">{{ $challenge->body }}</x-mmd>
         @endif

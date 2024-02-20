@@ -51,8 +51,8 @@ new class extends Component
     <div class="sm:hidden px-3 mb-6 mx-auto">
         <div x-data="{ open: false }">
             <a href="#" @click.prevent="open = ! open">
-                <div class="flex flex-row justify-between items-center"">
-                    <h2 class="font-extrabold text-2xl text-gray-700">
+                <div class="flex flex-row justify-between items-center">
+                    <h2 class="text-2xl pb-3">
                         {{ __('Filters') }}
                     </h2>
                     <x-select-circle bg="bg-emerald-500" x-show="open" />
@@ -62,39 +62,41 @@ new class extends Component
             <div x-show="open">
                 <fieldset>
                     <ul class="mt-6">
+                        <h3 class="mb-6 font-extralight uppercase text-sm text-gray-500">{{ __('Subject') }}</h3>
                     @foreach($subjects as $subject)
                         <li>
-                            <div class="flex items-center mb-4 space-x-3">
+                            <div class="flex items-center space-x-3">
                                 <input wire:model.change="selected_subjects" id="{{$subject}}-id" type="checkbox" value="{{$subject}}" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                                <label for="{{$subject}}-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ $subject }}</label>
+                                <label for="{{$subject}}-id" class="ms-2">{{ $subject }}</label>
                             </div>
                         </li>
                     @endforeach
                     </ul>
                 </fieldset>
                 <fieldset class="mt-12">
+                    <h3 class="mb-6 font-extralight uppercase text-sm text-gray-500">{{ __('Status') }}</h3>
                     <div class="flex items-center mb-4 space-x-3">
                         <input wire:model.change="filter_solved" id="solved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                        <label for="solved-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ __('Solved') }}</label>
+                        <label for="solved-id" class="ms-2">{{ __('Solved') }}</label>
                     </div>
                     <div class="flex items-center mb-4 space-x-3">
                         <input wire:model.change="filter_unsolved" id="unsolved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                        <label for="unsolved-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ __('Unsolved') }}</label>
-                        </div>
+                        <label for="unsolved-id" class="ms-2">{{ __('Unsolved') }}</label>
+                    </div>
                 </fieldset>
             </div>
         </div>
     </div>
     <div class="flex inline max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="p-4 sm:p-0 sm:px-8 dark:bg-gray-800 bg-white w-full sm:w-3/4 shadow border-r-4 border-gray-400 divide-y-2">
+        <div class="p-4 sm:p-0 sm:px-8 dark:bg-gray-800 bg-white w-full sm:w-3/4 shadow divide-y-2">
         @forelse ($filtered_challenges->groupBy('subject') as $subject => $challenge_list)
             <div @class(['pb-6' => $loop->first])>
-                <h2 class="font-extrabold text-3xl text-gray-700 dark:text-gray-300 mt-9">{{ $subject }}</h2>
+                <h2 class="font-extrabold text-3xl mt-9">{{ $subject }}</h2>
                 <ul class="mt-9 divide-y">
                 @foreach ($challenge_list as $challenge)
                     <li>
                         <a href="{{route('challenges.show', ['challenge' => $challenge])}}"
-                        class="py-6 flex justify-between items-center font-semibold inline text-gray-800 hover:text-cyan-700">
+                        class="py-6 flex justify-between items-center font-semibold text-lg inline text-gray-800 hover:text-cyan-700">
                             <p class="inline">{{ $challenge->title . (auth()->user()?->isAdmin() ? (' - ' . $challenge->stage) : '')}}</p>
                         @if(auth()->user() && in_array($challenge->id, auth()->user()->solved['challenges']))
                             <x-select-circle bg="bg-emerald-500" class="ml-2 mr-1"/>
@@ -114,29 +116,31 @@ new class extends Component
         </div>
 
         <div class="hidden sm:block pl-6">
-            <h2 class="font-extrabold text-2xl text-gray-700 w-1/4 mt-9">
+            <h2 class="text-2xl w-1/4 mt-9">
                 {{ __('Filters') }}
             </h2>
             <fieldset>
-                <ul class="mt-16">
+                <ul class="mt-9">
+                    <h3 class="mb-6 font-extralight uppercase text-sm text-gray-500">{{ __('Subject') }}</h3>
                 @foreach($subjects as $subject)
                     <li>
                         <div class="flex items-center mb-4 space-x-3">
                             <input wire:model.change="selected_subjects" id="{{$subject}}-id" type="checkbox" value="{{$subject}}" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                            <label for="{{$subject}}-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ $subject }}</label>
+                            <label for="{{$subject}}-id" class="ms-2">{{ $subject }}</label>
                         </div>
                     </li>
                 @endforeach
                 </ul>
             </fieldset>
             <fieldset class="mt-12">
+                <h3 class="mb-6 font-extralight uppercase text-sm text-gray-500">{{ __('Status') }}</h3>
                 <div class="flex items-center mb-4 space-x-3">
                     <input wire:model.change="filter_solved" id="solved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                    <label for="solved-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ __('Solved') }}</label>
+                    <label for="solved-id" class="ms-2">{{ __('Solved') }}</label>
                 </div>
                 <div class="flex items-center mb-4 space-x-3">
                     <input wire:model.change="filter_unsolved" id="unsolved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                    <label for="unsolved-id" class="ms-2 font-medium text-gray-600 dark:text-gray-400">{{ __('Unsolved') }}</label>
+                    <label for="unsolved-id" class="ms-2">{{ __('Unsolved') }}</label>
                  </div>
             </fieldset>
         </div>
