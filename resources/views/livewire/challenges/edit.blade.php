@@ -146,7 +146,7 @@ new class extends Component
 
     <div class="mt-9">
         <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">
-            {{ __('Questions') }}
+            {{ trans_choice('Questions', 2) }}
         </h1>
 
         <!-- list questions here -->

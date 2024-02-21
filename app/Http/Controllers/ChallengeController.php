@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use App\Models\Challenge;
 use App\Models\Question;
-use App\Models\Comment;
-use Illuminate\Support\Str;
 
 class ChallengeController extends Controller
 {
@@ -20,7 +20,10 @@ class ChallengeController extends Controller
         if (!auth()->user()?->isAdmin())
             $query = $query->where('stage', 'prod');
 
-        return view('challenges.index', ['challenges' => $query->get()]);
+        $challenges = $query->get();
+        $questionCount = DB::table('questions')->selectRaw('challenge_id, count(*)')->groupBy('challenge_id')->get();
+
+        return view('challenges.index', ['challenges' => $challenges, 'questionCount' => $questionCount->pluck('count', 'challenge_id')]);
     }
 
     /**

@@ -2,7 +2,7 @@
     "Done": "Feito",
     "Solve again?": "Resolver novamente?",
     "My notes": "Notas",
-    "Questions": "Questões",
+    "Questions": "{1} Questão|{*} Questões",
     "Dashboard": "Visão geral",
     "Progress": "Progresso",
     "Challenge": "Desafio",

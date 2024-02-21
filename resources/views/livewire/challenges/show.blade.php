@@ -46,7 +46,7 @@ new class extends Component
         <div @class(['mt-1' => true, 'pt-12' => $challenge->body])>
             <div class="mb-6 flex inline items-center justify-between">
                 <h2 class="text-xl font-bold text-gray-700">
-                    {{ __('Questions') }}
+                    {{ trans_choice('Questions', 2) }}
                 </h2>
                 <div class="flex inline items-center space-x-3">
                 @can('update', $challenge)
