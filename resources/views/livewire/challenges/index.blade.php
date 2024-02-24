@@ -9,6 +9,7 @@ new class extends Component
     public Collection $challenges;
     public Collection $filtered_challenges;
     public Collection $questionCount;
+    public Collection $solvedCount;
     public array $subjects;
     public array $selected_subjects = [];
     public bool $filter_solved = false;
@@ -97,10 +98,19 @@ new class extends Component
                 @foreach ($challenge_list as $challenge)
                     <li>
                         <a href="{{route('challenges.show', ['challenge' => $challenge])}}"
-                            class="inline py-3 flex justify-between items-center text-gray-800 hover:text-cyan-700">
-                            <div class="inline">
+                            class="py-3 flex justify-between items-center text-gray-800 hover:text-cyan-700">
+                            <div class="w-full">
                                 <p class="font-semibold text-lg">{{ $challenge->title . (auth()->user()?->isAdmin() ? (' - ' . $challenge->stage) : '')}}</p>
-                                <p class="mt-1 text-gray-500">{{ ($qc = $questionCount[$challenge->id] ?? 0).' '.trans_choice('Questions', $qc) }}</p>
+                                <div class="flex items-center space-x-3 mt-1">
+                                @php
+                                    $qCount = $questionCount[$challenge->id] ?? 0;
+                                    $sCount = $solvedCount[$challenge->id] ?? 0;
+                                @endphp
+                                    <div class="w-1/3">
+                                        <x-progress-bar :percentage="$qCount ? $sCount/$qCount * 100 : 0"/>
+                                    </div>
+                                    <p class="text-gray-500">{{ $sCount.' '.__('of').' '.$qCount.' '.trans_choice('Questions', $qCount) }}</p>
+                                </div>
                             </div>
                         @if(auth()->user() && in_array($challenge->id, auth()->user()->solved['challenges']))
                             <x-select-circle bg="bg-emerald-500" class="ml-2 mr-1"/>

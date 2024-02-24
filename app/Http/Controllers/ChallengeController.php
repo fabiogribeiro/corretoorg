@@ -22,8 +22,9 @@ class ChallengeController extends Controller
 
         $challenges = $query->get();
         $questionCount = DB::table('questions')->selectRaw('challenge_id, count(*)')->groupBy('challenge_id')->get();
+        $solvedCount = Question::find(auth()->user()?->solved['questions'] ?? [])->groupBy('challenge_id')->map(function($item, $key) { return $item->count(); });
 
-        return view('challenges.index', ['challenges' => $challenges, 'questionCount' => $questionCount->pluck('count', 'challenge_id')]);
+        return view('challenges.index', ['challenges' => $challenges, 'questionCount' => $questionCount->pluck('count', 'challenge_id'), 'solvedCount' => $solvedCount]);
     }
 
     /**
