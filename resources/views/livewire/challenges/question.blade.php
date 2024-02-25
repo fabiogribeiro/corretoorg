@@ -123,9 +123,13 @@ new class extends Component
                     <div class="flex flex-col space-y-6 h-10">
                     @if($question->answer_data['type'] === 'multiple-choice')
                         <x-text-input class="w-72 text-gray-700" :value="$question->answer_data['answer']" type="text" disabled/>
+                    @elseif ($question->answer_data['type'] === 'show')
+                        <div class="inline" x-init="$nextTick(() => MathJax.typeset([$el]))">
+                            $ {{ str_contains($answer = $question->answer_data['answer'], ';') ? '\left( ' . $answer . ' \right)' : $answer }} $
+                        </div>
                     @elseif ($question->answer_data['type'] !== 'empty')
                         <div class="inline" x-init="$nextTick(() => MathJax.typeset([$el]))">
-                            ` {{ str_contains($answer = $question->answer_data['answer'], ';') ? '\left( ' . $answer . ' \right)' : $answer }} `
+                            ` {{ str_contains($answer = $question->answer_data['answer'], ';') ? '(' . $answer . ')' : $answer }} `
                         </div>
                     @endif
                         <x-success-button class="w-72 justify-center"
