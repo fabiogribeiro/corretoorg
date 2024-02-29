@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Laravel\Sanctum\HasApiTokens;
+
 use App\Models\Challenge;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -53,8 +55,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Challenge::class);
     }
 
-    public function isAdmin(): bool
+    public function isAdmin(): Attribute
     {
-        return $this->id == 1;
+        return new Attribute(
+            get: fn () => $this->id === 1
+        );
     }
 }

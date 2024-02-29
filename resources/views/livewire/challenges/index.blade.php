@@ -100,7 +100,7 @@ new class extends Component
                         <a href="{{route('challenges.show', ['challenge' => $challenge])}}"
                             class="py-3 flex justify-between items-center text-gray-800 hover:text-cyan-700">
                             <div class="w-full">
-                                <p class="font-semibold text-lg">{{ $challenge->title . (auth()->user()?->isAdmin() ? (' - ' . $challenge->stage) : '')}}</p>
+                                <p class="font-semibold text-lg">{{ $challenge->title . (auth()->user()?->isAdmin ? (' - ' . $challenge->stage) : '')}}</p>
                                 <div class="flex items-center space-x-3 mt-1">
                                 @php
                                     $qCount = $questionCount[$challenge->id] ?? 0;

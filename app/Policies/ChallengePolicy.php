@@ -13,7 +13,7 @@ class ChallengePolicy
     */
     public function before(User $user, string $ability): bool|null
     {
-        return $user->isAdmin();
+        return $user->isAdmin;
     }
 
     /**

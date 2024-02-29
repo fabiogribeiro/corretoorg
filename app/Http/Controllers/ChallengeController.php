@@ -17,7 +17,7 @@ class ChallengeController extends Controller
     {
         $query = Challenge::orderBy('title', 'desc');
 
-        if (!auth()->user()?->isAdmin())
+        if (!auth()->user()?->isAdmin)
             $query = $query->where('stage', 'prod');
 
         $challenges = $query->get();
@@ -44,7 +44,7 @@ class ChallengeController extends Controller
     {
         $oc_query = Challenge::where('subject', $challenge->subject)->orderBy('title', 'desc');
 
-        if (!auth()->user()?->isAdmin())
+        if (!auth()->user()?->isAdmin)
             $oc_query = $oc_query->where('stage', 'prod');
 
         return view('challenges.show', ['challenge' => $challenge, 'comments' => $challenge->comments, 'other_challenges' => $oc_query->get()]);
@@ -67,7 +67,7 @@ class ChallengeController extends Controller
      */
     public function put(Request $request)
     {
-        if (!auth()->user()->isAdmin()) return 'No permission!';
+        if (!auth()->user()->isAdmin) return 'No permission!';
 
         $data = $request->all();
 
