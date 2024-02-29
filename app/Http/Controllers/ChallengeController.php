@@ -61,11 +61,11 @@ class ChallengeController extends Controller
     }
 
     /**
-     * /api/challenges/put
+     * /api/challenges/
      *
      * Creates a new challenge from outside the application with json request.
      */
-    public function put(Request $request)
+    public function post(Request $request)
     {
         if (!auth()->user()->isAdmin) return 'No permission!';
 
@@ -83,9 +83,57 @@ class ChallengeController extends Controller
             $question->statement = $q['statement'];
             $question->answer_data = [];
             $question->answer_data['answer'] = $q['answer'];
-            $question->answer_data['type'] = 'multiple-choice';
+            $question->answer_data['type'] = $q['type'];
             $question->answer_data['options'] = [];
             $question->save();
+        }
+
+        return $challenge;
+    }
+
+     /**
+     * /api/challenges/{id}
+     *
+     * Get challenge.
+     */
+    public function get(int $id)
+    {
+        return Challenge::find($id);
+    }
+
+    /**
+     * /api/challenges/{id}
+     *
+     * Updates challenge.
+     */
+    public function put(Request $request, int $id)
+    {
+        if (!auth()->user()->isAdmin) return 'No permission!';
+
+        $data = $request->all();
+
+        $challenge = Challenge::find($id);
+
+        $title = $data['title'] ?? $challenge->title;
+        $challenge->update([
+            'title' => $title,
+            'subject' => $data['subject'] ?? $challenge->subject,
+            'slug' => Str::slug($title)
+        ]);
+
+        if (isset($data['questions'])) {
+            Question::destroy($challenge->questions->pluck('id'));
+
+            foreach ($data['questions'] as $q) {
+                $question = new Question;
+                $question->challenge_id = $challenge->id;
+                $question->statement = $q['statement'];
+                $question->answer_data = [];
+                $question->answer_data['answer'] = $q['answer'];
+                $question->answer_data['type'] = $q['type'];
+                $question->answer_data['options'] = [];
+                $question->save();
+            }
         }
 
         return $challenge;
