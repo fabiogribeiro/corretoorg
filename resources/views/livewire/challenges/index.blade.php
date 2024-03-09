@@ -90,11 +90,12 @@ new class extends Component
         </div>
     </div>
     <div class="flex inline max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="p-4 sm:p-0 sm:px-8 dark:bg-gray-800 bg-white w-full sm:w-3/4 shadow divide-y-2">
+        <div class="p-4 sm:py-3 sm:px-8 dark:bg-gray-800 bg-white w-full sm:w-3/4 shadow divide-y-2">
         @forelse ($filtered_challenges->groupBy('subject') as $subject => $challenge_list)
-            <div>
-                <h2 class="font-extrabold text-3xl mt-6">{{ $subject }}</h2>
-                <ul class="mt-9 divide-y">
+            <div class="py-3">
+                <h2 class="font-extrabold text-3xl">{{ $subject }}</h2>
+                <ul @class(['mt-9 divide-y',
+                            'max-h-96 overflow-y-auto scrollable mr-[-1rem] pr-2 sm:mr-[-2rem] sm:pr-5' => count($challenge_list) > 5])>
                 @foreach ($challenge_list as $challenge)
                     <li>
                         <a href="{{route('challenges.show', ['challenge' => $challenge])}}"

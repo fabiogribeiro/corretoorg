@@ -172,7 +172,7 @@ new class extends Component
                             </div>
                         </div>
                     @endif
-                    <div class="flex">
+                    <div class="flex mt-9">
                         <x-primary-button wire:loading.remove wire:click.prevent="submitForm" class="w-72 justify-center">
                         @if ($question->answer_data['type'] === 'show' ||
                             $question->answer_data['type'] === 'empty')

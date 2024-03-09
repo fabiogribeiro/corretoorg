@@ -35,3 +35,7 @@ code {
     height: auto;
     margin-bottom: 52px;
 }
+
+.scrollable {
+    scrollbar-width: thin;
+}

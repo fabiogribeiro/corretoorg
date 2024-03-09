@@ -20,14 +20,18 @@ new class extends Component
     @endguest
     <div class="p-4 sm:p-8 dark:bg-gray-800">
         <h2 class="text-2xl font-bold mb-12">{{ $challenge->subject }}</h2>
-        <ul class="mt-6 space-y-2">
+        <ul @class(['mt-6 space-y-2 max-h-60 overflow-y-auto scrollable',
+                    'pr-6' => count($other_challenges) > 7])>
         @foreach($other_challenges as $ochallenge)
-            <li>
+            @php
+                $isCurrentChallenge = $ochallenge->id == $challenge->id;
+            @endphp
+            <li x-init="{{ $isCurrentChallenge ? '$el.scrollIntoView({ block: \'center\' })' : '' }}">
                 <a href="{{route('challenges.show', ['challenge' => $ochallenge])}}"
                     class="flex justify-between items-center hover:text-cyan-700"
                     wire:navigate>
-                    <p @class(['text-cyan-700' => $ochallenge->id == $challenge->id])>{{ $ochallenge->title }}</p>
-                @if($ochallenge->id == $challenge->id)
+                    <p @class(['text-cyan-700' => $isCurrentChallenge])>{{ $ochallenge->title }}</p>
+                @if($isCurrentChallenge)
                     <x-select-circle/>
                 @elseif(in_array($ochallenge->id, auth()->user()->solved['challenges'] ?? []))
                     <x-select-circle bg="bg-emerald-500"/>
