@@ -66,7 +66,7 @@ new class extends Component
         <div class="mt-6 space-y-3">
             <div class="flex flex-col space-x-3 sm:flex-row sm:items-center">
                 <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'ring-1 border-red-400 ring-red-400' : '' }}" type="text" placeholder="{{ __('Insert expression') }}"/>
-                <div x-init="$watch('$wire.answer', value => {
+                <div wire:ignore x-init="$watch('$wire.answer', value => {
                     $el.textContent = '` ' + value + ' `';
                     MathJax.typeset([$el]);
                 })">
