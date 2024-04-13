@@ -20,13 +20,13 @@ new class extends Component
     @endguest
     <div class="p-4 sm:p-8 dark:bg-gray-800">
         <h2 class="text-2xl font-bold mb-12">{{ $challenge->subject }}</h2>
-        <ul @class(['mt-6 space-y-2 max-h-60 overflow-y-auto scrollable',
+        <ul @class(['mt-6 space-y-2 max-h-56 overflow-y-auto scrollable',
                     'pr-6' => count($other_challenges) > 7])>
         @foreach($other_challenges as $ochallenge)
             @php
                 $isCurrentChallenge = $ochallenge->id == $challenge->id;
             @endphp
-            <li x-init="{{ $isCurrentChallenge ? '$el.scrollIntoView({ block: \'center\' })' : '' }}">
+            <li x-init="{{ $isCurrentChallenge ? '$el.parentElement.scrollTo(0, $el.offsetTop - $el.parentElement.offsetTop - 100)' : '' }}">
                 <a href="{{route('challenges.show', ['challenge' => $ochallenge])}}"
                     class="flex justify-between items-center hover:text-cyan-700"
                     wire:navigate>

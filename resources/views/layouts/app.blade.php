@@ -24,7 +24,8 @@
                     inlineMath: [['$', '$'], ['\\(', '\\)']]
                 },
                 asciimath: {
-                    inlineMath: [['`', '`']]
+                    inlineMath: [['`', '`']],
+                    decimal: ','
                 }
             };
         </script>
