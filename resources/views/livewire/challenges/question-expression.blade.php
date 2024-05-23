@@ -25,24 +25,35 @@ new class extends Component
         $inputs = explode(';', $this->answer);
 
         $n = count($answers);
-        if (count($inputs) !== $n) return false;
+        if (count($inputs) !== $n) {
+            $this->addError('num_inputs', $n);
+            return false;
+        }
 
         $parser = new Parser();
 
-        for ($i = 0; $i < $n; $i++) {
+        $i = 0;
+        for (; $i < $n; $i++) {
             try {
                 $answer = $parser->parse($answers[$i])->flatten()->simplify();
                 $input = $parser->parse($inputs[$i])->flatten()->simplify();
 
                 if (!($answer->equals($input, 1e-7)))
-                    return false;
+                    goto wrongAnswer;
             }
             catch (Exception $e) {
-                return false;
+                goto wrongAnswer;
             }
         }
 
         return true;
+
+        wrongAnswer:
+
+        if ($n > 1)
+            $this->addError('input', $i + 1);
+
+        return false;
     }
 }; ?>
 
@@ -72,6 +83,16 @@ new class extends Component
                 })">
                 </div>
             </div>
+            @error('num_inputs')
+            <div>
+                {{ __('validation.expr_input_num', ['num' => $message]) }}
+            </div>
+            @enderror
+            @error('input')
+            <div>
+                {{ __('validation.expr_input', ['num' => $message]) }}
+            </div>
+            @enderror
             <div class="flex">
                 <x-primary-button wire:loading.remove wire:click.prevent="submitForm" class="w-72 justify-center">
                     {{ __('Submit') }}
