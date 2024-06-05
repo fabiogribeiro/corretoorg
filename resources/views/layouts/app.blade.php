@@ -18,7 +18,7 @@
         <script>
             MathJax = {
                 loader: {
-                    load: ['input/asciimath', 'input/tex', 'output/chtml', 'ui/menu']
+                    load: ['input/asciimath', 'input/tex', 'output/chtml', 'ui/menu', 'ui/lazy']
                 },
                 tex: {
                     inlineMath: [['$', '$'], ['\\(', '\\)']]

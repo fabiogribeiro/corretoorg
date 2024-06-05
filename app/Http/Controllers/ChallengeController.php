@@ -81,6 +81,7 @@ class ChallengeController extends Controller
             $question = new Question;
             $question->challenge_id = $challenge->id;
             $question->statement = $q['statement'];
+            $question->explanation = $q['explanation'] ?? "";
             $question->answer_data = [];
             $question->answer_data['answer'] = $q['answer'];
             $question->answer_data['type'] = $q['type'];
@@ -128,6 +129,7 @@ class ChallengeController extends Controller
                 $question = new Question;
                 $question->challenge_id = $challenge->id;
                 $question->statement = $q['statement'];
+                $question->explanation = $q['explanation'] ?? "";
                 $question->answer_data = [];
                 $question->answer_data['answer'] = $q['answer'];
                 $question->answer_data['type'] = $q['type'];

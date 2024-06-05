@@ -31,7 +31,7 @@ new class extends Component
 }; ?>
 
 <div>
-    <x-modal name="notes-modal-{{ $question->id }}" :show="false">
+    <x-modal name="notes-modal-{{ $question->id }}" :show="false" maxWidth="6xl">
     @if ($editing)
         <div class="p-4 space-y-6">
             <x-multiline-input wire:model="note" type="text" class="mt-1 block w-full" rows="18"/>

@@ -9,7 +9,7 @@ new class extends Component
 }; ?>
 
 <div>
-    <x-modal name="explanation-modal-{{ $question->id }}" :show="false">
+    <x-modal name="explanation-modal-{{ $question->id }}" :show="false" maxWidth="6xl">
         <div class="p-4 space-y-6">
             <x-mmd>{{ $question->explanation }}</x-mmd>
         </div>
