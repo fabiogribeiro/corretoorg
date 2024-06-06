@@ -34,7 +34,7 @@ new class extends Component
                         <div class="flex flex-inline space-x-1">
                             <x-pencil-icon class="self-center"/>
                             <span class="mt-0.5 text-center text-sm font-medium text-gray-600">
-                                {{ __('My notes') }}
+                                {{ __('Notes') }}
                             </span>
                         </div>
                     </a>

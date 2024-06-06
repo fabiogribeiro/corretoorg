@@ -34,11 +34,13 @@ new class extends Component
     <x-modal name="notes-modal-{{ $question->id }}" :show="false" maxWidth="6xl">
     @if ($editing)
         <div class="p-4 space-y-6">
+            <h1 class="font-semibold text-lg">{{ __('Notes') }}</h1>
             <x-multiline-input wire:model="note" type="text" class="mt-1 block w-full" rows="18"/>
             <x-primary-button wire:click.prevent="save">{{ __('Save') }}</x-primary-button>
         </div>
     @else
-        <div class="p-4 space-y-6">
+        <div class="p-4 space-y-6 overflow-x-auto">
+            <h1 class="font-semibold text-lg">{{ __('Notes') }}</h1>
         @if($note)
             <x-mmd>{{ $note }}</x-mmd>
         @else
