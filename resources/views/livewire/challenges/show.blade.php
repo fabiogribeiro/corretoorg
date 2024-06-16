@@ -28,15 +28,15 @@ new class extends Component
             @endphp
             <li x-init="{{ $isCurrentChallenge ? '$el.parentElement.scrollTo(0, $el.offsetTop - $el.parentElement.offsetTop - 100)' : '' }}">
                 <a href="{{route('challenges.show', ['challenge' => $ochallenge])}}"
-                    class="flex justify-between items-center hover:text-cyan-700"
+                    class="flex justify-between items-center hover:text-blue-700"
                     wire:navigate>
-                    <p @class(['text-cyan-700' => $isCurrentChallenge])>{{ $ochallenge->title }}</p>
+                    <p @class(['text-blue-600' => $isCurrentChallenge])>{{ $ochallenge->title }}</p>
                 @if($isCurrentChallenge)
-                    <x-select-circle/>
+                    <x-select-circle bg="bg-blue-600"/>
                 @elseif(in_array($ochallenge->id, auth()->user()->solved['challenges'] ?? []))
                     <x-select-circle bg="bg-emerald-500"/>
                 @else
-                    <x-select-circle class="border" bg="border-cyan-500"/>
+                    <x-select-circle class="border" bg="border-blue-600"/>
                 @endif
                 </a>
             </li>

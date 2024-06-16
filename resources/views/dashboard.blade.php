@@ -34,7 +34,7 @@
                                 </span>
                             </div>
                             <p class="text-gray-500">
-                                {{ $rest['solved_count'] . ' ' . __('of') . ' '. $rest['total_count']}}
+                                {{ $rest['solved_count'] . ' ' .'/'. ' '. $rest['total_count']}}
                             </p>
                         </li>
                     @empty
