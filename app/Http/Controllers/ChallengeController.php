@@ -16,15 +16,40 @@ class ChallengeController extends Controller
     public function index()
     {
         $query = Challenge::orderBy('title', 'desc');
+        $isAdmin = auth()->user()?->isAdmin;
 
-        if (!auth()->user()?->isAdmin)
+        if (!$isAdmin)
             $query = $query->where('stage', 'prod');
 
         $challenges = $query->get();
-        $questionCount = DB::table('questions')->selectRaw('challenge_id, count(*)')->groupBy('challenge_id')->get();
+        $questionCount = DB::table('questions')
+                        ->selectRaw('challenge_id, count(*)')
+                        ->groupBy('challenge_id')->get()
+                        ->pluck('count', 'challenge_id');
         $solvedCount = Question::find(auth()->user()?->solved['questions'] ?? [])->groupBy('challenge_id')->map(function($item, $key) { return $item->count(); });
 
-        return view('challenges.index', ['challenges' => $challenges, 'questionCount' => $questionCount->pluck('count', 'challenge_id'), 'solvedCount' => $solvedCount]);
+        foreach ($challenges as $challenge) {
+            $challenge->url = route('challenges.show', ['challenge' => $challenge]);
+
+            if ($isAdmin)
+                $challenge->title = $challenge->title.' - '.$challenge->stage;
+
+            $challenge->questionCount = $questionCount[$challenge->id] ?? 0;
+            $challenge->solvedCount = $solvedCount[$challenge->id] ?? 0;
+
+            if ($challenge->solvedCount === $challenge->questionCount) {
+                $challenge->state = 'solved';
+            }
+            elseif ($challenge->solvedCount > 0) {
+                $challenge->state = 'progress';
+            }
+            else {
+                $challenge->state = 'unsolved';
+            }
+        }
+
+        return view('challenges.index', ['challenges' => $challenges->toArray(),
+                                        'subjects' => $challenges->pluck('subject')->unique()->toArray()]);
     }
 
     /**

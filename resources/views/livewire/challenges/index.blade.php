@@ -6,143 +6,58 @@ use App\Models\Challenge;
 
 new class extends Component
 {
-    public Collection $challenges;
-    public Collection $filtered_challenges;
-    public Collection $questionCount;
-    public Collection $solvedCount;
+    public array $challenges;
     public array $subjects;
-    public array $selected_subjects = [];
-    public bool $filter_solved = false;
-    public bool $filter_unsolved = false;
-
-    public function mount()
-    {
-        $this->subjects = $this->challenges->pluck('subject')->unique()->toArray();
-        $this->filtered_challenges = $this->challenges;
-    }
-
-    public function updated($property)
-    {
-        if ($property === 'filter_solved' ||
-            $property === 'filter_unsolved' ||
-            str_starts_with($property, 'selected_subjects')) {
-
-            $subject_list = $this->selected_subjects;
-            if (!$subject_list) $subject_list = $this->subjects;
-
-            $this->filtered_challenges = $this->challenges->whereIn('subject', $subject_list);
-
-            if ($this->filter_solved !== $this->filter_unsolved) {
-
-                if (auth()->user()) {
-                    $this->filtered_challenges = $this->filter_solved ?
-                        $this->filtered_challenges->whereIn('id', auth()->user()->solved['challenges']) :
-                        $this->filtered_challenges->whereNotIn('id', auth()->user()->solved['challenges']);
-                }
-                else {
-                    $this->filtered_challenges = $this->filter_solved ? new Collection() : $this->filtered_challenges;
-                }
-            }
-
-            $this->filtered_challenges = $this->filtered_challenges->sortByDesc('title');
-        }
-    }
 }; ?>
 
-<div>
-    <div class="sm:hidden px-3 mb-9 mx-auto">
-        <fieldset>
-            <ul>
-                <h3 class="mb-6 font-extralight uppercase text-sm text-gray-500">{{ __('Subject') }}</h3>
-            @foreach($subjects as $subject)
-                <li>
-                    <div class="flex items-center mb-1 space-x-3">
-                        <input wire:model.change="selected_subjects" id="{{$subject}}-id" type="checkbox" value="{{$subject}}" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                        <label for="{{$subject}}-id" class="ms-2">{{ $subject }}</label>
-                    </div>
-                </li>
-            @endforeach
-            </ul>
-        </fieldset>
-        <fieldset class="mt-12">
-            <h3 class="mb-6 font-extralight uppercase text-sm text-gray-500">{{ __('Status') }}</h3>
-            <div class="flex items-center mb-1 space-x-3">
-                <input wire:model.change="filter_solved" id="solved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                <label for="solved-id" class="ms-2">{{ __('Solved') }}</label>
-            </div>
-            <div class="flex items-center mb-1 space-x-3">
-                <input wire:model.change="filter_unsolved" id="unsolved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                <label for="unsolved-id" class="ms-2">{{ __('Unsolved') }}</label>
-            </div>
-        </fieldset>
+<div x-data="{ challenges: $wire.challenges,
+                subjects: Object.values($wire.subjects),
+                filtered_challenges: $wire.challenges }">
+    <div class="sm:hidden mb-9">
+        <x-challenge-filter/>
     </div>
     <div class="flex inline max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="p-4 sm:py-3 sm:px-8 dark:bg-gray-800 bg-white w-full sm:w-3/4 shadow divide-y-2">
-        @forelse ($filtered_challenges->groupBy('subject') as $subject => $challenge_list)
-            <div class="py-3">
-                <h2 class="font-extrabold text-3xl">{{ $subject }}</h2>
-                <ul class='mt-9 divide-y max-h-[800px] overflow-y-auto scrollable mr-[-1rem] pr-2 sm:mr-[-2rem] sm:pr-5'>
-                @foreach ($challenge_list as $challenge)
-                    <li>
-                        <a href="{{route('challenges.show', ['challenge' => $challenge])}}"
-                            class="py-3 flex justify-between items-center text-gray-800 hover:text-cyan-700">
-                            <div class="w-full">
-                                <p class="font-semibold text-lg">{{ $challenge->title . (auth()->user()?->isAdmin ? (' - ' . $challenge->stage) : '')}}</p>
-                                <div class="flex items-center space-x-6 mt-3">
-                                @php
-                                    $qCount = $questionCount[$challenge->id] ?? 0;
-                                    $sCount = $solvedCount[$challenge->id] ?? 0;
-                                @endphp
-                                    <div class="w-1/2">
-                                        <x-progress-bar :percentage="$qCount ? $sCount/$qCount * 100 : 0"/>
+        <div class="p-4 sm:py-3 sm:px-8 dark:bg-gray-800 bg-white w-full sm:w-3/4 shadow">
+            <template x-for="[subject, chals] in Object.entries(Object.groupBy(filtered_challenges, ({ subject }) => subject))" hidden>
+                <div class="py-3">
+                    <h2 x-text="subject" class="font-extrabold text-3xl"></h2>
+                    <ul class='mt-9 divide-y max-h-[800px] overflow-y-auto scrollable mr-[-1rem] pr-2 sm:mr-[-2rem] sm:pr-5'>
+                        <template x-for="chal in chals" hidden>
+                            <li>
+                                <a :href="chal.url"
+                                    class="py-3 flex justify-between items-center text-gray-800 hover:text-cyan-700">
+                                    <div class="w-full">
+                                        <p x-text="chal.title" class="font-semibold text-lg"></p>
+                                        <div class="flex items-center space-x-6 mt-3">
+                                            <div class="w-1/2">
+                                                <x-progress-bar x-data="{ current: chal.solvedCount, total: chal.questionCount }"/>
+                                            </div>
+                                            <p x-text="chal.solvedCount + ' / ' + chal.questionCount"
+                                                class="text-gray-500">
+                                            </p>
+                                        </div>
                                     </div>
-                                    <p class="text-gray-500">{{ $sCount.' '.'/'.' '.$qCount}}</p>
-                                </div>
-                            </div>
-                        @if(auth()->user() && in_array($challenge->id, auth()->user()->solved['challenges']))
-                            <x-select-circle bg="bg-emerald-500" class="ml-2 mr-1"/>
-                        @elseif($sCount > 0)
-                            <x-select-circle bg="bg-blue-600" class="ml-2 mr-1"/>
-                        @else
-                            <x-select-circle bg="border-blue-600" class="ml-2 mr-1 border"/>
-                        @endif
-                        </a>
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
-        @empty
-            <div class="flex items-center justify-center h-full">
+                                    <div x-show="chal.state == 'solved'">
+                                        <x-select-circle bg="bg-emerald-500" class="ml-2 mr-1"/>
+                                    </div>
+                                    <div x-show="chal.state == 'progress'">
+                                        <x-select-circle bg="bg-blue-600" class="ml-2 mr-1"/>
+                                    </div>
+                                    <div x-show="chal.state == 'unsolved'">
+                                        <x-select-circle bg="border-blue-600" class="ml-2 mr-1 border"/>
+                                    </div>
+                                </a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+            <div x-show="filtered_challenges.length === 0" class="flex items-center justify-center h-full">
                 <p class="font-medium text-gray-600">{{ __('No challenges to show.') }}</p>
             </div>
-        @endforelse
         </div>
-
-        <div class="hidden sm:block pl-6">
-            <fieldset>
-                <ul>
-                    <h3 class="mb-6 font-extralight uppercase text-sm text-gray-500">{{ __('Subject') }}</h3>
-                @foreach($subjects as $subject)
-                    <li>
-                        <div class="flex items-center mb-2 space-x-3">
-                            <input wire:model.change="selected_subjects" id="{{$subject}}-id" type="checkbox" value="{{$subject}}" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                            <label for="{{$subject}}-id" class="ms-2">{{ $subject }}</label>
-                        </div>
-                    </li>
-                @endforeach
-                </ul>
-            </fieldset>
-            <fieldset class="mt-12">
-                <h3 class="mb-6 font-extralight uppercase text-sm text-gray-500">{{ __('Status') }}</h3>
-                <div class="flex items-center mb-2 space-x-3">
-                    <input wire:model.change="filter_solved" id="solved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                    <label for="solved-id" class="ms-2">{{ __('Solved') }}</label>
-                </div>
-                <div class="flex items-center mb-2 space-x-3">
-                    <input wire:model.change="filter_unsolved" id="unsolved-id" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                    <label for="unsolved-id" class="ms-2">{{ __('Unsolved') }}</label>
-                 </div>
-            </fieldset>
+        <div class="hidden sm:block mt-3">
+            <x-challenge-filter/>
         </div>
     </div>
 </div>

@@ -30,7 +30,7 @@
                             <div class="flex items-center justify-between">
                                 <span class="font-bold">{{ $subject }}</span>
                                 <span class="inline-block w-1/3">
-                                    <x-progress-bar :percentage="$rest['solved_count']/$rest['total_count']*100"/>
+                                    <x-progress-bar x-data="{ current: {{$rest['solved_count']}}, total: {{$rest['total_count']}} }"/>
                                 </span>
                             </div>
                             <p class="text-gray-500">
