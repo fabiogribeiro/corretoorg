@@ -17,6 +17,10 @@
     font-size: 15px;
 }
 
+.markdown-body h1, .markdown-body h2 {
+    border-bottom: none;
+}
+
 @media screen and (max-width: 640px) {
     .markdown-body img {
         margin-left: auto;
