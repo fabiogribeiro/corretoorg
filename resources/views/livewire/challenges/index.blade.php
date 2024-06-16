@@ -22,7 +22,7 @@ new class extends Component
                 <div class="py-3">
                     <h2 x-text="subject" class="font-extrabold text-3xl"></h2>
                     <ul class='mt-9 divide-y max-h-[800px] overflow-y-auto scrollable mr-[-1rem] pr-2 sm:mr-[-2rem] sm:pr-5'>
-                        <template x-for="chal in chals" hidden>
+                        <template x-for="chal in chals" :key="chal.id" hidden>
                             <li>
                                 <a :href="chal.url"
                                     class="py-3 flex justify-between items-center text-gray-800 hover:text-cyan-700">

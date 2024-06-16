@@ -22,13 +22,17 @@
     </fieldset>
     <fieldset class="mt-12">
         <h3 class="mb-6 font-extralight uppercase text-sm text-gray-500">{{ __('Status') }}</h3>
-        <div x-id=['solved'] class="flex items-center mb-2 space-x-3">
-            <input x-model="filters.states" :id="$id('solved')" type="checkbox" value="solved" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-            <label :for="$id('solved')" class="ms-2">{{ __('Solved') }}</label>
+        <div x-id=['progress'] class="flex items-center mb-2 space-x-3">
+            <input x-model="filters.states" :id="$id('progress')" type="checkbox" value="progress" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
+            <label :for="$id('progress')" class="ms-2">{{ __('In progress') }}</label>
         </div>
         <div x-id=['unsolved'] class="flex items-center mb-2 space-x-3">
             <input x-model="filters.states" :id="$id('unsolved')" type="checkbox" value="unsolved" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
             <label :for="$id('unsolved')" class="ms-2">{{ __('Unsolved') }}</label>
+        </div>
+        <div x-id=['solved'] class="flex items-center mb-2 space-x-3">
+            <input x-model="filters.states" :id="$id('solved')" type="checkbox" value="solved" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
+            <label :for="$id('solved')" class="ms-2">{{ __('Solved') }}</label>
         </div>
     </fieldset>
 </div>
