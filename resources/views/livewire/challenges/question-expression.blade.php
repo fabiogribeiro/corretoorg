@@ -71,7 +71,8 @@ new class extends Component
             </div>
             <x-success-button class="w-72 justify-center"
                             wire:click.prevent="redo"
-                            wire:confirm="{{__('Solve again?')}}">{{ __('Done') }}</x-success-button>
+                            wire:confirm="{{__('Solve again?')}}">
+            </x-success-button>
         </div>
         @else
         <div class="mt-6 space-y-3">

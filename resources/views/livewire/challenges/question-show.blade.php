@@ -39,13 +39,12 @@ new class extends Component
             <x-success-button class="w-72 justify-center"
                             wire:click.prevent="redo"
                             wire:confirm="{{__('Solve again?')}}">
-                {{ __('Done') }}
             </x-success-button>
         </div>
         @else
         <div class="flex">
             <x-primary-button wire:loading.remove wire:click.prevent="submitForm" class="w-72 justify-center">
-                {{ __('Continue') }}
+                {{ __('Solved') }}
             </x-primary-button>
             <div class="ml-32" role="status" wire:loading wire:target="submitForm">
                 <x-spinner/>
