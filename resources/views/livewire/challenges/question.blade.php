@@ -10,7 +10,7 @@ new class extends Component
 }; ?>
 
 <div>
-    <form class="py-6">
+    <form class="pt-1 pb-6">
         <div class="flex flex-col">
             <div class="my-3">
                 <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>

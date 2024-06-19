@@ -12,7 +12,7 @@ new class extends Component
     public Collection $other_challenges;
 } ?>
 
-<div">
+<div>
     @guest
         <div class="pt-8 text-center">
             <a href="{{ route('login') }}" class="text-cyan-600 font-semibold">{{ __('Log in to solve questions') }}</a>
@@ -44,20 +44,22 @@ new class extends Component
         </ul>
     </div>
     <div class="mt-6 p-4 sm:p-8 bg-white dark:bg-gray-800 shadow divide-y-2">
+        @can('update', $challenge)
+        <div class="mb-3">
+            <a href="{{ route('challenges.edit', $challenge) }}" class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __('Edit') }}
+            </a>
+        </div>
+        @endcan
         @if($challenge->body)
         <x-mmd class="mb-12">{{ $challenge->body }}</x-mmd>
         @endif
-        <div @class(['mt-1' => true, 'pt-12' => $challenge->body])>
+        <div @class(['pt-9' => $challenge->body])>
             <div class="mb-6 flex inline items-center justify-between">
                 <h2 class="text-xl font-bold text-gray-700">
                     {{ trans_choice('Questions', 2) }}
                 </h2>
                 <div class="flex inline items-center space-x-3">
-                @can('update', $challenge)
-                    <a href="{{ route('challenges.edit', $challenge) }}" class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                        {{ __('Edit') }}
-                    </a>
-                @endcan
                     <a href="#" wire:click.prevent="$dispatch('open-modal', 'help-modal')">
                         <x-question-mark/>
                     </a>
