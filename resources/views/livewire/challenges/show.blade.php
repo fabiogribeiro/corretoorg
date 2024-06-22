@@ -10,6 +10,18 @@ new class extends Component
 {
     public Challenge $challenge;
     public Collection $other_challenges;
+
+    public function resetProgress()
+    {
+        $user = auth()->user();
+        $ids = $this->challenge->questions->pluck('id')->toArray();
+
+        $user->solved['questions'] = array_diff($user->solved['questions'], $ids);
+        $user->solved['challenges'] = array_diff($user->solved['challenges'], [$this->challenge->id]);
+        $user->save();
+
+        $this->redirect(route('challenges.show', ['challenge' => $this->challenge]));
+    }
 } ?>
 
 <div>
@@ -31,10 +43,10 @@ new class extends Component
                     class="flex justify-between items-center hover:text-blue-700"
                     wire:navigate>
                     <p @class(['text-blue-600' => $isCurrentChallenge])>{{ $ochallenge->title }}</p>
-                @if($isCurrentChallenge)
-                    <x-select-circle bg="bg-blue-600"/>
-                @elseif(in_array($ochallenge->id, auth()->user()->solved['challenges'] ?? []))
+                @if(in_array($ochallenge->id, auth()->user()->solved['challenges'] ?? []))
                     <x-select-circle bg="bg-emerald-500"/>
+                @elseif($isCurrentChallenge)
+                    <x-select-circle bg="bg-blue-600"/>
                 @else
                     <x-select-circle class="border" bg="border-blue-600"/>
                 @endif
@@ -62,6 +74,11 @@ new class extends Component
                 <div class="flex inline items-center space-x-3">
                     <a href="#" wire:click.prevent="$dispatch('open-modal', 'help-modal')">
                         <x-question-mark/>
+                    </a>
+                    <a href="#" wire:click.prevent="resetProgress" wire:confirm="{{ __('Reset progress?') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-600">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
                     </a>
                 </div>
                 <x-modal name="help-modal">
