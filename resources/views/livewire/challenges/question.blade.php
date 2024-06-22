@@ -13,7 +13,9 @@ new class extends Component
     <form class="pt-1 pb-6">
         <div class="flex flex-col">
             <div class="my-3">
-                <div wire:ignore><x-mmd>{{ $question->statement }}</x-mmd></div>
+                <div wire:ignore>
+                    <x-mmd :content="$question->statement"/>
+                </div>
             </div>
             @auth
             <div class="pt-9 flex flex-col sm:flex-row items-center sm:justify-between sm:items-end">

@@ -96,7 +96,7 @@ new class extends Component
 
 <div>
     @unless ($editing)
-        <x-mmd>{{ $challenge->body }}</x-mmd>
+        <x-mmd :content="$challenge->body"/>
     @else
         <form class="space-y-6 mb-6">
             <div class="w-1/2">
@@ -138,7 +138,7 @@ new class extends Component
         <div @open-modal.window="MathJax.typeset([$el])">
             <x-modal name="preview-modal">
                 <div class="p-4">
-                    <x-mmd >{{ $body }}</x-mmd>
+                    <x-mmd :content="$body"/>
                 </div>
             </x-modal>
         </div>
@@ -189,7 +189,7 @@ new class extends Component
             @else
                 <div wire:click="editQuestion({{$question->id}})" class="my-6">
                     <div class="space-y-3">
-                        <div><x-mmd>{{ $question->statement }}</x-mmd></div>
+                        <div><x-mmd :content="$question->statement"/></div>
                         <p>Answer: {{ $question->answer_data['answer'] }}</p>
                     </div>
                 @if ($question->explanation)

@@ -12,7 +12,7 @@ new class extends Component
     <x-modal name="explanation-modal-{{ $question->id }}" :show="false" maxWidth="6xl">
         <div class="p-4 space-y-6 overflow-x-auto">
             <h1 class="font-semibold text-lg">{{ __('Explanation') }}</h1>
-            <x-mmd>{{ $question->explanation }}</x-mmd>
+            <x-mmd :content="$question->explanation"/>
         </div>
     </x-modal>
 </div>

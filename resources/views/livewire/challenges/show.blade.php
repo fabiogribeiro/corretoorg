@@ -52,7 +52,7 @@ new class extends Component
         </div>
         @endcan
         @if($challenge->body)
-        <x-mmd class="mb-12">{{ $challenge->body }}</x-mmd>
+        <x-mmd class="mb-12" :content="$challenge->body"/>
         @endif
         <div @class(['pt-9' => $challenge->body])>
             <div class="mb-6 flex inline items-center justify-between">
@@ -66,7 +66,7 @@ new class extends Component
                 </div>
                 <x-modal name="help-modal">
                     <div class="p-4">
-                        <x-mmd> {{ __('misc.qhelp') }} </x-mmd>
+                        <x-mmd :content="__('misc.qhelp')"/>
                     </div>
                 </x-modal>
             </div>

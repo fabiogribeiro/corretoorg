@@ -42,7 +42,7 @@ new class extends Component
         <div class="p-4 space-y-6 overflow-x-auto">
             <h1 class="font-semibold text-lg">{{ __('Notes') }}</h1>
         @if($note)
-            <x-mmd>{{ $note }}</x-mmd>
+            <x-mmd :content="$note"/>
         @else
             <p class="font-medium text-gray-500">{{ __('Add notes here.') }}</p>
         @endif
