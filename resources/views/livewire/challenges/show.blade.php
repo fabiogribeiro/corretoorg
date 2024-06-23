@@ -71,6 +71,7 @@ new class extends Component
                 <h2 class="text-xl font-bold text-gray-700">
                     {{ trans_choice('Questions', 2) }}
                 </h2>
+                @auth
                 <div class="flex inline items-center space-x-3">
                     <a href="#" wire:click.prevent="$dispatch('open-modal', 'help-modal')">
                         <x-question-mark/>
@@ -81,6 +82,7 @@ new class extends Component
                         </svg>
                     </a>
                 </div>
+                @endauth
                 <x-modal name="help-modal">
                     <div class="p-4">
                         <x-mmd :content="__('misc.qhelp')"/>
