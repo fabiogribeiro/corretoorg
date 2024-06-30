@@ -15,6 +15,8 @@ new class extends Component
     public string $body = '';
     public string $subject = '';
     public string $stage;
+    public string $orderKey;
+    public string $description;
     public string $statement = '';
     public string $answer = '';
     public string $edit_statement = '';
@@ -29,6 +31,8 @@ new class extends Component
         $this->body = $this->challenge->body;
         $this->subject = $this->challenge->subject;
         $this->stage = $this->challenge->stage;
+        $this->description = $this->challenge->description;
+        $this->orderKey = $this->challenge->order_key;
     }
 
     public function edit()
@@ -54,7 +58,9 @@ new class extends Component
             'slug' => Str::slug($this->title),
             'body' => $this->body,
             'subject' => $this->subject,
-            'stage' => $this->stage
+            'stage' => $this->stage,
+            'description' => $this->description,
+            'order_key' => $this->orderKey
         ]);
     }
 
@@ -115,7 +121,17 @@ new class extends Component
                     <option value="dev">{{ __('dev') }}</option>
                     <option value="prod">{{ __('prod') }}</option>
                 </select>
-                <x-input-error class="mt-2" :messages="$errors->get('question-type')" />
+                <x-input-error class="mt-2" :messages="$errors->get('stage')" />
+            </div>
+            <div>
+                <x-input-label for="description" :value="__('Description')" />
+                <x-multiline-input wire:model="description" :value="$challenge->description" id="description" rows="2" class="mt-1 block w-full"/>
+                <x-input-error class="mt-2" :messages="$errors->get('description')" />
+            </div>
+            <div>
+                <x-input-label for="orderKey" :value="__('Order key')" />
+                <x-text-input wire:model="orderKey" :value="$challenge->order_key" id="orderKey" type="text" class="mt-1 block w-full" required />
+                <x-input-error class="mt-2" :messages="$errors->get('orderKey')" />
             </div>
             <div>
                 <x-input-label for="body" :value="__('Body')" />
@@ -123,7 +139,7 @@ new class extends Component
                 <x-input-error class="mt-2" :messages="$errors->get('body')" />
             </div>
         </form>
-    @endunless 
+    @endunless
 
     <div class="py-4">
         @unless ($editing)
