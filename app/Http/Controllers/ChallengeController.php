@@ -15,7 +15,7 @@ class ChallengeController extends Controller
      */
     public function index()
     {
-        $query = Challenge::orderBy('title', 'desc');
+        $query = Challenge::orderBy('order_key', 'asc');
         $isAdmin = auth()->user()?->isAdmin;
 
         if (!$isAdmin)

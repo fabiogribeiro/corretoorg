@@ -3,7 +3,9 @@
         filtered_challenges = challenges.filter(function(c) {
             return (filters.subjects.length == 0 || filters.subjects.includes(c.subject)) &&
                     (filters.states.length == 0 || filters.states.includes(c.state));
-        })
+        });
+
+        grouped_challenges = Object.groupBy(filtered_challenges, ({ subject }) => subject);
     })"
     class="pl-6"
 >
