@@ -30,6 +30,7 @@
             };
         </script>
         <script type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
+        <script defer src="//unpkg.com/mathlive"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen dark:bg-gray-900">
