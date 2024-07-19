@@ -43,3 +43,15 @@ code {
 .scrollable {
     scrollbar-width: thin;
 }
+
+math-field:focus-within {
+    outline: 2px solid rgb(99 102 241);
+}
+
+math-field::part(menu-toggle) {
+    color: rgb(99 102 241);
+}
+
+math-field::part(virtual-keyboard-toggle) {
+    color: rgb(99 102 241);
+}
