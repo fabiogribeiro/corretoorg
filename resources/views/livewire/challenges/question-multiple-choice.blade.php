@@ -8,8 +8,6 @@ new class extends Component
 {
     use QuestionTrait;
 
-    public string $answer;
-
     public function mount()
     {
         $this->premount();

@@ -9,6 +9,7 @@ trait QuestionTrait
 {
     public Challenge $challenge;
     public Question $question;
+    public string $answer = '';
     public bool $solved;
     public bool $submitted = false;
 
@@ -25,6 +26,8 @@ trait QuestionTrait
         if (in_array($this->question->id, $user->solved['questions'])) return;
 
         if ($this->isCorrectAnswer()) {
+            $this->answer = $this->question->answer_data['answer'];
+
             $this->solved = true;
             $user->solved['questions'][] = $this->question->id;
 

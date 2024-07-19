@@ -9,10 +9,12 @@ new class extends Component
 {
     use QuestionTrait;
 
-    public string $answer = '';
+    public string $mf_id;
 
     public function mount()
     {
+        $this->mf_id = 'mf-'.$this->question->id;
+
         $this->premount();
 
         if ($this->solved)
@@ -65,9 +67,7 @@ new class extends Component
         @if ($solved)
         <div class="mt-6 flex flex-col space-y-3">
             <div class="flex items-center h-10">
-                <div class="inline" x-init="$nextTick(() => MathJax.typeset([$el]))">
-                    ` {{ str_contains($answer = $question->answer_data['answer'], ';') ? '(' . $answer . ')' : $answer }} `
-                </div>
+                <math-field read-only> {{ $answer }} </math-field>
             </div>
             <x-success-button class="w-72 justify-center"
                             wire:click.prevent="redo"
@@ -77,12 +77,7 @@ new class extends Component
         @else
         <div class="mt-6 space-y-3">
             <div class="flex flex-col space-x-3 sm:flex-row sm:items-center">
-                <x-text-input wire:click="unsubmit" wire:model="answer" class="w-72 text-gray-700 {{ $submitted ? 'ring-1 border-red-400 ring-red-400' : '' }}" type="text" placeholder="{{ __('Insert expression') }}"/>
-                <div wire:ignore x-init="$watch('$wire.answer', value => {
-                    $el.textContent = '` ' + value + ' `';
-                    MathJax.typeset([$el]);
-                })">
-                </div>
+                <math-field id="{{ $mf_id }}" class="w-72 border rounded" placeholder="\text{ {{ __('Insert expression') }} }"></math-field>
             </div>
             @error('num_inputs')
             <div>
@@ -95,7 +90,7 @@ new class extends Component
             </div>
             @enderror
             <div class="flex">
-                <x-primary-button wire:loading.remove wire:click.prevent="submitForm" class="w-72 justify-center">
+                <x-primary-button wire:loading.remove x-on:click.prevent="($wire.answer = document.getElementById($wire.mf_id).getValue('ascii-math'));$wire.submitForm()" class="w-72 justify-center">
                     {{ __('Submit') }}
                 </x-primary-button>
                 <div class="ml-32" role="status" wire:loading wire:target="submitForm">
