@@ -77,7 +77,7 @@ new class extends Component
         @else
         <div class="mt-6 space-y-3">
             <div class="flex flex-col space-x-3 sm:flex-row sm:items-center">
-                <math-field id="{{ $mf_id }}" class="w-72 border rounded" placeholder="\text{ {{ __('Insert expression') }} }"></math-field>
+                <math-field id="{{ $mf_id }}" class="w-72 border rounded" placeholder="R=?"></math-field>
             </div>
             @error('num_inputs')
             <div>

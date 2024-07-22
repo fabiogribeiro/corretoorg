@@ -24,6 +24,7 @@ new class extends Component
     public string $edit_answer = '';
     public string $edit_type = '';
     public string $edit_options = '';
+    public string $edit_template = '';
 
     public function mount()
     {
@@ -48,6 +49,7 @@ new class extends Component
         $this->edit_type = $question->answer_data['type'];
         $this->edit_options = implode(';', $question->answer_data['options']);
         $this->edit_explanation = $question->explanation ?: '';
+        $this->edit_template = $question->answer_data['template'] ?? '';
     }
 
     public function save()
@@ -72,7 +74,8 @@ new class extends Component
             'answer_data' => [
                 'type' => $this->edit_type,
                 'answer' => $this->edit_answer,
-                'options' => array_filter(explode(';', $this->edit_options))
+                'options' => array_filter(explode(';', $this->edit_options)),
+                'template' => $this->edit_template,
             ]
         ]);
 
@@ -194,6 +197,10 @@ new class extends Component
                         <x-input-label for="question-options" :value="__('Options')" />
                         <x-text-input wire:model="edit_options" id="question-options" type="text" class="mt-1 block w-full" required/>
                         <x-input-error class="mt-2" :messages="$errors->get('question-options')" />
+                    </div>
+                    <div>
+                        <x-input-label for="template" :value="__('Template')" />
+                        <math-field wire:model="edit_template" class="mt-2 w-72 border rounded" id="template"></math-field>
                     </div>
                     <div>
                         <x-input-label for="question-explanation" :value="__('Explanation')" />
