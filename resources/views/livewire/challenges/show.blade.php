@@ -103,3 +103,43 @@ new class extends Component
         </div>
     </div>
 </div>
+
+@script
+<script>
+    window.getAnswerFromMF = function(id) {
+        var mf = document.getElementById(id);
+        if (mf.hasAttribute('read-only')) {
+            // When we have multiple inputs use mathlive prompts.
+            return mf.getPrompts().map((prompt) => mf.getPromptValue(prompt)).join(';');
+        }
+
+        return mf.getValue('ascii-math');
+    }
+
+    window.setMFAnswer = function(id, answer) {
+        var mf = document.getElementById(id);
+        var parts = answer.split(';');
+        if (parts.length > 1) {
+            var result = mf.innerHTML;
+
+            for (let i = 0; i < parts.length; ++i) {
+                var regex = new RegExp(String.raw`\\placeholder\[${i+1}\]{}`);
+                result = result.replace(regex, parts[i]);
+            }
+
+            mf.innerText = result;
+        }
+        else {
+            mf.innerText = answer;
+        }
+    }
+
+    Livewire.on('set-prompts', (event) => {
+        var mf = document.getElementById(event.id);
+
+        for (let i = 0; i < event.state.length; ++i) {
+            mf.setPromptState(i + 1 + '', event.state[i] ? 'correct' : 'incorrect');
+        }
+    });
+</script>
+@endscript

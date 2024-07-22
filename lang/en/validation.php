@@ -158,9 +158,6 @@ return [
     'ulid' => 'The :attribute field must be a valid ULID.',
     'uuid' => 'The :attribute field must be a valid UUID.',
 
-    'expr_input' => 'Input #:num incorrect.',
-    'expr_input_num' => ':num inputs needed.',
-
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

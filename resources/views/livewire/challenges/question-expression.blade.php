@@ -27,10 +27,7 @@ new class extends Component
         $inputs = explode(';', $this->answer);
 
         $n = count($answers);
-        if (count($inputs) !== $n) {
-            $this->addError('num_inputs', $n);
-            return false;
-        }
+        $state = array_fill(0, $n, false);
 
         $parser = new Parser();
 
@@ -40,22 +37,22 @@ new class extends Component
                 $answer = $parser->parse($answers[$i])->flatten()->simplify();
                 $input = $parser->parse($inputs[$i])->flatten()->simplify();
 
-                if (!($answer->equals($input, 1e-7)))
-                    goto wrongAnswer;
+                $state[$i] = $answer->equals($input, 1e-7);
             }
             catch (Exception $e) {
-                goto wrongAnswer;
+                // $state[$i] stays false
             }
         }
 
+        if (in_array(false, $state)) {
+            if ($n > 1)
+                // This function should only check for correctness, a bit messy.
+                $this->dispatch('set-prompts', id: $this->mf_id, state: $state);
+
+            return false;
+        }
+
         return true;
-
-        wrongAnswer:
-
-        if ($n > 1)
-            $this->addError('input', $i + 1);
-
-        return false;
     }
 }; ?>
 
@@ -67,7 +64,9 @@ new class extends Component
         @if ($solved)
         <div class="mt-6 flex flex-col space-y-3">
             <div class="flex items-center h-10">
-                <math-field read-only> {{ $answer }} </math-field>
+                <math-field x-init="setMFAnswer('{{$mf_id}}', '{{$answer}}')" id="{{ $mf_id }}" class="w-72" read-only>
+                    {{ $question->answer_data['template'] ?? ''}}
+                </math-field>
             </div>
             <x-success-button class="w-72 justify-center"
                             wire:click.prevent="redo"
@@ -77,20 +76,16 @@ new class extends Component
         @else
         <div class="mt-6 space-y-3">
             <div class="flex flex-col space-x-3 sm:flex-row sm:items-center">
+            @if($question->answer_data['template'] ?? false)
+                <math-field id="{{ $mf_id }}" class="w-72 border rounded" read-only>
+                    {{ $question->answer_data['template'] }}
+                </math-field>
+            @else
                 <math-field id="{{ $mf_id }}" class="w-72 border rounded" placeholder="R=?"></math-field>
+            @endif
             </div>
-            @error('num_inputs')
-            <div>
-                {{ __('validation.expr_input_num', ['num' => $message]) }}
-            </div>
-            @enderror
-            @error('input')
-            <div>
-                {{ __('validation.expr_input', ['num' => $message]) }}
-            </div>
-            @enderror
             <div class="flex">
-                <x-primary-button wire:loading.remove x-on:click.prevent="($wire.answer = document.getElementById($wire.mf_id).getValue('ascii-math'));$wire.submitForm()" class="w-72 justify-center">
+                <x-primary-button wire:loading.remove x-on:click.prevent="($wire.answer = getAnswerFromMF($wire.mf_id));$wire.submitForm()" class="w-72 justify-center">
                     {{ __('Submit') }}
                 </x-primary-button>
                 <div class="ml-32" role="status" wire:loading wire:target="submitForm">
