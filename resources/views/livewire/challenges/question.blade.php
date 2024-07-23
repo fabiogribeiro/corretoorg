@@ -10,7 +10,7 @@ new class extends Component
 }; ?>
 
 <div>
-    <form class="pt-1 pb-6">
+    <div class="pt-1 pb-6">
         <div class="flex flex-col">
             <div class="my-3">
                 <div wire:ignore>
@@ -54,5 +54,5 @@ new class extends Component
             </div>
             @endauth
         </div>
-    </form>
+    </div>
 </div>
