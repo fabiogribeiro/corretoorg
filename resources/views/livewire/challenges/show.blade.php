@@ -108,9 +108,12 @@ new class extends Component
 <script>
     window.getAnswerFromMF = function(id) {
         var mf = document.getElementById(id);
+
         if (mf.hasAttribute('read-only')) {
             // When we have multiple inputs use mathlive prompts.
-            return mf.getPrompts().map((prompt) => mf.getPromptValue(prompt)).join(';');
+            return mf.getPrompts()
+                    .map((prompt) => MathLive.convertLatexToAsciiMath(mf.getPromptValue(prompt)), 'latex')
+                    .join(';');
         }
 
         return mf.getValue('ascii-math');
@@ -118,8 +121,9 @@ new class extends Component
 
     window.setMFAnswer = function(id, answer) {
         var mf = document.getElementById(id);
-        var parts = answer.split(';');
-        if (parts.length > 1) {
+
+        if (mf.hasAttribute('read-only')) {
+            var parts = answer.split(';');
             var result = mf.innerHTML;
 
             for (let i = 0; i < parts.length; ++i) {
