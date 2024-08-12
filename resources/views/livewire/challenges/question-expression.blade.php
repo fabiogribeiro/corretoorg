@@ -56,41 +56,39 @@ new class extends Component
     }
 }; ?>
 
-<div>
+<div class="w-full sm:w-3/4 lg:w-1/2">
     <form>
         <div class="flex">
             <x-input-label>{{ __('Answer') }}</x-input-label>
         </div>
         @if ($solved)
-        <div class="mt-6 flex flex-col space-y-3">
-            <div class="flex items-center h-10">
-                <math-field x-init="setMFAnswer('{{$mf_id}}', '{{$answer}}')" id="{{ $mf_id }}" class="w-72" read-only>
-                    {{ $question->answer_data['template'] ?? ''}}
-                </math-field>
-            </div>
-            <x-success-button class="w-72 justify-center"
+        <div class="mt-3 flex flex-col items-center space-y-9 sm:flex-row sm:space-y-0 sm:space-x-3">
+            <math-field x-init="setMFAnswer('{{$mf_id}}', '{{$answer}}')" id="{{ $mf_id }}" class="w-full py-[5px] items-center border rounded" read-only>
+                {{ $question->answer_data['template'] ?? ''}}
+            </math-field>
+            <x-success-button class="w-44 sm:w-60 h-11"
                             wire:click.prevent="redo"
                             wire:confirm="{{__('Solve again?')}}">
             </x-success-button>
         </div>
         @else
-        <div class="mt-6 space-y-3">
-            <div class="flex flex-col space-x-3 sm:flex-row sm:items-center">
-            @if($question->answer_data['template'] ?? false)
-                <math-field id="{{ $mf_id }}" class="w-72 border rounded" read-only>
-                    {{ $question->answer_data['template'] }}
-                </math-field>
-            @else
-                <math-field id="{{ $mf_id }}" class="w-72 border rounded" placeholder="R=?"></math-field>
-            @endif
-            </div>
+        <div class="mt-3 flex flex-col items-center space-y-9 sm:flex-row sm:space-y-0 sm:space-x-3">
+        @if($question->answer_data['template'] ?? false)
+            <math-field id="{{ $mf_id }}" class="w-full border rounded" read-only>
+                {{ $question->answer_data['template'] }}
+            </math-field>
+        @else
+            <math-field id="{{ $mf_id }}" class="w-full border rounded" placeholder="R=?"></math-field>
+        @endif
             <div class="flex">
-                <x-primary-button wire:loading.remove x-on:click.prevent="($wire.answer = getAnswerFromMF($wire.mf_id));$wire.submitForm()" class="w-72 justify-center">
+                <x-primary-button wire:loading.remove x-on:click.prevent="($wire.answer = getAnswerFromMF($wire.mf_id));$wire.submitForm()" class="w-44 h-11">
                     {{ __('Submit') }}
                 </x-primary-button>
-                <div class="ml-32" role="status" wire:loading wire:target="submitForm">
-                    <x-spinner/>
-                    <span class="sr-only">Loading...</span>
+                <div class="w-44 mt-1.5" role="status" wire:loading wire:target="submitForm">
+                    <div class="flex justify-center">
+                        <x-spinner/>
+                        <span class="sr-only">Loading...</span>
+                    </div>
                 </div>
             </div>
         </div>
