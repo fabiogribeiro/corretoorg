@@ -125,7 +125,7 @@ new class extends Component
 
         if (inner !== '') {
             // We have a template with placeholders present.
-            var parts = answer.split(';');
+            var parts = answer.split(';').map((s) => MathLive.convertAsciiMathToLatex(s));
 
             for (let i = 0; i < parts.length; ++i) {
                 var regex = new RegExp(String.raw`\\placeholder\[${i+1}\]{}`);
@@ -135,7 +135,7 @@ new class extends Component
             mf.innerText = inner;
         }
         else {
-            mf.innerText = answer;
+            mf.innerText = MathLive.convertAsciiMathToLatex(answer);
         }
     }
 
