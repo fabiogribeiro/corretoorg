@@ -121,17 +121,18 @@ new class extends Component
 
     window.setMFAnswer = function(id, answer) {
         var mf = document.getElementById(id);
+        var inner = mf.innerHTML.trim();
 
-        if (mf.hasAttribute('read-only')) {
+        if (inner !== '') {
+            // We have a template with placeholders present.
             var parts = answer.split(';');
-            var result = mf.innerHTML;
 
             for (let i = 0; i < parts.length; ++i) {
                 var regex = new RegExp(String.raw`\\placeholder\[${i+1}\]{}`);
-                result = result.replace(regex, parts[i]);
+                inner = inner.replace(regex, parts[i]);
             }
 
-            mf.innerText = result;
+            mf.innerText = inner;
         }
         else {
             mf.innerText = answer;
