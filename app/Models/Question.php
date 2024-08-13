@@ -11,11 +11,12 @@ use App\Models\Challenge;
 
 class Question extends Model
 {
-    protected $fillable = [
-        'statement',
-        'explanation',
-        'answer_data',
-    ];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<string>
+     */
+    protected $fillable = ['statement', 'explanation', 'answer_data'];
 
     /**
      * The attributes that should be cast.
@@ -57,8 +58,8 @@ class Question extends Model
 
     public function options(): Attribute
     {
-        return new Attribute(
-            get: fn () => $this->answer_data['options'],
+        return Attribute::make(
+            get: fn () => $this->answer_data['options'] ?: ["A", "B", "C", "D"],
             set: fn ($values) => $this->answer_data['options'] = $values
         );
     }

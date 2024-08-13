@@ -9,9 +9,9 @@ trait QuestionTrait
 {
     public Challenge $challenge;
     public Question $question;
-    public string $answer = '';
     public bool $solved;
     public bool $submitted = false;
+    public $answer = '';
 
     protected function premount()
     {

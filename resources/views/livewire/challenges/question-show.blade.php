@@ -21,7 +21,7 @@ new class extends Component
     }
 }; ?>
 
-<div class="mt-6">
+<div class="min-h-11 mt-6">
     <form>
         @if($solved)
         <div class="flex flex-col space-y-3">
@@ -34,14 +34,14 @@ new class extends Component
             </div>
             @endif
 
-            <x-success-button class="w-44 justify-center"
+            <x-success-button class="w-44 h-11 justify-center"
                             wire:click.prevent="redo"
                             wire:confirm="{{__('Solve again?')}}">
             </x-success-button>
         </div>
         @else
         <div class="flex">
-            <x-primary-button wire:loading.remove wire:click.prevent="submitForm" class="w-44 justify-center">
+            <x-primary-button wire:loading.remove wire:click.prevent="submitForm" class="w-44 h-11 justify-center">
                 {{ __('Solved') }}
             </x-primary-button>
             <div class="w-44 mt-1.5" role="status" wire:loading wire:target="submitForm">
