@@ -11,7 +11,7 @@ trait QuestionTrait
     public Question $question;
     public bool $solved;
     public bool $submitted = false;
-    public $answer = '';
+    public string $answer = '';
 
     protected function premount()
     {
