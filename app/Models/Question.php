@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 use App\Models\Challenge;
 
@@ -28,5 +29,37 @@ class Question extends Model
     public function challenge(): BelongsTo
     {
         return $this->belongsTo(Challenge::class);
+    }
+
+    public function answer(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->answer_data['answer'],
+            set: fn (string $value) => $this->answer_data['answer'] = $value
+        );
+    }
+
+    public function type(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->answer_data['type'],
+            set: fn (string $value) => $this->answer_data['type'] = $value
+        );
+    }
+
+    public function template(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->answer_data['template'],
+            set: fn (string $value) => $this->answer_data['template'] = $value
+        );
+    }
+
+    public function options(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->answer_data['options'],
+            set: fn ($values) => $this->answer_data['options'] = $values
+        );
     }
 }
