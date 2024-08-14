@@ -58,7 +58,7 @@ class Question extends Model
 
     public function options(): Attribute
     {
-        return Attribute::make(
+        return new Attribute(
             get: fn () => $this->answer_data['options'] ?: ["A", "B", "C", "D"],
             set: fn ($values) => $this->answer_data['options'] = $values
         );

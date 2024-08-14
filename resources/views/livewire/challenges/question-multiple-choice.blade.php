@@ -34,7 +34,7 @@ new class extends Component
     {
         if ($this->isCheckBox) {
             return count($this->answerParts) === count($this->checkAnswer) &&
-                    !array_diff($this->parts, $this->checkAnswer);
+                    !array_diff($this->answerParts, $this->checkAnswer);
         }
 
         return $this->answer === $this->question->answer;
@@ -46,31 +46,29 @@ new class extends Component
         <div class="flex">
             <x-input-label>{{ __('Answer') }}</x-input-label>
         </div>
-        <div class="mt-3 min-h-11 flex flex-col items-center space-y-9 sm:flex-row sm:space-y-0 sm:space-x-6">
+        <div class="mt-3 min-h-11 flex flex-col items-center sm:items-end space-y-9 sm:flex-row sm:space-y-0 sm:space-x-6">
             <div class="w-full">
             @if ($isCheckBox)
                 <div class="grid space-y-2">
                 @foreach ($question->options as $i => $option)
                     @php $isCorrect = in_array($option, $answerParts); @endphp
 
-                    <label for="hs-vertical-checkbox-in-form-{{$i}}" class="max-w-xs flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
-                        <input @disabled($solved) wire:model="checkAnswer" value="{{$option}}" type="checkbox" @class(["shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-80 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800", "text-emerald-600" => $solved && $isCorrect]) id="hs-vertical-checkbox-in-form-{{$i}}">
+                    <label for="q{{$question->id}}-checkbox{{$i}}" class="sm:max-w-xs sm:mx-0 flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
+                        <input @disabled($solved) wire:model="checkAnswer" value="{{$option}}" type="checkbox" @class(["shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-80 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800", "text-emerald-600" => $solved && $isCorrect]) id="q{{$question->id}}-checkbox{{$i}}">
                         <span class="text-sm text-gray-500 ms-3 dark:text-neutral-400">{{ $option }}</span>
                     </label>
                 @endforeach
                 </div>
             @else
-                <div class="flex justify-between">
-                    @foreach ($question->options as $i => $option)
-                        @php $isCorrect = $option === $question->answer; @endphp
+                <div class="grid space-y-2">
+                @foreach ($question->options as $i => $option)
+                    @php $isCorrect = $option === $question->answer; @endphp
 
-                        <div class="flex">
-                            <label for="hs-radio-group-{{$i}}" class="text-sm text-gray-500 ms-2 dark:text-neutral-400">
-                                <input @disabled($solved) wire:model="answer" type="radio" value="{{$option}}" name="hs-radio-group" @class(["shrink-0 mb-0.5 mr-1.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-80 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800", "text-emerald-600" => $solved && $isCorrect]) id="hs-radio-group-{{$i}}">
-                                {{ $option }}
-                            </label>
-                        </div>
-                    @endforeach
+                    <label for="q{{$question->id}}-radio{{$i}}" class="sm:max-w-xs sm:mx-0 flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
+                        <input @disabled($solved) wire:model="answer" value="{{$option}}" type="radio" @class(["shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-80 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800", "text-emerald-600" => $solved && $isCorrect]) id="q{{$question->id}}-radio{{$i}}">
+                        <span class="text-sm text-gray-500 ms-3 dark:text-neutral-400">{{ $option }}</span>
+                    </label>
+                @endforeach
                 </div>
             @endif
             </div>
