@@ -42,7 +42,7 @@ new class extends Component
                 <a href="{{route('challenges.show', ['challenge' => $ochallenge])}}"
                     class="flex justify-between items-center hover:text-blue-700"
                     wire:navigate>
-                    <p @class(['text-blue-600' => $isCurrentChallenge])>{{ $ochallenge->title }}</p>
+                    <p @class(['text-gray-600' => !$isCurrentChallenge, 'text-blue-600' => $isCurrentChallenge])>{{ $ochallenge->title }}</p>
                 @if(in_array($ochallenge->id, auth()->user()->solved['challenges'] ?? []))
                     <x-select-circle bg="bg-emerald-500"/>
                 @elseif($isCurrentChallenge)
