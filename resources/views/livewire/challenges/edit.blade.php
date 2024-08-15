@@ -120,7 +120,7 @@ new class extends Component
             </div>
             <div>
                 <x-input-label for="stage" :value="__('Stage')" />
-                <select wire:model="stage" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select wire:model="stage" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="dev">{{ __('dev') }}</option>
                     <option value="prod">{{ __('prod') }}</option>
                 </select>
@@ -184,7 +184,7 @@ new class extends Component
                     </div>
                     <div>
                         <x-input-label for="question-type" :value="__('Question type')" />
-                        <select wire:model="edit_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <select wire:model="edit_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="multiple-choice">{{ __('Multiple choice') }}</option>
                             <option value="numeric">{{ __('Numeric') }}</option>
                             <option value="expression">{{ __('Expression') }}</option>
