@@ -50,7 +50,7 @@ new class extends Component
             <div class="w-full">
             @if ($isCheckBox)
                 <div class="grid space-y-2">
-                @foreach ($question->options as $i => $option)
+                @foreach ($question->options ?: ["A", "B", "C", "D"] as $i => $option)
                     @php $isCorrect = in_array($option, $answerParts); @endphp
 
                     <label for="q{{$question->id}}-checkbox{{$i}}" class="sm:max-w-xs sm:mx-0 flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
@@ -61,7 +61,7 @@ new class extends Component
                 </div>
             @else
                 <div class="grid space-y-2">
-                @foreach ($question->options as $i => $option)
+                @foreach ($question->options ?: ["A", "B", "C", "D"] as $i => $option)
                     @php $isCorrect = $option === $question->answer; @endphp
 
                     <label for="q{{$question->id}}-radio{{$i}}" class="sm:max-w-xs sm:mx-0 flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">

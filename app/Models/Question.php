@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Models\Challenge;
 
 class Question extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,35 +35,35 @@ class Question extends Model
         return $this->belongsTo(Challenge::class);
     }
 
-    public function answer(): Attribute
+    /**
+     * Dynamically retrieve commonly used Question attributes.
+     *
+     * @param  string  $key
+     * @return mixed
+     */
+    public function __get($key)
     {
-        return new Attribute(
-            get: fn () => $this->answer_data['answer'],
-            set: fn (string $value) => $this->answer_data['answer'] = $value
-        );
+        if (in_array($key, ['answer', 'type', 'template', 'options'])) {
+            return $this->answer_data[$key];
+        }
+
+        return parent::__get($key);
     }
 
-    public function type(): Attribute
+    /**
+     * Dynamically set commonly used Question attributes.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return void
+     */
+    public function __set($key, $value)
     {
-        return new Attribute(
-            get: fn () => $this->answer_data['type'],
-            set: fn (string $value) => $this->answer_data['type'] = $value
-        );
-    }
+        if (in_array($key, ['answer', 'type', 'template', 'options'])) {
+            $this->answer_data[$key] = $value;
+            return;
+        }
 
-    public function template(): Attribute
-    {
-        return new Attribute(
-            get: fn () => $this->answer_data['template'],
-            set: fn (string $value) => $this->answer_data['template'] = $value
-        );
-    }
-
-    public function options(): Attribute
-    {
-        return new Attribute(
-            get: fn () => $this->answer_data['options'] ?: ["A", "B", "C", "D"],
-            set: fn ($values) => $this->answer_data['options'] = $values
-        );
+        parent::__set($key, $value);
     }
 }
