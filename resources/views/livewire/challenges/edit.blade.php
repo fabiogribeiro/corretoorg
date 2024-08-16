@@ -97,6 +97,12 @@ new class extends Component
         $this->answer = '';
     }
 
+    public function delete()
+    {
+        $this->challenge->delete();
+        $this->redirect(route('challenges.index'));
+    }
+
     public function deleteQuestion($id)
     {
         Question::destroy($id);
@@ -147,6 +153,9 @@ new class extends Component
     <div class="py-4">
         @unless ($editing)
         <x-primary-button class="mt-9" wire:click="edit">{{ __('Edit') }}</x-primary-button>
+        <x-danger-button class="mt-9" wire:click.prevent="delete" wire:confirm="{{ __('Delete challenge?') }}">
+            {{ __('Delete') }}
+        </x-danger-button>
         @else
         <div>
             <x-secondary-button wire:click.prevent="$dispatch('open-modal', 'preview-modal')">{{ __('Preview') }}</x-secondary-button>
