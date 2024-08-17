@@ -15,7 +15,7 @@ new class extends Component
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b-2 border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -74,9 +74,9 @@ new class extends Component
                 </x-dropdown>
             </div>
             @else
-            <div class="hidden sm:inline-block self-center">
-                <a href="{{ route('login') }}" class="font-semibold text-gray-800 hover:text-cyan-700 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" wire:navigate>{{ __('Log in') }}</a>
-                <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-800 hover:text-cyan-700 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" wire:navigate>{{ __('Register') }}</a>
+            <div class="hidden sm:inline-block self-center space-x-3">
+                <a href="{{ route('login') }}" class="inline-flex items-center px-1 pt-1 text-gray-600 leading-5 font-semibold hover:text-gray-800 focus:outline-none dark:focus:text-gray-300 transition duration-150 ease-in-out">{{ __('Log in') }}</a>
+                <a href="{{ route('register') }}" class="inline-flex items-center px-1 pt-1 text-gray-600 leading-5 font-semibold hover:text-gray-800 focus:outline-none dark:focus:text-gray-300 transition duration-150 ease-in-out">{{ __('Register') }}</a>
             </div>
             @endauth
 
@@ -112,7 +112,7 @@ new class extends Component
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile')" wire:navigate>
+                <x-responsive-nav-link :href="route('profile')" :active="request()->routeIs('profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
@@ -127,11 +127,11 @@ new class extends Component
         @else
         <div class="pt-3 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('login')" wire:navigate>
+                <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')" wire:navigate>
                     {{ __('Log in') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('register')" wire:navigate>
+                <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
                     {{ __('Register') }}
                 </x-responsive-nav-link>
             </div>
