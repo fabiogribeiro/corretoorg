@@ -90,7 +90,7 @@ new class extends Component
                 </x-modal>
             </div>
             <div class="pb-3 border-b-4 border-gray-200">
-            @forelse ($challenge->questions->sortBy('statement', SORT_NATURAL) as $question)
+            @forelse ($challenge->questions->sortBy('order_key') as $question)
                 <div @class(['border-b border-gray-200' => !$loop->last])>
                     <livewire:challenges.question :challenge="$challenge" :question="$question" />
                 </div>

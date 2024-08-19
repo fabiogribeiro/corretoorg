@@ -18,7 +18,7 @@ class Question extends Model
      *
      * @var array<string>
      */
-    protected $fillable = ['statement', 'explanation', 'answer_data'];
+    protected $fillable = ['statement', 'order_key', 'explanation', 'answer_data'];
 
     /**
      * The attributes that should be cast.

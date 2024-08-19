@@ -15,6 +15,10 @@ return new class extends Migration
             $table->string('description')->default('');
             $table->integer('order_key')->default(0);
         });
+
+        Schema::table('questions', function (Blueprint $table) {
+            $table->integer('order_key')->default(0);
+        });
     }
 
     /**
@@ -24,6 +28,10 @@ return new class extends Migration
     {
         Schema::table('challenges', function (Blueprint $table) {
             $table->dropColumn(['description', 'order_key',]);
+        });
+
+        Schema::table('questions', function (Blueprint $table) {
+            $table->dropColumn(['order_key',]);
         });
     }
 };

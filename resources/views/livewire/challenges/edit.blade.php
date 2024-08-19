@@ -22,6 +22,7 @@ new class extends Component
     public string $edit_statement = '';
     public string $edit_explanation = '';
     public string $edit_answer = '';
+    public string $edit_key = '';
     public string $edit_type = '';
     public string $edit_options = '';
     public string $edit_template = '';
@@ -46,6 +47,7 @@ new class extends Component
         $this->editing_question = $question;
         $this->edit_statement = $question->statement;
         $this->edit_answer = $question->answer_data['answer'];
+        $this->edit_key = $question->order_key;
         $this->edit_type = $question->answer_data['type'];
         $this->edit_options = implode(';', $question->answer_data['options']);
         $this->edit_explanation = $question->explanation ?: '';
@@ -71,12 +73,13 @@ new class extends Component
         $this->editing_question->update([
             'statement' => $this->edit_statement,
             'explanation' => $this->edit_explanation ?: null,
+            'order_key' => $this->edit_key,
             'answer_data' => [
                 'type' => $this->edit_type,
                 'answer' => $this->edit_answer,
                 'options' => array_filter(explode(';', $this->edit_options)),
                 'template' => $this->edit_template,
-            ]
+            ],
         ]);
 
         $this->editing_question = null;
@@ -178,7 +181,7 @@ new class extends Component
         </h1>
 
         <!-- list questions here -->
-        @foreach ($challenge->questions->sortBy('statement', SORT_NATURAL) as $question)
+        @foreach ($challenge->questions->sortBy('order_key') as $question)
             @if ($editing_question?->id === $question->id)
                 <div class="space-y-6">
                     <div>
@@ -190,6 +193,11 @@ new class extends Component
                         <x-input-label for="answer" :value="__('Answer')" />
                         <x-text-input wire:model="edit_answer" id="answer" type="text" class="mt-1 block w-full" autocomplete="answer" />
                         <x-input-error class="mt-2" :messages="$errors->get('answer')" />
+                    </div>
+                    <div class="w-1/2">
+                        <x-input-label for="order_key" :value="__('Order key')" />
+                        <x-text-input wire:model="edit_key" id="order_key" type="text" class="mt-1 block w-full" autocomplete="answer" />
+                        <x-input-error class="mt-2" :messages="$errors->get('order_key')" />
                     </div>
                     <div>
                         <x-input-label for="question-type" :value="__('Question type')" />
