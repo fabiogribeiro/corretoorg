@@ -67,7 +67,7 @@ class ChallengeController extends Controller
      */
     public function show(Challenge $challenge)
     {
-        $oc_query = Challenge::where('subject', $challenge->subject)->orderBy('title', 'desc');
+        $oc_query = Challenge::where('subject', $challenge->subject)->orderBy('order_key', 'asc');
 
         if (!auth()->user()?->isAdmin)
             $oc_query = $oc_query->where('stage', 'prod');
@@ -107,60 +107,12 @@ class ChallengeController extends Controller
             $question->challenge_id = $challenge->id;
             $question->statement = $q['statement'];
             $question->explanation = $q['explanation'] ?? "";
-            $question->answer_data = [];
-            $question->answer_data['answer'] = $q['answer'];
-            $question->answer_data['type'] = $q['type'];
-            $question->answer_data['options'] = [];
+            $question->answer_data = [
+                'answer' => $q['answer'],
+                'type' => $q['type'],
+                'options' => []
+            ];
             $question->save();
-        }
-
-        return $challenge;
-    }
-
-     /**
-     * /api/challenges/{id}
-     *
-     * Get challenge.
-     */
-    public function get(int $id)
-    {
-        return Challenge::find($id);
-    }
-
-    /**
-     * /api/challenges/{id}
-     *
-     * Updates challenge.
-     */
-    public function put(Request $request, int $id)
-    {
-        if (!auth()->user()->isAdmin) return 'No permission!';
-
-        $data = $request->all();
-
-        $challenge = Challenge::find($id);
-
-        $title = $data['title'] ?? $challenge->title;
-        $challenge->update([
-            'title' => $title,
-            'subject' => $data['subject'] ?? $challenge->subject,
-            'slug' => Str::slug($title)
-        ]);
-
-        if (isset($data['questions'])) {
-            Question::destroy($challenge->questions->pluck('id'));
-
-            foreach ($data['questions'] as $q) {
-                $question = new Question;
-                $question->challenge_id = $challenge->id;
-                $question->statement = $q['statement'];
-                $question->explanation = $q['explanation'] ?? "";
-                $question->answer_data = [];
-                $question->answer_data['answer'] = $q['answer'];
-                $question->answer_data['type'] = $q['type'];
-                $question->answer_data['options'] = [];
-                $question->save();
-            }
         }
 
         return $challenge;
