@@ -85,5 +85,7 @@ new #[Layout('layouts.account')] class extends Component
                 {{ __('Register') }}
             </x-primary-button>
         </div>
+
+        <x-social-buttons/>
     </form>
 </div>

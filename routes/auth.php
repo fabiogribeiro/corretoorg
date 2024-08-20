@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\SocialAuthController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -16,6 +17,15 @@ Route::middleware('guest')->group(function () {
 
     Volt::route('reset-password/{token}', 'pages.auth.reset-password')
         ->name('password.reset');
+
+    // GitHub social login routes
+    Route::controller(SocialAuthController::class)->group(function () {
+        Route::get('auth/github', 'redirectToGithub')
+            ->name('auth.github');
+
+        Route::get('auth/github/callback', 'handleGithubCallback')
+            ->name('auth.github.callback');
+    });
 });
 
 Route::middleware('auth')->group(function () {
