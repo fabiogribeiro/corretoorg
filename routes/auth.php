@@ -18,13 +18,23 @@ Route::middleware('guest')->group(function () {
     Volt::route('reset-password/{token}', 'pages.auth.reset-password')
         ->name('password.reset');
 
-    // GitHub social login routes
+    // Social login routes
     Route::controller(SocialAuthController::class)->group(function () {
         Route::get('auth/github', 'redirectToGithub')
             ->name('auth.github');
+        Route::get('auth/github/callback', 'handleGithubCallback');
 
-        Route::get('auth/github/callback', 'handleGithubCallback')
-            ->name('auth.github.callback');
+        Route::get('auth/apple', 'redirectToApple')
+            ->name('auth.apple');
+        Route::get('auth/apple/callback', 'handleAppleCallback');
+
+        Route::get('auth/facebook', 'redirectToFacebook')
+            ->name('auth.facebook');
+        Route::get('auth/facebook/callback', 'handleFacebookCallback');
+
+        Route::get('auth/google', 'redirectToGoogle')
+            ->name('auth.google');
+        Route::get('auth/google/callback', 'handleGoogleCallback');
     });
 });
 
