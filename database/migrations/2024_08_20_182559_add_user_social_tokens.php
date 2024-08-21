@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('facebook_id')->nullable()->unique();
-            $table->string('facebook_token')->nullable();
+            $table->string('facebook_token', 265)->nullable();
             $table->string('facebook_refresh_token')->nullable();
 
             $table->string('apple_id')->nullable()->unique();
