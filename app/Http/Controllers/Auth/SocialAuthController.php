@@ -138,4 +138,36 @@ class SocialAuthController extends Controller
 
         return redirect()->intended('/dashboard');
     }
+
+    public function redirectToX()
+    {
+        return Socialite::driver('twitter')->redirect();
+    }
+
+    public function handleXCallback()
+    {
+        $xUser = Socialite::driver('twitter')->user();
+
+        $user = User::where('email', $xUser->email)->orWhere('x_id', $xUser->id)->first();
+        if ($user) {
+            $user->update([
+                'x_id' => $xUser->id,
+                'x_token' => $xUser->token,
+                'x_refresh_token' => $xUser->refreshToken,
+            ]);
+        } else {
+            $user = User::create([
+                'x_id' => $xUser->id,
+                'email' => $xUser->email,
+                'name' => $xUser->name,
+                'password' => Str::password(),
+                'x_token' => $xUser->token,
+                'x_refresh_token' => $xUser->refreshToken,
+            ]);
+        }
+
+        Auth::login($user);
+
+        return redirect()->intended('/dashboard');
+    }
 }

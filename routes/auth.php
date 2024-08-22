@@ -35,6 +35,10 @@ Route::middleware('guest')->group(function () {
         Route::get('auth/google', 'redirectToGoogle')
             ->name('auth.google');
         Route::get('auth/google/callback', 'handleGoogleCallback');
+
+        Route::get('auth/x', 'redirectToX')
+            ->name('auth.x');
+        Route::get('auth/x/callback', 'handleXCallback');
     });
 });
 
