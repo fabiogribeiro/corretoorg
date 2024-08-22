@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use App\Http\Controllers\ChallengeController;
 use App\Http\Controllers\UserController;
 
@@ -28,5 +29,9 @@ Route::controller(UserController::class)->group(function () {
 });
 
 Route::resource('challenges', ChallengeController::class);
+
+Route::view('terms', 'info', ['info' => 'terms']);
+
+Route::view('privacy', 'info', ['info' => 'privacy']);
 
 require __DIR__.'/auth.php';

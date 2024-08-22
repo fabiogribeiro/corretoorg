@@ -85,7 +85,7 @@ new class extends Component
                 @endauth
                 <x-modal name="help-modal">
                     <div class="p-4">
-                        <x-mmd :content="__('misc.qhelp')"/>
+                        <x-mmd :content="__('misc.question_help')"/>
                     </div>
                 </x-modal>
             </div>

@@ -23,9 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(ChallengeController::class)->group(function() {
     Route::post('challenges', 'post')
         ->middleware(AuthenticateOnceWithBasicAuth::class);
-
-    Route::get('challenges/{id}', 'get');
-
-    Route::put('challenges/{id}', 'put')
-        ->middleware(AuthenticateOnceWithBasicAuth::class);
 });
