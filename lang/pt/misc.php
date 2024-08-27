@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\File;
 return [
     'question_help' =>
         "
-            ### Ajuda
+### Ajuda
 
-            Números e expressões são avaliados no formato [AsciiMath](https://asciimath.org). Certas questões não precisam de resposta.
+Números e expressões são avaliados no formato [AsciiMath](https://asciimath.org). Certas questões não precisam de resposta.
         ",
 
     'terms' => 'Termos de Utilização',
