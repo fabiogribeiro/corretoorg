@@ -82,5 +82,9 @@
     "In progress": "Em progresso",
     "Reset progress?": "Reiniciar progresso?",
     "Delete challenge?": "Eliminar desafio?",
-    "Or continue with": "Ou continue com"
+    "Or continue with": "Ou continue com",
+    "Set default order": "Usar ordem padrão",
+    "Up": "Cima",
+    "Down": "Baixo",
+    "Merge": "Juntar"
 }

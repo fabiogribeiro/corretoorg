@@ -110,6 +110,50 @@ new class extends Component
     {
         Question::destroy($id);
     }
+
+    public function setDefaultOrder()
+    {
+        $i = 1;
+        foreach ($this->challenge->questions->sortBy('statement', SORT_NATURAL) as $question) {
+            $question->order_key = $i++;
+            $question->save();
+        }
+    }
+
+    public function upOrder(Question $question)
+    {
+        $other = $this->challenge->questions->where('order_key', $question->order_key - 1)->first();
+        $other->order_key = $question->order_key;
+        $other->save();
+
+        $question->order_key -= 1;
+        $question->save();
+
+        return redirect(request()->header('Referer'));
+    }
+
+    public function downOrder(Question $question)
+    {
+        $other = $this->challenge->questions->where('order_key', $question->order_key + 1)->first();
+        $other->order_key = $question->order_key;
+        $other->save();
+
+        $question->order_key += 1;
+        $question->save();
+
+        return redirect(request()->header('Referer'));
+    }
+
+    public function merge(Question $question)
+    {
+        $other = $this->challenge->questions->where('order_key', $question->order_key + 1)->first();
+        $other->statement = $question->statement."\n\n".$other->statement;
+        $other->save();
+
+        $question->delete();
+
+        return redirect(request()->header('Referer'));
+    }
 }; ?>
 
 <div>
@@ -176,9 +220,12 @@ new class extends Component
     </div>
 
     <div class="mt-9">
-        <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">
-            {{ trans_choice('Questions', 2) }}
-        </h1>
+        <div class="flex flex-row space-x-6 items-center">
+            <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">
+                {{ trans_choice('Questions', 2) }}
+            </h1>
+            <a href="#" class="underline text-gray-500" wire:click.prevent="setDefaultOrder" wire:confirm>{{ 'Set default order' }}</a>
+        </div>
 
         <!-- list questions here -->
         @foreach ($challenge->questions->sortBy('order_key') as $question)
@@ -239,7 +286,10 @@ new class extends Component
                     </div>
                 @endif
                 </div>
-                <x-danger-button wire:click="deleteQuestion({{$question->id}});setTimeout(MathJax.typeset, 250)">{{ __('Delete') }}</x-danger-button>
+                <x-secondary-button wire:click="upOrder({{$question->id}})">{{ __('Up') }}</x-secondary-button>
+                <x-secondary-button wire:click="downOrder({{$question->id}})">{{ __('Down') }}</x-secondary-button>
+                <x-secondary-button wire:click="merge({{$question->id}})">{{ __('Merge') }}</x-secondary-button>
+                <x-danger-button wire:click="deleteQuestion({{$question->id}});setTimeout(MathJax.typeset, 250)" wire:confirm="{{ __('Delete').'?' }}">{{ __('Delete') }}</x-danger-button>
             @endif
         @endforeach
 
