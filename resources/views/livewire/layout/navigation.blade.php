@@ -39,6 +39,9 @@ new class extends Component
                     <x-nav-link :href="route('challenges.create')" :active="request()->routeIs('challenges.create')" wire:navigate>
                         {{ __('Create challenge') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('files')" :active="request()->routeIs('files')" wire:navigate>
+                        {{ __('Files') }}
+                    </x-nav-link>
                 @endcan
                 </div>
             </div>

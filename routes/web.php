@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 use App\Http\Controllers\ChallengeController;
 use App\Http\Controllers\UserController;
+use Livewire\Volt\Volt;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,5 +33,9 @@ Route::resource('challenges', ChallengeController::class);
 Route::view('terms', 'info', ['info' => 'terms']);
 
 Route::view('privacy', 'info', ['info' => 'privacy']);
+
+Volt::route('files', 'filemanager')
+    ->middleware(['auth'])
+    ->name('files');
 
 require __DIR__.'/auth.php';
