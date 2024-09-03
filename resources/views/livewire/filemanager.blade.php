@@ -19,17 +19,6 @@ new #[Layout('layouts.app')] class extends Component
             $this->redirect(RouteServiceProvider::HOME);
     }
 
-    public function displaySize(int $size): string
-    {
-        $units = ['B', 'KB', 'MB'];
-
-        for ($i = 0; $size > 1024; $i++) {
-            $size /= 1024;
-        }
-
-        return round($size) . ' ' . $units[$i];
-    }
-
     public function save()
     {
         $this->validate();
@@ -72,7 +61,7 @@ new #[Layout('layouts.app')] class extends Component
                 <img src="{{ $file->temporaryUrl() }}" class="max-w-24">
                 <div>
                     <p class="font-medium text-gray-800">{{ $file->getClientOriginalName() }}</p>
-                    <p class="text-sm text-gray-500">{{ $this->displaySize($file->getSize()) }}</p>
+                    <p class="text-sm text-gray-500">{{ Number::fileSize($file->getSize()) }}</p>
                 </div>
             </div>
         @endforeach
