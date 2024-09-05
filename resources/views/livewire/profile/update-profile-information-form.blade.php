@@ -101,7 +101,7 @@ new class extends Component
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             <x-action-message class="mr-3" on="profile-updated">
-                {{ __('Saved.') }}
+                {{ __('Saved').'.' }}
             </x-action-message>
         </div>
     </form>

@@ -224,7 +224,7 @@ new class extends Component
             <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">
                 {{ trans_choice('Questions', 2) }}
             </h1>
-            <a href="#" class="underline text-gray-500" wire:click.prevent="setDefaultOrder" wire:confirm>{{ 'Set default order' }}</a>
+            <a href="#" class="underline text-gray-500" wire:click.prevent="setDefaultOrder" wire:confirm>{{ __('Set default order') }}</a>
         </div>
 
         <!-- list questions here -->
