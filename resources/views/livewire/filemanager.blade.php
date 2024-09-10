@@ -53,7 +53,7 @@ new #[Layout('layouts.app')] class extends Component
 >
     <x-slot:title>{{ __('Files') }}</x-slot>
 
-    <form wire:submit="save" class="py-6 max-w-6xl mx-auto">
+    <form wire:submit="save" class="px-4 py-6 sm:px-6 max-w-6xl mx-auto">
         <h1 class="text-3xl font-bold">{{ __('Files') }}</h1>
         <div class="my-6 flex flex-col">
         @foreach ($files as $file)
