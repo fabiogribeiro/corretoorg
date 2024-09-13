@@ -31,8 +31,9 @@ Route::controller(UserController::class)->group(function () {
 Route::resource('challenges', ChallengeController::class);
 
 Route::view('terms', 'info', ['info' => 'terms']);
-
 Route::view('privacy', 'info', ['info' => 'privacy']);
+
+Volt::route('report', 'report');
 
 Volt::route('files', 'filemanager')
     ->middleware(['auth'])

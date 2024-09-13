@@ -6,6 +6,7 @@
         <div class="flex flex-row space-x-6">
             <a href="/terms" class="text-sm text-gray-600 hover:text-gray-900">{{ __('misc.terms') }}</a>
             <a href="/privacy" class="text-sm text-gray-600 hover:text-gray-900">{{ __('misc.privacy') }}</a>
+            <a href="/report" class="text-sm text-gray-600 hover:text-gray-900">{{ __('Report problem') }}</a>
         </div>
     </div>
 </div>

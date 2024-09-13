@@ -94,5 +94,9 @@
     "Order key": "Chave de ordem",
     "Body": "Corpo",
     "Reset password": "Repor palavra-passe",
-    "Saved": "Guardado"
+    "Saved": "Guardado",
+    "Report problem": "Reportar problema",
+    "Report submitted successfully.": "Relatório submetido com sucesso.",
+    "Contact information (optional)": "Informação de contacto (opcional)",
+    "Problem description": "Descrição do problema"
 }
