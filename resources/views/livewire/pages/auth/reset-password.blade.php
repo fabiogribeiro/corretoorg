@@ -63,6 +63,8 @@ new #[Layout('layouts.account')] class extends Component
 }; ?>
 
 <div>
+    <x-slot:title>{{ __('Reset password') }}</x-slot>
+
     <form wire:submit="resetPassword">
         <!-- Email Address -->
         <div>
