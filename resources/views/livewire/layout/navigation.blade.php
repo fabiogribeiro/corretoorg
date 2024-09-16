@@ -17,21 +17,23 @@ new class extends Component
 
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="/" wire:navigate>
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                    </a>
-                </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-16">
+        <div class="flex w-full justify-between h-16">
+            <!-- Logo -->
+            <div class="shrink-0 flex items-center">
+                <a href="/" wire:navigate>
+                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                </a>
+            </div>
 
+            <div class="flex">
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                @auth
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                @endauth
                     <x-nav-link :href="route('challenges.index')" :active="request()->routeIs('challenges.index')" wire:navigate>
                         {{ __('Challenges') }}
                     </x-nav-link>
@@ -77,9 +79,11 @@ new class extends Component
                 </x-dropdown>
             </div>
             @else
-            <div class="hidden sm:inline-block self-center space-x-3">
-                <a href="{{ route('login') }}" class="inline-flex items-center px-1 pt-1 text-gray-600 leading-5 font-semibold hover:text-gray-800 focus:outline-none dark:focus:text-gray-300 transition duration-150 ease-in-out">{{ __('Log in') }}</a>
-                <a href="{{ route('register') }}" class="inline-flex items-center px-1 pt-1 text-gray-600 leading-5 font-semibold hover:text-gray-800 focus:outline-none dark:focus:text-gray-300 transition duration-150 ease-in-out">{{ __('Register') }}</a>
+            <div class="hidden sm:flex self-center items-center bg-blue-600 rounded-md py-3">
+                <div class="h-1/2 flex divide-x">
+                    <a href="{{ route('login') }}" class="text-[15px] px-4 text-gray-100 leading-5 font-semibold hover:text-white focus:outline-none dark:focus:text-gray-300 transition duration-150 ease-in-out">{{ __('Log in') }}</a>
+                    <a href="{{ route('register') }}" class="text-[15px] px-4 text-gray-100 leading-5 font-semibold hover:text-white focus:outline-none dark:focus:text-gray-300 transition duration-150 ease-in-out">{{ __('Register') }}</a>
+                </div>
             </div>
             @endauth
 
@@ -98,9 +102,11 @@ new class extends Component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+        @auth
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+        @endauth
             <x-responsive-nav-link :href="route('challenges.index')" :active="request()->routeIs('challenges.index')" wire:navigate>
                 {{ __('Challenges') }}
             </x-responsive-nav-link>

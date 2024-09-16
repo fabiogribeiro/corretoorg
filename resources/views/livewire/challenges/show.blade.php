@@ -27,10 +27,10 @@ new class extends Component
 <div>
     @guest
         <div class="pt-8 text-center">
-            <a href="{{ route('login') }}" class="text-cyan-600 font-semibold">{{ __('Log in to solve questions') }}</a>
+            <a href="{{ route('login') }}" class="text-blue-600 font-medium">{{ __('Log in to solve questions') }}</a>
         </div>
     @endguest
-    <div class="p-4 sm:p-8 dark:bg-gray-800">
+    <div class="p-4 sm:py-8 md:px-14 dark:bg-gray-800">
         <h2 class="text-2xl font-bold mb-12">{{ $challenge->subject }}</h2>
         <ul @class(['mt-6 space-y-2 max-h-56 overflow-y-auto scrollable',
                     'pr-6' => count($other_challenges) > 7])>
@@ -55,7 +55,7 @@ new class extends Component
         @endforeach
         </ul>
     </div>
-    <div class="mt-6 p-4 sm:p-8 bg-white dark:bg-gray-800 shadow divide-y-2">
+    <div class="mt-6 p-4 sm:py-8 md:px-12 bg-white dark:bg-gray-800 shadow divide-y-2">
         @can('update', $challenge)
         <div class="mb-3">
             <a href="{{ route('challenges.edit', $challenge) }}" class="text-lg font-medium text-gray-900 dark:text-gray-100">
