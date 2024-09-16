@@ -27,9 +27,9 @@ new class extends Component
                             <template x-for="chal in grouped_challenges[subject]" :key="chal.id" hidden>
                                 <li>
                                     <a :href="chal.url"
-                                        class="py-3 flex justify-between items-center text-gray-800 hover:text-cyan-700">
+                                        class="py-3 flex justify-between items-center hover:text-emerald-600">
                                         <div class="w-full">
-                                            <p x-text="chal.title" class="font-semibold text-lg"></p>
+                                            <p x-text="chal.title" class="font-medium"></p>
                                             <div class="flex items-center space-x-6 mt-3">
                                                 <div class="w-1/2">
                                                     <x-progress-bar x-data="{ current: chal.solvedCount, total: chal.questionCount }"/>
