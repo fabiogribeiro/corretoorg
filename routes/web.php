@@ -16,7 +16,7 @@ use Livewire\Volt\Volt;
 |
 */
 
-Route::view('/', 'index');
+Route::view('/', 'index')->name('index');
 
 Route::controller(UserController::class)->group(function () {
     Route::get('dashboard', 'dashboard')
