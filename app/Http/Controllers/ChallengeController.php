@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+
 use App\Models\Challenge;
 use App\Models\Question;
 
@@ -16,17 +15,22 @@ class ChallengeController extends Controller
     public function index()
     {
         $query = Challenge::orderBy('order_key', 'asc');
-        $isAdmin = auth()->user()?->isAdmin;
 
-        if (!$isAdmin)
+        if (!($isAdmin = auth()->user()?->isAdmin))
             $query = $query->where('stage', 'prod');
 
         $challenges = $query->get();
+
         $questionCount = DB::table('questions')
                         ->selectRaw('challenge_id, count(*)')
                         ->groupBy('challenge_id')->get()
                         ->pluck('count', 'challenge_id');
-        $solvedCount = Question::find(auth()->user()?->solved['questions'] ?? [])->groupBy('challenge_id')->map(function($item, $key) { return $item->count(); });
+
+        $solvedCount = Question::find(auth()->user()?->solved['questions'] ?? [])
+                        ->groupBy('challenge_id')
+                        ->map(function($item, $key) {
+                            return $item->count();
+                        });
 
         foreach ($challenges as $challenge) {
             $challenge->url = route('challenges.show', ['challenge' => $challenge]);
@@ -40,11 +44,8 @@ class ChallengeController extends Controller
             if ($challenge->solvedCount === $challenge->questionCount) {
                 $challenge->state = 'solved';
             }
-            elseif ($challenge->solvedCount > 0) {
-                $challenge->state = 'progress';
-            }
             else {
-                $challenge->state = 'unsolved';
+                $challenge->state = $challenge->solvedCount > 0 ? 'progress' : 'unsolved';
             }
         }
 
@@ -83,38 +84,5 @@ class ChallengeController extends Controller
         $this->authorize('update', $challenge);
 
         return view('challenges.edit', ['challenge' => $challenge]);
-    }
-
-    /**
-     * /api/challenges/
-     *
-     * Creates a new challenge from outside the application with json request.
-     */
-    public function post(Request $request)
-    {
-        if (!auth()->user()->isAdmin) return 'No permission!';
-
-        $data = $request->all();
-
-        $challenge = Challenge::create([
-            'title' => $data['title'],
-            'subject' => $data['subject'],
-            'slug' => Str::slug($data['title'])
-        ]);
-
-        foreach ($data['questions'] as $q) {
-            $question = new Question;
-            $question->challenge_id = $challenge->id;
-            $question->statement = $q['statement'];
-            $question->explanation = $q['explanation'] ?? "";
-            $question->answer_data = [
-                'answer' => $q['answer'],
-                'type' => $q['type'],
-                'options' => []
-            ];
-            $question->save();
-        }
-
-        return $challenge;
     }
 }

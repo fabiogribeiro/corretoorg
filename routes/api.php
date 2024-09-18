@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ChallengeController;
+use App\Http\Controllers\ApiController;
 use App\Http\Middleware\AuthenticateOnceWithBasicAuth;
 
 /*
@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(ChallengeController::class)->group(function() {
-    Route::post('challenges', 'post')
+Route::controller(ApiController::class)->group(function() {
+    Route::put('challenges', 'putChallenges')
         ->middleware(AuthenticateOnceWithBasicAuth::class);
 });
