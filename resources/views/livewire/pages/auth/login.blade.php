@@ -104,11 +104,7 @@ new #[Layout('layouts.account')] class extends Component
             </label>
         </div>
 
-        <div class="flex items-center justify-between mt-8">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" href="{{ route('register') }}" wire:navigate>
-                {{ __('Register') }}
-            </a>
-
+        <div class="flex items-center justify-end mt-8">
             <div class="flex items-center">
                 <a class="ml-3 underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}" wire:navigate>
                     {{ __('Forgot your password?') }}
