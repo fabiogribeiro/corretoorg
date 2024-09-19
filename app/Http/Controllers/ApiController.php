@@ -11,11 +11,11 @@ use App\Models\Question;
 class ApiController extends Controller
 {
     /**
-     * /api/challenges/
+     * /api/challenges/create
      *
      * Creates or updates challenge from outside the application with json request.
      */
-    public function putChallenges(Request $request)
+    public function putChallenge(Request $request)
     {
         if (!auth()->user()->isAdmin) return 'No permission!';
 
@@ -30,5 +30,31 @@ class ApiController extends Controller
         ]);
 
         return $challenge;
+    }
+
+    /**
+     * /api/questions/create
+     *
+     * Creates or updates questions from outside the application with json request.
+     */
+    public function putQuestion(Request $request)
+    {
+        if (!auth()->user()->isAdmin) return 'No permission!';
+
+        $data = $request->all();
+
+        $values = [
+            'statement' => $data['statement'],
+            'order_key' => $data['order_key'],
+            'explanation' => $data['explanation'],
+            'answer_data' => $data['answer_data'],
+        ];
+
+        if ($question = Question::find($data['id']))
+            $question->update($values);
+        else
+            $question = Question::create($values);
+
+         return $question;
     }
 }

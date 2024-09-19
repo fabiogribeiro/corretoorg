@@ -21,6 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(ApiController::class)->group(function() {
-    Route::put('challenges', 'putChallenges')
+    Route::put('challenges/create', 'putChallenge')
+        ->middleware(AuthenticateOnceWithBasicAuth::class);
+
+    Route::put('questions/create', 'putQuestion')
         ->middleware(AuthenticateOnceWithBasicAuth::class);
 });

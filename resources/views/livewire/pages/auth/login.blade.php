@@ -114,8 +114,6 @@ new #[Layout('layouts.account')] class extends Component
                     {{ __('Log in') }}
                 </x-primary-button>
             </div>
-
-
         </div>
 
         <x-social-buttons/>
