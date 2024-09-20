@@ -22,12 +22,13 @@ class ApiController extends Controller
         $data = $request->all();
 
         $challenge = Challenge::updateOrCreate([
-            ['slug' => Str::slug($data['title'])], [
+                'slug' => Str::slug($data['title']),
+            ], [
                 'title' => $data['title'],
                 'subject' => $data['subject'],
                 'body' => $data['body'],
             ]
-        ]);
+        );
 
         return $challenge;
     }
@@ -44,6 +45,7 @@ class ApiController extends Controller
         $data = $request->all();
 
         $values = [
+            'challenge_id' => $data['challenge_id'],
             'statement' => $data['statement'],
             'order_key' => $data['order_key'],
             'explanation' => $data['explanation'],
