@@ -59,4 +59,33 @@ class ApiController extends Controller
 
          return $question;
     }
+
+    /**
+     * /api/questions/create_all
+     *
+     * Creates or updates questions from a challenge outside the application with json request.
+     *
+     * Assumes the existing questions are the same we're trying to update and add extra if needed.
+     * Deleting or reordering can easily be done manually if needed for now.
+     */
+    public function putQuestions(Request $request)
+    {
+        if (!auth()->user()->isAdmin) return 'No permission!';
+
+        $requestQuestions = $request->all();
+        $questions = Challenge::find($requestQuestions[0]['challenge_id'])->questions()->orderBy('order_key')->get();
+
+        $i = 0;
+        foreach ($questions as $question) {
+            $question->update($requestQuestions[$i]);
+            $i++;
+        }
+
+        $result = [];
+        for (; $i < count($requestQuestions); $i++) {
+            array_push($result, Question::create($requestQuestions[$i]));
+        }
+
+        return $result;
+    }
 }

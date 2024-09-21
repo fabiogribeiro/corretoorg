@@ -26,4 +26,7 @@ Route::controller(ApiController::class)->group(function() {
 
     Route::put('questions/create', 'putQuestion')
         ->middleware(AuthenticateOnceWithBasicAuth::class);
+
+    Route::put('questions/create_all', 'putQuestions')
+        ->middleware(AuthenticateOnceWithBasicAuth::class);
 });
